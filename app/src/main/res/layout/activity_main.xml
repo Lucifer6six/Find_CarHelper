@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerlayout_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            titlebar:centerText="保全-车辆列表"
+            titlebar:centerType="textView"
+            titlebar:fillStatusBar="true"
+            titlebar:leftImageResource="@mipmap/ic_menu"
+            titlebar:leftType="imageButton"
+            titlebar:showBottomLine="false"
+            titlebar:rightText="消息"
+            titlebar:rightType="textView"/>
+        <com.find_carhelper.widgets.NoScrollViewPager
+            android:id="@+id/vp_mian"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!--底部按钮-->
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/navigation"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <!--侧边栏-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        app:insetForeground="@android:color/transparent"/>
+</android.support.v4.widget.DrawerLayout>

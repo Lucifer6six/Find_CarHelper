@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#38ACFF</color>
+    <color name="colorPrimaryDark">#38ACFF</color>
+    <color name="colorAccent">#38ACFF</color>
+
+    <color name="blue_">#7DC1D4</color>
+    <color name="blue_dark">#20CEF0</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="press">#e8e8e8</color>
+    <color name="orange">#ff902d</color>
+    <color name="orange_red">#fe8966</color>
+
+    <color name="text_line_color">#dfdfdd</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="item_title_color">#979797</color>
+    <!-- 按钮点击背景色 -->
+    <color name="bg_btn_on">#10000000</color>
+    <color name="black">#000000</color>
+    <color name="mask_color">#88888888</color>
+
+    //----------布局背景灰色
+    <color name="back_ground_gray">#f2f2f2</color>
+    <color name="back_ground_white">#ffffff</color>
+
+    //----------字体颜色
+    <color name="text_color_gray">#969696</color>
+    <color name="text_color_black">#353535</color>
+
+    //-----------按钮颜色
+    <color name="btn_them_color">#37aeff</color>
+    <!--对话框背景色-->
+    <color name="dialog_bg_color">#FFF8F8F8</color>
+
+    //------------分隔线颜色
+    <color name="line_color">#e4e4e4</color>
+    <color name="title_color">#f5f5f5</color>
+</resources>

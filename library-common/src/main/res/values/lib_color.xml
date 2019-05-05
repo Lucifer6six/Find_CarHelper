@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="blue_">#7DC1D4</color>
+    <color name="blue_dark">#20CEF0</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="press">#e8e8e8</color>
+    <color name="orange">#ff902d</color>
+    <color name="orange_red">#fe8966</color>
+
+    <color name="text_line_color">#dfdfdd</color>
+
+</resources>

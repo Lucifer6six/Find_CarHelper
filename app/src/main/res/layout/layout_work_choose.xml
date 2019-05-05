@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/h_line_view_" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_10">
+
+        <!--已修复和已归档-->
+        <TextView
+            style="@style/work_choose_tv_style"
+            android:text="已修复" />
+
+        <TextView
+            style="@style/work_choose_tv_style"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:text="已归档" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_10">
+
+        <!--已修复和已归档-->
+        <TextView
+            style="@style/work_choose_tv_style"
+            android:text="当天" />
+
+        <TextView
+            style="@style/work_choose_tv_style"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:text="7天内" />
+
+        <TextView
+            style="@style/work_choose_tv_style"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:text="30天内" />
+
+    </LinearLayout>
+
+    <!--选择时间筛选-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_10"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_10">
+
+
+        <TextView
+            android:id="@+id/tv_start_time"
+            style="@style/tv_work_choose_time"
+            android:hint="kaishishijian"
+            android:textSize="@dimen/text_size_14" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:layout_marginRight="@dimen/padding_10"
+            android:background="@color/mask_color" />
+
+        <TextView
+            android:id="@+id/tv_end_time"
+            style="@style/tv_work_choose_time"
+            android:hint="jieshushijian"
+            android:textSize="@dimen/text_size_14" />
+
+    </LinearLayout>
+
+    <include layout="@layout/h_line_view_" />
+
+    <!--重置  and 确定 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/padding_10"
+            android:text="chongzhi"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/padding_10"
+            android:text="queding"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/text_size_14" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

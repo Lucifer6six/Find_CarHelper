@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <size
+                android:width="150dp"
+                android:height="50dp" />
+            <corners android:radius="5dp" />
+            <solid android:color="@color/colorPrimaryDark" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="false">
+        <shape>
+            <size
+                android:width="150dp"
+                android:height="50dp" />
+            <corners android:radius="5dp" />
+            <solid android:color="@color/btn_them_color" />
+        </shape>
+    </item>
+</selector>

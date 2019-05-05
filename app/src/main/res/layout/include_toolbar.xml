@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:id="@+id/ll_title_bar"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+
+    <!--通用状态栏，中间是文字，左边返回键,右边文字-->
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="中间标题栏"
+        app:centerType="textView"
+        app:fillStatusBar="true"
+        app:leftImageResource="@mipmap/ic_back"
+        app:leftType="imageButton"
+        app:rightText="右侧文字"
+        app:rightType="textView"
+        app:showBottomLine="false"/>
+
+</merge>

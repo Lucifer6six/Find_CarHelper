@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
+    // RxJava2
+    api "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVerion"
+    api "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroidVersion"
+    // RxPermissions
+    api "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.rxPermissionVersion"
+    // Retrofit
+    api "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    api "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    api "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofitVersion"
+    api "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpLoggingVersion"
+    // EventBus
+    api "org.greenrobot:eventbus:$rootProject.eventBusVersion"
+    // 下拉刷新
+    //api "com.scwang.smartrefresh:SmartRefreshLayout:$rootProject.SmartRefreshLayoutVersion"
+    //fastJson
+    api "com.alibaba:fastjson:$rootProject.fastjsonVersion"
+    api "com.android.support.constraint:constraint-layout:$rootProject.constraintVersion"
+    // 进度条loading
+    api project(':library-smoothprogressbar')
+    // 消息提示角标
+    api "q.rorbin:badgeview:$rootProject.badgeViewVersion"
+    api 'com.orhanobut:logger:1.8'
+
+}

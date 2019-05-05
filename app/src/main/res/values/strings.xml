@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">寻车宝</string>
+    <string name="title_home">接单</string>
+    <string name="title_work">订单</string>
+    <string name="title_plan">我的</string>
+    <string name="title_tool">辅助工具</string>
+</resources>

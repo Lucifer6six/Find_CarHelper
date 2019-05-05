@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--脸部识别-->
+    <declare-styleable name="FaceBorderView">
+        <!--识别颜色-->
+        <attr name="recognition" format="color" />
+        <!--未识别颜色-->
+        <attr name="noRecognition" format="color" />
+        <!--轮播Border颜色-->
+        <attr name="borderWidth" format="dimension" />
+    </declare-styleable>
+
+
+</resources>

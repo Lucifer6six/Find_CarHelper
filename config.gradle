@@ -1,0 +1,54 @@
+ext {
+    // 兼容版本号 最低版本号
+    android = [
+            compileSdkVersion: 27,
+            minSdkVersion    : 17,
+            targetSdkVersion : 27,
+            versionCode      : 1,
+            versionName      : "1.0.0",
+            applicationId    : "com.carhelper"
+    ]
+
+    // App dependencies
+    // Glide图片加载
+    glideVersion = '3.7.0'
+    // EventBus
+    eventBusVersion = '3.1.1'
+    // GSon 解析
+    gsonVersion = '2.2.4'
+    // v7appcompat-v7
+    appcompatv7Version = '27.1.1'
+    // 崩溃界面
+    customactivityoncrashVersion = '1.3.0'
+    // Rx相关
+    okHttpLoggingVersion = '3.4.1'
+    rxjavaVerion = '2.1.9'
+    rxAndroidVersion = '2.0.1'
+    rxPermissionVersion = '0.9.3@aar'
+    // Retrofit
+    retrofitVersion = '2.2.0'
+    // 黄油刀
+    butterknifr_version = '8.5.1'
+    // 底部弹出控件
+    bottomSheetVersion = '1.5.3'
+    // 下拉刷新
+    SmartRefreshLayoutVersion = '1.1.0-alpha-18'
+    //fastJson 版本
+    fastjsonVersion = '1.2.56'
+    //约束constraint版本
+    constraintVersion = '1.1.3'
+    //appcompat版本
+    appcompatVersion = '1.0.2'
+    //material版本
+    materialVersion = '1.0.0'
+    //greenDao版本
+    greendaoVersion = '3.2.2'
+    // 角标
+    badgeViewVersion = '1.1.3'
+    //log打印
+    loggerVersion = '2.2.0'
+    //constraintLayout
+    constraintlayoutVersion = '1.1.3'
+    //circleProgress
+    circleProgressVersion = '1.2.1'
+}

@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="work_choose_tv_style">
+        <item name="android:background">@drawable/bg_work_choose</item>
+        <item name="android:textColor">@color/text_color_gray_selector</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/padding_10</item>
+        <item name="android:paddingTop">@dimen/padding_5</item>
+        <item name="android:paddingRight">@dimen/padding_10</item>
+        <item name="android:paddingBottom">@dimen/padding_5</item>
+    </style>
+    <style name="tv_work_choose_time">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bg_work_choose_time</item>
+        <item name="android:padding">@dimen/padding_5</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+</resources>

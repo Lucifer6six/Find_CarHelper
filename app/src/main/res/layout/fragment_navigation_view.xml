@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.fragment.NavigationViewFragment">
+
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_head"
+        android:layout_width="@dimen/margin_50"
+        android:layout_height="@dimen/margin_50"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_60"
+        android:src="@mipmap/ic_man"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/role_text_bg_shape"
+        android:paddingLeft="@dimen/margin_4"
+        android:paddingTop="@dimen/margin_2"
+        android:paddingRight="@dimen/margin_4"
+        android:paddingBottom="@dimen/margin_2"
+        android:text="第一梯队"
+        android:textColor="#FF9000"
+        android:textSize="8sp"
+        app:layout_constraintCircle="@id/iv_head"
+        app:layout_constraintCircleAngle="180"
+        app:layout_constraintCircleRadius="@dimen/margin_30"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_head"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_15"
+        android:gravity="center"
+        android:text="姓名"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_18"
+        app:layout_constraintTop_toBottomOf="@+id/tv_role" />
+
+    <TextView
+        android:id="@+id/tv_team"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:gravity="center"
+        android:text="我是简介"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <RelativeLayout
+        android:id="@+id/rl_item1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:layout_marginTop="@dimen/margin_40"
+        android:background="@drawable/selector_bg_btn_on"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="@dimen/margin_20"
+        app:layout_constraintTop_toBottomOf="@+id/tv_team">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_ico1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftbar_cache"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_toRightOf="@id/iv_ico1"
+            android:gravity="center"
+            android:text="清除数据缓存"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_item2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@drawable/selector_bg_btn_on"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="@dimen/margin_20"
+        app:layout_constraintTop_toBottomOf="@+id/rl_item1">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_ico2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftbar_pic"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_toRightOf="@id/iv_ico2"
+            android:gravity="center"
+            android:text="清除数据缓存"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_item3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@drawable/selector_bg_btn_on"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="@dimen/margin_20"
+        app:layout_constraintTop_toBottomOf="@+id/rl_item2">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_ico3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftbar_about"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_toRightOf="@id/iv_ico3"
+            android:gravity="center"
+            android:text="关于"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_item4"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@drawable/selector_bg_btn_on"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="@dimen/margin_20"
+        app:layout_constraintTop_toBottomOf="@+id/rl_item3">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_ico4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftbar_update"/>
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_toRightOf="@id/iv_ico4"
+            android:gravity="center"
+            android:text="更新"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="@dimen/margin_4"
+            android:layout_height="@dimen/margin_4"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_2"
+            android:layout_toRightOf="@+id/tv_update"
+            android:background="@drawable/badge_bg"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_test"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@drawable/selector_bg_btn_on"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="@dimen/margin_20"
+        app:layout_constraintTop_toBottomOf="@+id/rl_item4">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_ico_test"
+            android:layout_width="@dimen/margin_20"
+            android:layout_height="@dimen/margin_20"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher_round"/>
+
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_toRightOf="@id/iv_ico_test"
+            android:gravity="center"
+            android:text="测试"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_on_off"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_40"
+        android:layout_margin="@dimen/margin_20"
+        android:background="@drawable/login_selector_btn"
+        android:text="啥是"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/rl_test"/>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_item6"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:background="@drawable/selector_bg_btn_on"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="right"
+        android:paddingRight="@dimen/margin_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_ico6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftbar_out"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_toRightOf="@id/iv_ico6"
+            android:gravity="center"
+            android:text="退出登录"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_14"/>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
