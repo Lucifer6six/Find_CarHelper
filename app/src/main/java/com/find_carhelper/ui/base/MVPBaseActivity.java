@@ -3,6 +3,8 @@ package com.find_carhelper.ui.base;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
@@ -31,7 +33,9 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
 
     @Override
     protected void onCreate(Bundle arg) {
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mPresenter = createPresenter();
         //presenter取得与界面的联系
         if (mPresenter != null) {
