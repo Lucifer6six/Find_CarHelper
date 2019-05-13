@@ -2,10 +2,9 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <com.upbest.pqhelper.view.VerticalSwipeRefreshLayout
+    <com.find_carhelper.widgets.VerticalSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -81,7 +80,7 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
         </LinearLayout>
-    </com.upbest.pqhelper.view.VerticalSwipeRefreshLayout>
+    </com.find_carhelper.widgets.VerticalSwipeRefreshLayout>
     <RelativeLayout
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
