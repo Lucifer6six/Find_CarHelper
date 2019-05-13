@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:titlebar="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.NewsActvity">
@@ -11,7 +11,7 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        titlebar:centerText="消息列表"
+        titlebar:centerText="消息中心"
         titlebar:centerType="textView"
         titlebar:leftImageResource="@mipmap/ic_back"
         titlebar:leftType="imageButton"
@@ -20,5 +20,21 @@
         titlebar:rightText=""
         titlebar:rightType="textView"/>
 
-
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tool_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/title_bar"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/text_color_black"
+        />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tool_tab"
+            />
 </RelativeLayout>
