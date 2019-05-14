@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/back_ground_gray"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,40 +24,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="根据区域筛选"
-                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_14"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_10"
                 android:textStyle="bold"
-                />
-            <View
-                android:id="@+id/line1"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_below="@+id/areaTv"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginLeft="@dimen/margin_30"
-                android:layout_marginRight="@dimen/margin_30"
-                android:background="@color/colorPrimary"/>
-
-            <TextView
-                android:id="@+id/areaSelectedTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="根据区域筛选"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_14"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/line1"
-                android:layout_marginTop="@dimen/margin_10"
+                android:drawableRight="@mipmap/jd_icon_arrow1"
                 />
 
         </RelativeLayout>
-        <View
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="match_parent"
-            android:background="@color/back_ground_gray"
-            />
+
         <RelativeLayout
             android:id="@+id/time_layout"
             android:layout_width="wrap_content"
@@ -68,32 +44,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="根据赏金筛选"
-                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_14"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_10"
                 android:textStyle="bold"
+                android:drawableRight="@mipmap/jd_icon_arrow1"
                 />
-            <View
-                android:id="@+id/line2"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_below="@+id/timeTv"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginLeft="@dimen/margin_30"
-                android:layout_marginRight="@dimen/margin_30"
-                android:background="@color/colorPrimary"/>
 
-            <TextView
-                android:id="@+id/timeSelectedTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/line2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_10"
-                android:text="根据赏金筛选"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_14" />
         </RelativeLayout>
 
     </LinearLayout>

@@ -19,10 +19,7 @@ import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
  * 作　者：	jqli
  * 时　间：	2018/3/13 11:54
  * 描　述：
- *
  * </pre>
- *
- * @author kang gui yang
  */
 public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCompatActivity {
     protected final String TAG = this.getClass().getName();
@@ -33,9 +30,9 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
 
     @Override
     protected void onCreate(Bundle arg) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mPresenter = createPresenter();
         //presenter取得与界面的联系
         if (mPresenter != null) {
@@ -146,7 +143,7 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
      */
     public void setTitleBar(String title, String rightText) {
         mCommonTitleBar = findViewById(R.id.title_bar);
-
+        mCommonTitleBar.setVisibility(View.VISIBLE);
         if (mCommonTitleBar.getRightTextView() == null) {
             throw new IllegalArgumentException("You must return a right textview layout");
         }
@@ -177,6 +174,9 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
         initTitleListener();
     }
 
+    public void hideTitleBar(){
+        mCommonTitleBar.setVisibility(View.GONE);
+    }
     /**
      * 初始化监听
      */

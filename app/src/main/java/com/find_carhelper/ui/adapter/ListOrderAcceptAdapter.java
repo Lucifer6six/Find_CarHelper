@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.find_carhelper.R;
 import com.find_carhelper.widgets.OnItemClickListeners;
-import com.upbest.pqhelper.R;
 
 
 /**

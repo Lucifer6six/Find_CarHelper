@@ -1,15 +1,22 @@
 package com.find_carhelper.ui.fragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.EditPswActivity;
+import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 
 
 
-public class UserCenterFragment extends MVPBaseFragment {
+public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener {
+
+    private RelativeLayout pswLayout,newsLayout;
 
     public static Fragment newInstance() {
        UserCenterFragment fragment = new UserCenterFragment();
@@ -55,11 +62,31 @@ public class UserCenterFragment extends MVPBaseFragment {
 
     @Override
     protected void initViews() {
-
+        pswLayout = mRootView.findViewById(R.id.edit_psw);
+        newsLayout = mRootView.findViewById(R.id.news_center);
+        pswLayout.setOnClickListener(this);
+        newsLayout.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+
+            case R.id.edit_psw:
+
+                startActivity(new Intent(getContext(), EditPswActivity.class));
+
+                break;
+
+            case R.id.news_center:
+                startActivity(new Intent(getContext(), NewsActvity.class));
+                break;
+
+        }
     }
 }

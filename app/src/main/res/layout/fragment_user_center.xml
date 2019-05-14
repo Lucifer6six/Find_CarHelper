@@ -1,11 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/user_bg_color"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@color/colorPrimary"
+        />
 
     <TextView
+        android:id="@+id/nick_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Fragment 3"/>
+        android:textSize="@dimen/text_size_30"
+        android:text="公司简称字段"
+        android:textColor="@color/back_ground_white"
+        android:layout_marginTop="@dimen/margin_50"
+        android:layout_marginLeft="@dimen/margin_15"
+        />
+    <TextView
+        android:id="@+id/little_nick_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nick_name"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:textColor="@color/back_ground_white"
+        android:textSize="@dimen/text_size_16"
+        android:text="我是昵称  11111111111"
+        android:layout_marginTop="@dimen/margin_10"
+        />
+
+    <ImageView
+        android:id="@+id/auth_stutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/little_nick_name"
+        android:background="@mipmap/mine_btn_rz1"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_25"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginRight="@dimen/margin_15"
+        android:src="@mipmap/mine_icon_user1"
+        />
+
+    <RelativeLayout
+        android:id="@+id/edit_psw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_square"
+        android:layout_below="@+id/auth_stutes"
+        android:layout_marginTop="@dimen/margin_60"
+        android:padding="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        >
+
+        <ImageView
+            android:id="@+id/icon_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/mine_menu_icon1"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/icon_psw"
+            android:text="修改密码"
+            android:layout_marginLeft="@dimen/margin_20"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/mine_icon_arrow1"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/about_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/edit_psw"
+        android:background="@drawable/round_square"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        >
+        <RelativeLayout
+            android:id="@+id/acount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_15"
+            >
+
+            <ImageView
+                android:id="@+id/icon_acount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mine_menu_icon2"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/icon_acount"
+                android:text="我的帐户"
+                android:layout_marginLeft="@dimen/margin_20"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/mine_icon_arrow1"
+                />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@color/back_ground_gray"
+            />
+        <RelativeLayout
+            android:id="@+id/team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_15"
+            >
+
+            <ImageView
+                android:id="@+id/icon_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mine_menu_icon3"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/icon_team"
+                android:text="我的团队"
+                android:layout_marginLeft="@dimen/margin_20"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/mine_icon_arrow1"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/news_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_square"
+        android:layout_below="@+id/about_me"
+        android:layout_marginTop="@dimen/margin_15"
+        android:padding="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        >
+
+        <ImageView
+            android:id="@+id/icon_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/mine_menu_icon4"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/icon_news"
+            android:text="消息中心"
+            android:layout_marginLeft="@dimen/margin_20"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/mine_icon_arrow1"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/news_center"
+        android:background="@drawable/round_square"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_15"
+        >
+        <RelativeLayout
+            android:id="@+id/protocal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_15"
+            >
+
+            <ImageView
+                android:id="@+id/icon_protocal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mine_menu_icon5"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/icon_protocal"
+                android:text="使用协议"
+                android:layout_marginLeft="@dimen/margin_20"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/mine_icon_arrow1"
+                />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@color/back_ground_gray"
+            />
+        <RelativeLayout
+            android:id="@+id/update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_15"
+            >
+
+            <ImageView
+                android:id="@+id/icon_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mine_menu_icon6"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/icon_update"
+                android:text="检测更新"
+                android:layout_marginLeft="@dimen/margin_20"
+                />
+
+            <ImageView
+                android:id="@+id/right_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/mine_icon_arrow1"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/right_icon"
+                android:text="当前版本 1.0.0"
+                android:textSize="@dimen/text_size_12"
+                android:layout_marginRight="@dimen/margin_15"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

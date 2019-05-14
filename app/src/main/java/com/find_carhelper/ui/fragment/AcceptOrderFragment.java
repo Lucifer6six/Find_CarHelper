@@ -1,50 +1,47 @@
 package com.find_carhelper.ui.fragment;
 
-import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.bigkoo.pickerview.view.TimePickerView;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CardBean;
 import com.find_carhelper.bean.JsonBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.GetJsonDataUtil;
+import com.find_carhelper.widgets.OnItemClickListeners;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
-public class AcceptOrderFragment extends MVPBaseFragment {
+
+public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickListeners {
 
     private RelativeLayout areaSelectedLayout,timeSelectedLayout;
     private TextView areaSelectedTv,timeSelectedTv;
 
     private List<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
-
+    private RecyclerView recycleListView;
+    private ListOrderAcceptAdapter mListOrderAcceptAdapter;
     private List<JsonBean> options1Items_ = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items_ = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items_ = new ArrayList<>();
@@ -102,9 +99,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             mHandler.sendEmptyMessage(MSG_LOAD_DATA);
             areaSelectedLayout = mRootView.findViewById(R.id.area_layout);
             timeSelectedLayout = mRootView.findViewById(R.id.time_layout);
-
-            areaSelectedTv = mRootView.findViewById(R.id.areaSelectedTv);
-            timeSelectedTv = mRootView.findViewById(R.id.timeSelectedTv);
+            recycleListView = mRootView.findViewById(R.id.list_orders);
+            areaSelectedTv = mRootView.findViewById(R.id.areaTv);
+            timeSelectedTv = mRootView.findViewById(R.id.timeTv);
 
 
             areaSelectedLayout.setOnClickListener(view -> {
@@ -121,9 +118,16 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     showTimePickView();
 
             });
+        initAdapter();
 
     }
-
+    private void initAdapter(){
+        mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext);
+        mListOrderAcceptAdapter.setOnItemClickListeners(this);
+        recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
+        recycleListView.setHasFixedSize(true);
+        recycleListView.setAdapter(mListOrderAcceptAdapter);
+    }
     private void showAreaPickView(){
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
@@ -323,5 +327,10 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
         }
         return detail;
+    }
+
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder viewHolder, Object data, int position) {
+
     }
 }

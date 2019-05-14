@@ -4,4 +4,9 @@
         <item>系统消息</item>
         <item>互动消息</item>
     </string-array>
+
+    <string-array name="orders_tab">
+        <item>合作中</item>
+        <item>已完成</item>
+    </string-array>
 </resources>

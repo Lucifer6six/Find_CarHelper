@@ -59,7 +59,7 @@ public class MainActivity extends MVPBaseActivity{
                         return true;
                     case R.id.navigation_plan:
                         mViewPager.setCurrentItem(2);
-                        setTitleBar("我的", "");
+                        hideTitleBar();
                         return true;
                     default:
                         break;
@@ -128,15 +128,6 @@ public class MainActivity extends MVPBaseActivity{
         return null;
     }
 
-    private long mBackTime;
-    @Override
-    public void onBackPressed() {
-        long time = SystemClock.elapsedRealtime();
-        if (time - mBackTime > 2000) {
-            ToastUtil.showLongToast(getApplicationContext(), "再按一次返回退出");
-            mBackTime = time;
-            return;
-        }
-        super.onBackPressed();
-    }
+
+
 }
