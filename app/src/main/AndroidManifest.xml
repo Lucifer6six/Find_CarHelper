@@ -34,7 +34,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.TestActivity" />
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity"></activity>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="28a36e12606202effc262d48d6d70dda"></meta-data>
+
+        <service android:name="com.amap.api.location.APSService"></service>
+
     </application>
 
 </manifest>
