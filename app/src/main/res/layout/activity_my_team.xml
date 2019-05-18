@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.MyTeamActivity">
+
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        titlebar:centerText="我的团队"
+        titlebar:centerType="textView"
+        titlebar:leftImageResource="@mipmap/ic_back"
+        titlebar:leftType="imageButton"
+        titlebar:fillStatusBar="true"
+        titlebar:showBottomLine="false"
+        titlebar:rightText=""
+        titlebar:rightType="textView"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_teams"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar"
+        android:layout_margin="@dimen/margin_10"
+        />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="邀请"
+            android:textColor="@color/back_ground_white"
+            android:background="@mipmap/mine_zh_btn_txpre1"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/margin_15"
+            />
+</RelativeLayout>

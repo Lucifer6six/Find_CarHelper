@@ -67,6 +67,10 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             }
         }
     };
+public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener {
+
+    private RelativeLayout pswLayout,newsLayout,myTeamLayout;
+
     public static Fragment newInstance() {
        UserCenterFragment fragment = new UserCenterFragment();
         return fragment;
@@ -113,6 +117,8 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     protected void initViews() {
         pswLayout = mRootView.findViewById(R.id.edit_psw);
         newsLayout = mRootView.findViewById(R.id.news_center);
+        myTeamLayout = mRootView.findViewById(R.id.team);
+        myTeamLayout.setOnClickListener(this);
         pswLayout.setOnClickListener(this);
         newsLayout.setOnClickListener(this);
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -127,6 +133,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     @Override
     protected void initData() {
+
     }
 
     @Override
@@ -142,6 +149,10 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
             case R.id.news_center:
                 startActivity(new Intent(getContext(), NewsActvity.class));
+                break;
+
+            case R.id.team:
+                startActivity(new Intent(getContext(), MyTeamActivity.class));
                 break;
 
         }
