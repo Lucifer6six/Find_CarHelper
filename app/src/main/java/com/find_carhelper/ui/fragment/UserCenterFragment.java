@@ -1,11 +1,8 @@
 package com.find_carhelper.ui.fragment;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -23,17 +20,14 @@ import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.EditPswActivity;
+import com.find_carhelper.ui.activity.LoginActivity;
+import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-
-
 public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener,LocationSource {
     private AMapLocationClient mLocationClient;
-    private RelativeLayout pswLayout,newsLayout;
+    private RelativeLayout pswLayout,newsLayout,myTeamLayout,protocalLayout;
     private AMapLocationClientOption mLocationOption;
     private String TAG = "UserCenterFragment";
     //声明定位回调监听器
@@ -67,9 +61,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             }
         }
     };
-public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener {
 
-    private RelativeLayout pswLayout,newsLayout,myTeamLayout;
 
     public static Fragment newInstance() {
        UserCenterFragment fragment = new UserCenterFragment();
@@ -119,8 +111,10 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         newsLayout = mRootView.findViewById(R.id.news_center);
         myTeamLayout = mRootView.findViewById(R.id.team);
         myTeamLayout.setOnClickListener(this);
+        protocalLayout = mRootView.findViewById(R.id.protocal);
         pswLayout.setOnClickListener(this);
         newsLayout.setOnClickListener(this);
+        protocalLayout.setOnClickListener(this);
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){//未开启定位权限
             //开启定位权限,200是标识码
@@ -155,6 +149,9 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 startActivity(new Intent(getContext(), MyTeamActivity.class));
                 break;
 
+            case R.id.protocal:
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                break;
         }
     }
     public void startLocaion(){
