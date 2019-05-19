@@ -62,7 +62,6 @@ dependencies {
     api "com.github.bumptech.glide:glide:4.6.1"
 
     api 'com.github.pinguo-zhouwei:MZBannerView:v2.0.0'
-
     //3D地图so及jar
     api 'com.amap.api:3dmap:latest.integration'
 

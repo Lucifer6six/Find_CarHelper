@@ -56,11 +56,11 @@ public class MainActivity extends MVPBaseActivity{
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         mViewPager.setCurrentItem(0);
-                        setTitleBar("保全-车辆列表", "消息");
+                        setTitleBar("保全车辆", "消息");
                         return true;
                     case R.id.navigation_work:
                         mViewPager.setCurrentItem(1);
-                        setTitleBar("保全-订单列表", "");
+                        setTitleBar("保全订单", "");
                         return true;
                     case R.id.navigation_plan:
                         mViewPager.setCurrentItem(2);

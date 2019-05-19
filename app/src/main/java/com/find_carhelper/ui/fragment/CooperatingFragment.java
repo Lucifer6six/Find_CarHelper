@@ -8,6 +8,7 @@ import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
+import com.find_carhelper.ui.adapter.MyCooperationOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
@@ -17,7 +18,7 @@ import com.find_carhelper.widgets.OnItemClickListeners;
  */
 public class CooperatingFragment extends MVPBaseFragment  implements OnItemClickListeners {
     private RecyclerView recycleListView;
-    private ListOrderAcceptAdapter mListOrderAcceptAdapter;
+    private MyCooperationOrderAdapter mListOrderAcceptAdapter;
     public static Fragment newInstance() {
        CooperatingFragment fragment = new CooperatingFragment();
         return fragment;
@@ -66,7 +67,7 @@ public class CooperatingFragment extends MVPBaseFragment  implements OnItemClick
         initAdapter();
     }
     private void initAdapter(){
-        mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext);
+        mListOrderAcceptAdapter = new MyCooperationOrderAdapter(mContext);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);

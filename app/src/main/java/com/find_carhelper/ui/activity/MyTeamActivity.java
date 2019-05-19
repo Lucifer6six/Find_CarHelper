@@ -1,9 +1,11 @@
 package com.find_carhelper.ui.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
@@ -15,6 +17,7 @@ import com.find_carhelper.widgets.OnItemClickListeners;
 public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListeners {
     private RecyclerView recycleListView;
     private MyTeamAdapter mListOrderAcceptAdapter;
+    private Button inviteBtn;
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -28,6 +31,8 @@ public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListen
     @Override
     protected void initViews() {
         recycleListView = findViewById(R.id.list_teams);
+        inviteBtn = findViewById(R.id.invite);
+        inviteBtn.setOnClickListener(view -> startActivity(new Intent(MyTeamActivity.this,InviteFriendsActivity.class)));
         initAdapter();
     }
 

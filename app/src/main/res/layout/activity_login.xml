@@ -83,6 +83,7 @@
                 android:text="忘记密码"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_15"
                 android:textColor="@color/colorPrimary"
                 />
         </RelativeLayout>

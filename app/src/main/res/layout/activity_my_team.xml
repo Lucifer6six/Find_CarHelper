@@ -27,11 +27,12 @@
         android:layout_margin="@dimen/margin_10"
         />
         <Button
+            android:id="@+id/invite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="邀请"
             android:textColor="@color/back_ground_white"
-            android:background="@mipmap/mine_zh_btn_txpre1"
+            android:background="@mipmap/login_btn_pre"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/margin_15"
             />

@@ -25,7 +25,7 @@ import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 
-public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener,LocationSource {
+public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener, LocationSource {
     private AMapLocationClient mLocationClient;
     private RelativeLayout pswLayout,newsLayout,myTeamLayout,protocalLayout;
     private AMapLocationClientOption mLocationOption;
