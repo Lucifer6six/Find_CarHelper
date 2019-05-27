@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.activity.EditPswActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/login_icon_back"
+        android:layout_margin="@dimen/margin_15"
+        />
+    <TextView
+        android:id="@+id/total_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2800.00"
+        android:textSize="@dimen/text_size_30"
+        android:textColor="@color/back_ground_white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        />
+    <Button
+        android:id="@+id/icon_new"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textColor="@color/white"
+        android:padding="@dimen/margin_5"
+        android:text="新增可提现(元)"
+        android:textSize="@dimen/text_size_12"
+        android:layout_below="@+id/total_money"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/mine_btn_rz1_bg"
+        />
+    <TextView
+        android:id="@+id/all_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon_new"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        android:text="已累计提现188888888元"
+        android:textSize="@dimen/text_size_12"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/round_square_"
+        android:layout_marginTop="180dp"
+        >
+        <RelativeLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_15"
+                android:text="每月18日到31日为提现开发日"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tips"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="-10dp"
+                android:text="申请提现后次月20号到25号陆续到账"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/text_size_12" />
+
+            <ImageView
+                android:id="@+id/withdraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/mine_zh_btn"
+                />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_15"
+            android:background="@color/back_ground_gray"
+            android:layout_marginTop="@dimen/margin_15"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_money"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+</RelativeLayout>

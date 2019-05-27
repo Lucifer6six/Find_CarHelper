@@ -21,13 +21,15 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.EditPswActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
+import com.find_carhelper.ui.activity.MyCountActivity;
 import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
+import com.find_carhelper.ui.activity.RequestInStoreActivity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 
 public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener, LocationSource {
     private AMapLocationClient mLocationClient;
-    private RelativeLayout pswLayout,newsLayout,myTeamLayout,protocalLayout;
+    private RelativeLayout pswLayout,newsLayout,myTeamLayout,protocalLayout,acountLayout,updateLayout;
     private AMapLocationClientOption mLocationOption;
     private String TAG = "UserCenterFragment";
     //声明定位回调监听器
@@ -112,9 +114,13 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         myTeamLayout = mRootView.findViewById(R.id.team);
         myTeamLayout.setOnClickListener(this);
         protocalLayout = mRootView.findViewById(R.id.protocal);
+        acountLayout = mRootView.findViewById(R.id.acount);
+        updateLayout = mRootView.findViewById(R.id.update);
+        updateLayout.setOnClickListener(this);
         pswLayout.setOnClickListener(this);
         newsLayout.setOnClickListener(this);
         protocalLayout.setOnClickListener(this);
+        acountLayout.setOnClickListener(this);
         if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){//未开启定位权限
             //开启定位权限,200是标识码
@@ -151,6 +157,12 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
             case R.id.protocal:
                 startActivity(new Intent(getContext(), LoginActivity.class));
+                break;
+            case R.id.acount:
+                startActivity(new Intent(getContext(), MyCountActivity.class));
+                break;
+            case R.id.update:
+                startActivity(new Intent(getContext(), RequestInStoreActivity.class));
                 break;
         }
     }

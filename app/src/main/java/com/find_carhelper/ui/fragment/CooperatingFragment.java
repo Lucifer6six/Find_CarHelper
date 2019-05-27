@@ -1,5 +1,6 @@
 package com.find_carhelper.ui.fragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.RequestInStoreActivity;
 import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.adapter.MyCooperationOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;

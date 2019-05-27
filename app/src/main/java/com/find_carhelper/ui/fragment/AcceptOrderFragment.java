@@ -289,7 +289,6 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                 case MSG_LOAD_DATA:
                     if (thread == null) {//如果已创建就不再重新创建子线程了
 
-                        Toast.makeText(getContext(), "Begin Parse Data", Toast.LENGTH_SHORT).show();
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -302,7 +301,6 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                     break;
 
                 case MSG_LOAD_SUCCESS:
-                    Toast.makeText(getContext(), "Parse Succeed", Toast.LENGTH_SHORT).show();
                     isLoaded = true;
                     break;
 
