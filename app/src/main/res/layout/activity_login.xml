@@ -50,6 +50,7 @@
             android:layout_margin="@dimen/margin_15"
             />
         <EditText
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_10"
@@ -69,15 +70,17 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/psw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:hint="请输入密码"
                 android:padding="@dimen/margin_10"
+                android:inputType="textPassword"
                 android:background="@null"
                 android:layout_margin="@dimen/margin_15"
                 />
-            <TextView
+            <com.find_carhelper.widgets.CountDownTextView
+                android:id="@+id/tvCountDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="忘记密码"
@@ -89,6 +92,7 @@
         </RelativeLayout>
 
         <Button
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_15"

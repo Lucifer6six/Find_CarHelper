@@ -3,10 +3,13 @@ package com.find_carhelper.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.find_carhelper.R;
@@ -15,6 +18,7 @@ import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.MainActivity;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.utils.ToastUtil;
+import com.find_carhelper.widgets.CountDownTextView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -25,13 +29,17 @@ import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import cc.ibooker.zcountdownviewlib.CountDownView;
 
 public class GuideActivity extends MVPBaseActivity implements View.OnClickListener, OnBannerListener {
     private MZBannerView mMZBanner;
     private MyImageLoader mMyImageLoader;
     private ArrayList<Integer> imagePath;
     private ArrayList<String> imageTitle;
-
+    private CountDownTextView mCountDownTextView;
+    CountDownView countdownView;
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -62,11 +70,89 @@ public class GuideActivity extends MVPBaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         findViewById(R.id.image_bao).setOnClickListener(this);
+        mCountDownTextView = findViewById(R.id.tvCountDown);
+         countdownView = findViewById(R.id.countdownView);
         mMZBanner = findViewById(R.id.banner);
         initImages();
         initImageView();
+        count();
+        initCountDownView();
     }
 
+    private void initCountDownView(){
+        // 基本属性设置
+        countdownView.setCountTime(111111) // 设置倒计时时间戳
+                .setHourTvTextColorHex("#FFFFFF")
+                .setHourTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
+                .setHourTvTextSize(21)
+
+                .setHourColonTvBackgroundColorHex("#00FFFFFF")
+                .setHourColonTvSize(18, 0)
+                .setHourColonTvTextColorHex("#FF7198")
+                .setHourColonTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
+                .setHourColonTvTextSize(21)
+
+                .setMinuteTvTextColorHex("#FFFFFF")
+                .setMinuteTvTextSize(21)
+
+                .setMinuteColonTvSize(18, 0)
+                .setMinuteColonTvTextColorHex("#FF7198")
+                .setMinuteColonTvTextSize(21)
+
+                .setSecondTvTextColorHex("#FFFFFF")
+                .setSecondTvTextSize(21)
+
+//      .setTimeTvWH(18, 40)
+//      .setColonTvSize(30)
+
+                // 开启倒计时
+                .startCountDown()
+
+                // 设置倒计时结束监听
+                .setCountDownEndListener(new CountDownView.CountDownEndListener() {
+                    @Override
+                    public void onCountDownEnd() {
+                        Toast.makeText(GuideActivity.this, "倒计时结束", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+    }
+
+    private void count() {
+        mCountDownTextView
+                .setNormalText("获取验证码")
+                .setCountDownText("重新获取(", "s)")
+                .setCloseKeepCountDown(false)//关闭页面保持倒计时开关
+                .setCountDownClickable(false)//倒计时期间点击事件是否生效开关
+                .setShowFormatTime(false)//是否格式化时间
+                .setIntervalUnit(TimeUnit.SECONDS)
+                .setOnCountDownStartListener(new CountDownTextView.OnCountDownStartListener() {
+                    @Override
+                    public void onStart() {
+                        Toast.makeText(GuideActivity.this, "开始计时", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setOnCountDownTickListener(new CountDownTextView.OnCountDownTickListener() {
+                    @Override
+                    public void onTick(long untilFinished) {
+                        Log.e("------", "onTick: " + untilFinished);
+                    }
+                })
+                .setOnCountDownFinishListener(new CountDownTextView.OnCountDownFinishListener() {
+                    @Override
+                    public void onFinish() {
+                        Toast.makeText(GuideActivity.this, "倒计时完毕", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(GuideActivity.this, "短信已发送", Toast.LENGTH_SHORT).show();
+                        mCountDownTextView.startCountDown(100);
+                    }
+                });
+    }
     @Override
     protected void initData() {
 

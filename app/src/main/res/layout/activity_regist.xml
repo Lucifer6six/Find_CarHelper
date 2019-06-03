@@ -69,6 +69,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -77,10 +78,15 @@
                 android:background="@null"
                 android:layout_margin="@dimen/margin_15"
                 />
-            <TextView
+            <com.find_carhelper.widgets.CountDownTextView
+                android:id="@+id/tvCountDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="获取验证码"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginRight="@dimen/margin_15"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -95,6 +101,7 @@
             android:layout_marginRight="@dimen/margin_15"
             />
         <EditText
+            android:id="@+id/psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -111,6 +118,7 @@
             android:layout_marginRight="@dimen/margin_15"
             />
         <EditText
+            android:id="@+id/repsw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -121,6 +129,7 @@
             />
 
         <Button
+            android:id="@+id/regist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_15"
