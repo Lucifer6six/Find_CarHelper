@@ -15,6 +15,7 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.CountDownTextView;
 
@@ -96,8 +97,8 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
         String url = Constants.GET_MSG_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", "123456");
-        params.put("phoneNo", "18651090153");
+        params.put("deviceId", MobileInfoUtil.getIMEI(LoginActivity.this));
+        params.put("phoneNo", name.getText().toString());
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
