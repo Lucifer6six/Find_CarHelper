@@ -14,6 +14,7 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.CountDownTextView;
 
@@ -27,7 +28,7 @@ import okhttp3.Request;
 
 public class RegistActivity extends MVPBaseActivity implements View.OnClickListener{
     private CountDownTextView mCountDownTextView;
-    private EditText codeEdit,psw,repsw;
+    private EditText codeEdit,psw,repsw,acount;
     private Button regist;
     @Override
     protected BasePresenter createPresenter() {
@@ -51,6 +52,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
         regist = findViewById(R.id.regist);
         psw = findViewById(R.id.psw);
         repsw = findViewById(R.id.repsw);
+        acount = findViewById(R.id.acount);
         findViewById(R.id.login_tv).setOnClickListener(this);
         regist.setOnClickListener(this);
         initCountText();
@@ -118,8 +120,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
         String url = Constants.GET_MSG_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", "123456");
-        params.put("phoneNo", "18651090153");
+        params.put("deviceId", MobileInfoUtil.getIMEI(RegistActivity.this));
+        params.put("phoneNo", acount.getText().toString());
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -166,6 +168,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                         String  data = jsonObject.getString("data");
                         if (!TextUtils.isEmpty(data)){
                             //codeEdit.setText(data);
+
                             Toast.makeText(RegistActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                             SharedPreferencesUtil.setStoreJobNumber(RegistActivity.this,data,"token");
                         }
