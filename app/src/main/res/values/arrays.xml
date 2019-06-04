@@ -9,4 +9,8 @@
         <item>合作中</item>
         <item>已完成</item>
     </string-array>
+    <string-array name="auth_tab">
+        <item>企业认证</item>
+        <item>个人认证</item>
+    </string-array>
 </resources>

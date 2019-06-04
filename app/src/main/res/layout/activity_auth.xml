@@ -8,25 +8,35 @@
                 android:background="@color/colorPrimary"
                 tools:context=".ui.activity.NewsActvity">
 
-    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        titlebar:centerText="消息中心"
-        titlebar:centerType="textView"
-        titlebar:leftImageResource="@mipmap/ic_back"
-        titlebar:leftType="imageButton"
-        titlebar:fillStatusBar="true"
-        titlebar:showBottomLine="false"
-        titlebar:rightText=""
-        titlebar:rightType="textView"/>
+   <RelativeLayout
+       android:id="@+id/title"
+       android:layout_width="match_parent"
+       android:layout_height="60dp">
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="身份认证"
+           android:textColor="@color/white"
+           android:textSize="20sp"
+           android:layout_centerInParent="true"
+           />
+       <ImageView
+           android:id="@+id/back"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+           android:src="@mipmap/login_icon_back"
+           android:layout_centerVertical="true"
+           android:layout_marginLeft="@dimen/margin_15"
+           />
+   </RelativeLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tool_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_below="@+id/title_bar"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/title"
         app:tabIndicatorColor="@color/white"
         app:tabIndicatorHeight="2dp"
         app:tabSelectedTextColor="@color/white"

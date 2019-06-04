@@ -181,28 +181,29 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
      * 初始化监听
      */
     private void initTitleListener() {
-        mCommonTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
-            @Override
-            public void onClicked(View v, int action, String extra) {
-                if (action == CommonTitleBar.ACTION_LEFT_TEXT) {
-                    if (onLeftClickListener != null) {
-                        onLeftClickListener.onClick(v);
-                    }
-                } else if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
-                    if (onLeftClickListener != null) {
-                        onLeftClickListener.onClick(v);
-                    }
-                } else if (action == CommonTitleBar.ACTION_RIGHT_TEXT) {
-                    if (onRightClickListener != null) {
-                        onRightClickListener.onClick(v);
-                    }
-                } else if (action == CommonTitleBar.ACTION_RIGHT_BUTTON) {
-                    if (onRightClickListener != null) {
-                        onRightClickListener.onClick(v);
+        if (mCommonTitleBar!=null)
+            mCommonTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
+                @Override
+                public void onClicked(View v, int action, String extra) {
+                    if (action == CommonTitleBar.ACTION_LEFT_TEXT) {
+                        if (onLeftClickListener != null) {
+                            onLeftClickListener.onClick(v);
+                        }
+                    } else if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
+                        if (onLeftClickListener != null) {
+                            onLeftClickListener.onClick(v);
+                        }
+                    } else if (action == CommonTitleBar.ACTION_RIGHT_TEXT) {
+                        if (onRightClickListener != null) {
+                            onRightClickListener.onClick(v);
+                        }
+                    } else if (action == CommonTitleBar.ACTION_RIGHT_BUTTON) {
+                        if (onRightClickListener != null) {
+                            onRightClickListener.onClick(v);
+                        }
                     }
                 }
-            }
-        });
+            });
     }
 
     /**

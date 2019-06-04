@@ -73,7 +73,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                 startActivity(new Intent(RegistActivity.this,LoginActivity.class));
                 break;
             case R.id.regist:
-                regist();
+                //regist();
+                startActivity(new Intent(RegistActivity.this,AuthActivity.class));
                 break;
 
         }
@@ -168,6 +169,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                             Toast.makeText(RegistActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                             SharedPreferencesUtil.setStoreJobNumber(RegistActivity.this,data,"token");
                         }
+
                     }else{
                         Toast.makeText(RegistActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }

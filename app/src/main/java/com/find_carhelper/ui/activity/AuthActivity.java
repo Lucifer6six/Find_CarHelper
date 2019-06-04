@@ -13,8 +13,6 @@ import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.ui.fragment.GroupAuthFragment;
 import com.find_carhelper.ui.fragment.IdentityAuthFragment;
-import com.find_carhelper.ui.fragment.SystemNewsFragment;
-import com.find_carhelper.ui.fragment.TogetherNewsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,7 @@ public class AuthActivity extends MVPBaseActivity {
     protected void initViews() {
         mTabLayout = findViewById(R.id.tool_tab);
         mViewPager = findViewById(R.id.view_pager);
-        titles = getResources().getStringArray(R.array.plan_repair_main_tab);
+        titles = getResources().getStringArray(R.array.auth_tab);
         GroupAuthFragment groupAuthFragment = new GroupAuthFragment();
         IdentityAuthFragment identityAuthFragment = new IdentityAuthFragment();
         fragments = new ArrayList<>();
