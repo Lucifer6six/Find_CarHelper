@@ -105,12 +105,13 @@
             />
         </LinearLayout>
  </ScrollView>
+
     <Button
+        android:id="@+id/commit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="提交"
-        android:textColor="@color/white"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
-        />
+        android:text="提交"
+        android:textColor="@color/white" />
     </RelativeLayout>

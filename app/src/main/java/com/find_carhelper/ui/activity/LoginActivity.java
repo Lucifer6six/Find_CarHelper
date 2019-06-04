@@ -153,7 +153,7 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
         String url = Constants.LOGIN;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", "123456");
+        params.put("deviceId", MobileInfoUtil.getIMEI(LoginActivity.this));
         params.put("username", name.getText().toString());
         params.put("password", psw.getText().toString());
         // ...
@@ -166,9 +166,10 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equals("true")){
-                        String  data = jsonObject.getString("data");
-                        if (!TextUtils.isEmpty(data)){
-                            //codeEdit.setText(data);
+                        JSONObject  data = jsonObject.getJSONObject("data");
+                        String token = data.getString("accessToken");
+                        if (!TextUtils.isEmpty(token)){
+                            SharedPreferencesUtil.setStoreJobNumber(LoginActivity.this,token,"token");
                         }
                     };
                 }

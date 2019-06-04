@@ -7,22 +7,33 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.find_carhelper.R;
+import com.find_carhelper.http.Constants;
+import com.find_carhelper.http.NetRequest;
+import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.utils.CustomHelper;
+import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TResult;
 
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
 import java.security.interfaces.RSAKey;
+import java.util.HashMap;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -37,8 +48,12 @@ public class GroupAuthFragment extends TakePhotoFragment {
     private CustomHelper customHelper;
     private View commenView,contentView;
     private Button takePhoto;
+    private EditText name,jcname,faren,sfz,tydm;
+    private Button commitAction;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
     private final OkHttpClient client = new OkHttpClient();
+    private String token;
+    private String imgName;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,9 +67,20 @@ public class GroupAuthFragment extends TakePhotoFragment {
         customHelper = CustomHelper.of(commenView);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         mImageView = contentView.findViewById(R.id.img1);
+        name = contentView.findViewById(R.id.name);
+        jcname = contentView.findViewById(R.id.id);
+        faren = contentView.findViewById(R.id.faren);
+        sfz = contentView.findViewById(R.id.faren_id);
+        tydm = contentView.findViewById(R.id.tydm);
+        commitAction = contentView.findViewById(R.id.commit);
+        commitAction.setOnClickListener(v -> {
+            Log.e("TAG","commitAction");
+            commitAction();
+        });
         mImageView.setOnClickListener(v -> {
             takePhoto();
         });
+         token = SharedPreferencesUtil.getStoreJobNumber(getContext(),"token");
     }
     public void takePhoto(){
         customHelper.onClick(takePhoto,getTakePhoto());
@@ -62,7 +88,55 @@ public class GroupAuthFragment extends TakePhotoFragment {
     public GroupAuthFragment() {
         super();
     }
+    public void commitAction(){
+        String groupName = name.getText().toString();
+        String groupJc = jcname.getText().toString();
+        String groupFr = faren.getText().toString();
+        String frsfz = sfz.getText().toString();
+        String groupDm = tydm.getText().toString();
 
+        if (!TextUtils.isEmpty(groupName)&&!TextUtils.isEmpty(groupJc)&&
+                !TextUtils.isEmpty(groupFr)&&!TextUtils.isEmpty(frsfz)&&!TextUtils.isEmpty(groupDm)){
+
+
+            String url = Constants.REGISTER_GROUP;
+            HashMap<String, String> params = new HashMap<>();
+            // 添加请求参数
+            params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));
+            params.put("accessToken", token);
+            params.put("companyName", groupName);
+            params.put("companyShortName", groupJc);
+            params.put("uscc", groupDm);
+            params.put("legalRepresentative", groupFr);
+            params.put("idCardNo", frsfz);
+            params.put("businessLicenseImgUrl", imgName);
+            // ...
+            NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
+                @Override
+                public void requestSuccess(String result) throws Exception {
+                    // 请求成功的回调
+                    Log.e("TAG",result.toString());
+                    if (!TextUtils.isEmpty(result)){
+                        JSONObject jsonObject = new JSONObject(result);
+                        if (jsonObject.getString("success").equals("true")){
+
+                            Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
+
+                        };
+                    }
+                }
+
+                @Override
+                public void requestFailure(Request request, IOException e) {
+                    // 请求失败的回调
+                    Log.e("TAG",request.toString()+e.getMessage());
+                }
+            });
+            Log.e("TAG","commitAction");
+        }
+
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +156,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
     public void takeSuccess(TResult result){
         super.takeSuccess(result);
         Bitmap bitmap = BitmapFactory.decodeFile(result.getImage().getCompressPath());
+        imgName = result.getImage().getOriginalPath();
         mImageView.setImageBitmap(bitmap);
 
             new Thread(){
@@ -89,7 +164,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
                 public void run() {
                     super.run();
                     try{
-                        uploadImage("1231412123123",new File(result.getImage().getCompressPath()));
+                        uploadImage(MobileInfoUtil.getIMEI(getContext()),new File(result.getImage().getCompressPath()));
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -118,6 +193,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
                 .addFormDataPart("deviceId", userName)
+                .addFormDataPart("accessToken", token)
                 .build();
 
         //4.构建请求
@@ -129,6 +205,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
         //5.发送请求
         Response response = client.newCall(request).execute();
         String re = response.toString();
+        Log.e("hhh",re);
         Toast.makeText(getContext(),re,Toast.LENGTH_LONG).show();
     }
 }

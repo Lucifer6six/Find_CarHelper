@@ -75,7 +75,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                 startActivity(new Intent(RegistActivity.this,LoginActivity.class));
                 break;
             case R.id.regist:
-                //regist();
+                regist();
                 startActivity(new Intent(RegistActivity.this,AuthActivity.class));
                 break;
 
@@ -136,6 +136,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                         if (!TextUtils.isEmpty(data)){
                             codeEdit.setText(data);
                         }
+                    }else {
+                        Toast.makeText(RegistActivity.this,jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                     };
                 }
             }
@@ -143,6 +145,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
             @Override
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
+
             }
         });
     }
@@ -171,6 +174,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
 
                             Toast.makeText(RegistActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                             SharedPreferencesUtil.setStoreJobNumber(RegistActivity.this,data,"token");
+                            startActivity(new Intent(RegistActivity.this,AuthActivity.class));
+
                         }
 
                     }else{
