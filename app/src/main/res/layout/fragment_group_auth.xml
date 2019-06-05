@@ -48,6 +48,20 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/back_ground_gray"/>
+       <EditText
+           android:id="@+id/address"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@null"
+           android:singleLine="true"
+           android:hint="请输入公司地址"
+           android:textSize="@dimen/text_size_16"
+           android:layout_margin="@dimen/margin_15"
+           />
+       <View
+           android:layout_width="match_parent"
+           android:layout_height="1dp"
+           android:background="@color/back_ground_gray"/>
     <EditText
         android:id="@+id/faren"
         android:layout_width="match_parent"

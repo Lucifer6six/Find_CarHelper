@@ -49,12 +49,14 @@ public class GroupAuthFragment extends TakePhotoFragment {
     private CustomHelper customHelper;
     private View commenView,contentView;
     private Button takePhoto;
-    private EditText name,jcname,faren,sfz,tydm;
+    private EditText name,jcname,faren,sfz,tydm,address;
     private Button commitAction;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
     private final OkHttpClient client = new OkHttpClient();
     private String token;
     private String imgName;
+    private boolean upload = false;
+    public String businessName = "";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
         faren = contentView.findViewById(R.id.faren);
         sfz = contentView.findViewById(R.id.faren_id);
         tydm = contentView.findViewById(R.id.tydm);
+        address = contentView.findViewById(R.id.address);
         commitAction = contentView.findViewById(R.id.commit);
         commitAction.setOnClickListener(v -> {
             Log.e("TAG","commitAction");
@@ -95,9 +98,9 @@ public class GroupAuthFragment extends TakePhotoFragment {
         String groupFr = faren.getText().toString();
         String frsfz = sfz.getText().toString();
         String groupDm = tydm.getText().toString();
-
+        String companyAddress = address.getText().toString();
         if (!TextUtils.isEmpty(groupName)&&!TextUtils.isEmpty(groupJc)&&
-                !TextUtils.isEmpty(groupFr)&&!TextUtils.isEmpty(frsfz)&&!TextUtils.isEmpty(groupDm)){
+                !TextUtils.isEmpty(groupFr)&&!TextUtils.isEmpty(frsfz)&&!TextUtils.isEmpty(groupDm)&&upload){
 
 
             String url = Constants.REGISTER_GROUP;
@@ -110,7 +113,8 @@ public class GroupAuthFragment extends TakePhotoFragment {
             params.put("uscc", groupDm);
             params.put("legalRepresentative", groupFr);
             params.put("idCardNo", frsfz);
-            params.put("businessLicenseImgUrl", imgName);
+            params.put("businessLicenseImgUrl", businessName);
+            params.put("companyAddress", companyAddress);
             // ...
             NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
                 @Override
@@ -123,7 +127,10 @@ public class GroupAuthFragment extends TakePhotoFragment {
 
                             Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
 
-                        };
+                        }else{
+                            Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        }
+                            ;
                     }
                 }
 
@@ -134,6 +141,11 @@ public class GroupAuthFragment extends TakePhotoFragment {
                 }
             });
             Log.e("TAG","commitAction");
+        }else {
+            if (!upload){
+                Toast.makeText(getContext(),"请上传营业执照以及填写完整信息",Toast.LENGTH_SHORT).show();
+            }else
+                Toast.makeText(getContext(),"请填写完整信息",Toast.LENGTH_SHORT).show();
         }
 
 
@@ -165,7 +177,10 @@ public class GroupAuthFragment extends TakePhotoFragment {
                 public void run() {
                     super.run();
                     try{
-                        uploadImage(MobileInfoUtil.getIMEI(getContext()),new File(result.getImage().getCompressPath()));
+                       String response = uploadImage(MobileInfoUtil.getIMEI(getContext()),new File(result.getImage().getCompressPath()));
+                        JSONObject  myJson = new JSONObject(response);
+                        JSONObject jsonObject = myJson.getJSONObject("data");
+                        businessName = jsonObject.getString("name");
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -184,7 +199,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
     public void takeCancel() {
         super.takeCancel();
     }
-    public void uploadImage(String userName, File file) throws Exception{
+    public String  uploadImage(String userName, File file) throws Exception{
 
         //2.创建RequestBody
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
@@ -205,9 +220,15 @@ public class GroupAuthFragment extends TakePhotoFragment {
 
         //5.发送请求
         Response response = client.newCall(request).execute();
-        String re = response.toString();
+        String re = response.body().string();
         Log.e("hhh",re);
-        Toast.makeText(getContext(),re,Toast.LENGTH_LONG).show();
+        if (response.code() == 200){
+            upload = true;
+        }
+        if (response.code() == 200) {
+            return re;
+        }
+       return "";
     }
 
 }

@@ -23,6 +23,8 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TResult;
 
+import org.json.JSONObject;
+
 import java.io.Console;
 import java.io.File;
 
@@ -50,6 +52,8 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
     private String imgName;
     private int takePhotoFlag = 0;
     private UpImgAsyncTask mbuttonAsyncTask;
+    private String imageType;
+    private String imageName1,imageName2,imageName3;
     public IdentityAuthFragment() {
         super();
     }
@@ -67,19 +71,22 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         switch (takePhotoFlag){
             case 1:
                 mImageView1.setImageBitmap(bitmap);
+                imageType = imageType1;
                 uploadImg(result.getImage().getCompressPath());
                 break;
             case 2:
-                mImageView1.setImageBitmap(bitmap);
+                mImageView2.setImageBitmap(bitmap);
+                imageType = imageType2;
                 uploadImg(result.getImage().getCompressPath());
                 break;
             case 3:
-                mImageView1.setImageBitmap(bitmap);
+                mImageView3.setImageBitmap(bitmap);
+                imageType = imageTYpe3;
                 uploadImg(result.getImage().getCompressPath());
                 break;
         }
     }
-    public void uploadImage(File file) throws Exception{
+    public Integer uploadImage(File file) throws Exception{
 
         //2.创建RequestBody
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
@@ -90,6 +97,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
                 .addFormDataPart("file", "testImage.png", fileBody)
                 .addFormDataPart("deviceId", MobileInfoUtil.getIMEI(getContext()))
                 .addFormDataPart("accessToken", Constants.TOKEN)
+                .addFormDataPart("imgType", imageType)
                 .build();
 
         //4.构建请求
@@ -102,7 +110,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         Response response = client.newCall(request).execute();
         String re = response.toString();
         Log.e("hhh",re);
-        Toast.makeText(getContext(),re,Toast.LENGTH_LONG).show();
+        return response.code();
     }
 
     public void uploadImg(String url){
@@ -174,6 +182,10 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
+            if (integer == 200){
+                Toast.makeText(getContext(),"上传成功",Toast.LENGTH_LONG).show();
+            }else
+                Toast.makeText(getContext(),"上传失败",Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -183,8 +195,14 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
 
         @Override
         protected Integer doInBackground(File... params) {
-            //uploadImage();
-            return null;
+            int re = 0;
+            try{
+               re =  uploadImage(params[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            //Toast.makeText(getContext(),re,Toast.LENGTH_SHORT).show();
+            return re;
         }
     }
 }
