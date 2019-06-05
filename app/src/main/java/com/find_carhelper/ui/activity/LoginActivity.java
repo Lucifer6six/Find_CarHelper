@@ -178,6 +178,7 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
             @Override
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
+                Log.e("LoginActivity",e.getMessage());
             }
         });
     }

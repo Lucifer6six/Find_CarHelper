@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -208,4 +209,5 @@ public class GroupAuthFragment extends TakePhotoFragment {
         Log.e("hhh",re);
         Toast.makeText(getContext(),re,Toast.LENGTH_LONG).show();
     }
+
 }
