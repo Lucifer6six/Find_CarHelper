@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.find_carhelper.R;
 import com.find_carhelper.http.Constants;
+import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.jph.takephoto.app.TakePhoto;
@@ -24,9 +26,12 @@ import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TResult;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.Console;
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -41,7 +46,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
     private CustomHelper customHelper;
     private View commenView,contentView;
     private Button takePhoto;
-    private EditText name,jcname,faren,sfz,tydm;
+    private EditText name,id;
     private Button commitAction;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
     public String imageType1 = "ID_CARD_OBVERSE";
@@ -86,7 +91,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
                 break;
         }
     }
-    public Integer uploadImage(File file) throws Exception{
+    public String uploadImage(File file) throws Exception{
 
         //2.创建RequestBody
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
@@ -110,7 +115,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         Response response = client.newCall(request).execute();
         String re = response.toString();
         Log.e("hhh",re);
-        return response.code();
+        return response.body().string();
     }
 
     public void uploadImg(String url){
@@ -141,12 +146,16 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         commenView = LayoutInflater.from(getContext()).inflate(R.layout.common_layout,null);
         customHelper = CustomHelper.of(commenView);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
+        name = contentView.findViewById(R.id.name);
+        id = contentView.findViewById(R.id.id);
         mImageView1 = contentView.findViewById(R.id.img1);
         mImageView2 = contentView.findViewById(R.id.img2);
         mImageView3 = contentView.findViewById(R.id.img3);
+        commitAction = contentView.findViewById(R.id.commit);
         mImageView1.setOnClickListener(this);
         mImageView2.setOnClickListener(this);
         mImageView3.setOnClickListener(this);
+        commitAction.setOnClickListener(this);
     }
     public void takePhoto(){
         customHelper.onClick(takePhoto,getTakePhoto());
@@ -166,26 +175,94 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
                 takePhotoFlag = 3;
                 takePhoto();
                 break;
+            case R.id.commit:
+                commitAction();
+                break;
         }
+    }
+
+    public void commitAction(){
+        String realName = name.getText().toString();
+        String sid = id.getText().toString();
+
+        if (!TextUtils.isEmpty(realName)&&!TextUtils.isEmpty(sid)
+                    &&!TextUtils.isEmpty(imageName1)&&!TextUtils.isEmpty(imageName2)
+                        &&!TextUtils.isEmpty(imageName3)){
+            String url = Constants.REGISTER_Identity;
+            HashMap<String, String> params = new HashMap<>();
+            // 添加请求参数
+            params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));
+            params.put("accessToken", Constants.TOKEN);
+            params.put("realName", realName);
+            params.put("idCardNo", sid);
+            params.put("idCardObverseImgUrl", imageName1);
+            params.put("idCardReverseImgUrl", imageName2);
+            params.put("idCardHoldImgUrl", imageName3);
+            // ...
+            NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
+                @Override
+                public void requestSuccess(String result) throws Exception {
+                    // 请求成功的回调
+                    Log.e("TAG",result.toString());
+                    if (!TextUtils.isEmpty(result)){
+                        JSONObject jsonObject = new JSONObject(result);
+                        if (jsonObject.getString("success").equals("true")){
+                            Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void requestFailure(Request request, IOException e) {
+                    // 请求失败的回调
+                    Log.e("TAG",request.toString()+e.getMessage());
+                }
+            });
+        }else
+            Toast.makeText(getContext(),"请填写完整信息或上传全部身份证",Toast.LENGTH_SHORT).show();
+
     }
     @Override
     public TakePhoto getTakePhoto() {
         return super.getTakePhoto();
     }
 
-    private class UpImgAsyncTask extends AsyncTask<File,Object,Integer> {
+    private class UpImgAsyncTask extends AsyncTask<File,Object,String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            if (integer == 200){
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            String imageName = "";
+            try{
+                Log.e("TAG","result = "+response);
+            JSONObject  myJson = new JSONObject(response);
+            JSONObject jsonObject = myJson.getJSONObject("data");
+            imageName = jsonObject.getString("name");
+            if (myJson.getString("success").equals("true")){
                 Toast.makeText(getContext(),"上传成功",Toast.LENGTH_LONG).show();
+                switch (takePhotoFlag){
+                    case 1:
+                        imageName1 = imageName;
+                        break;
+                    case 2:
+                        imageName2 = imageName;
+                        break;
+                    case 3:
+                        imageName3 = imageName;
+                        break;
+                }
+
             }else
                 Toast.makeText(getContext(),"上传失败",Toast.LENGTH_LONG).show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -194,14 +271,13 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         }
 
         @Override
-        protected Integer doInBackground(File... params) {
-            int re = 0;
+        protected String doInBackground(File... params) {
+            String re = "";
             try{
                re =  uploadImage(params[0]);
             }catch (Exception e){
                 e.printStackTrace();
             }
-            //Toast.makeText(getContext(),re,Toast.LENGTH_SHORT).show();
             return re;
         }
     }
