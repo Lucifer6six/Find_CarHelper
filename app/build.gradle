@@ -74,4 +74,7 @@ dependencies {
     api 'com.jph.takephoto:takephoto_library:4.0.3'
     api 'com.squareup.okhttp3:okhttp:3.6.0'
     api 'com.github.zrunker:ZCountDownView:v1.1'
+    api 'com.github.LinweiJ:LoadingDialog:V0.0.1'
+    api 'com.alibaba:fastjson:1.1.55.android'
+    api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

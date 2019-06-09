@@ -110,10 +110,7 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equals("true")){
                         Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
-                        String  data = jsonObject.getString("data");
-                        if (!TextUtils.isEmpty(data)){
-                            SharedPreferencesUtil.setStoreJobNumber(LoginActivity.this,data,"token");
-                        }
+
                     }else {
 
                         Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
@@ -169,8 +166,10 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
                         JSONObject  data = jsonObject.getJSONObject("data");
                         String token = data.getString("accessToken");
                         if (!TextUtils.isEmpty(token)){
-                            SharedPreferencesUtil.setStoreJobNumber(LoginActivity.this,token,"token");
+                            SharedPreferencesUtil.putString(LoginActivity.this,"token",token);
                         }
+                        Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                        finish();
                     };
                 }
             }

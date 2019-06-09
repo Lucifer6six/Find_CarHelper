@@ -19,16 +19,15 @@ import android.widget.Toast;
 import com.find_carhelper.R;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
+import com.find_carhelper.ui.activity.AuthActivity;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TResult;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -100,8 +99,8 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
-                .addFormDataPart("deviceId", MobileInfoUtil.getIMEI(getContext()))
-                .addFormDataPart("accessToken", Constants.TOKEN)
+                .addFormDataPart("deviceId", MobileInfoUtil.getIMEI(getContext()))//MobileInfoUtil.getIMEI(getContext())
+                .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getContext(),"token"))
                 .addFormDataPart("imgType", imageType)
                 .build();
 
@@ -191,7 +190,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
             String url = Constants.REGISTER_Identity;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
-            params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));
+            params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
             params.put("accessToken", Constants.TOKEN);
             params.put("realName", realName);
             params.put("idCardNo", sid);
@@ -208,6 +207,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
                         JSONObject jsonObject = new JSONObject(result);
                         if (jsonObject.getString("success").equals("true")){
                             Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
+                            LockStatus();
                         }else{
                             Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                         }
@@ -224,6 +224,18 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
             Toast.makeText(getContext(),"请填写完整信息或上传全部身份证",Toast.LENGTH_SHORT).show();
 
     }
+
+    public void LockStatus(){
+
+        name.setEnabled(false);
+        id.setEnabled(false);
+        commitAction.setBackgroundColor(getResources().getColor(R.color.back_ground_gray));
+        AuthActivity.IdentityAuth = true;
+        if (AuthActivity.GroupAuth&&AuthActivity.IdentityAuth){
+            getActivity().finish();
+        }
+    }
+
     @Override
     public TakePhoto getTakePhoto() {
         return super.getTakePhoto();

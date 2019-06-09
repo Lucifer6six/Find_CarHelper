@@ -6,6 +6,8 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
@@ -16,21 +18,32 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.find_carhelper.R;
+import com.find_carhelper.bean.CarBean;
 import com.find_carhelper.bean.CardBean;
+import com.find_carhelper.bean.CityBean;
 import com.find_carhelper.bean.JsonBean;
+import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.entity.EventCenter;
+import com.find_carhelper.http.Constants;
+import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.GetJsonDataUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.google.gson.Gson;
+import com.wega.library.loadingDialog.LoadingDialog;
 
-import org.json.JSONArray;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.Request;
 
 
 public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickListeners {
@@ -39,19 +52,21 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
     private TextView areaSelectedTv,timeSelectedTv;
 
     private List<JsonBean> options1Items = new ArrayList<>();
-    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<CityBean>> options2Items = new ArrayList<>();
     private RecyclerView recycleListView;
     private ListOrderAcceptAdapter mListOrderAcceptAdapter;
     private List<JsonBean> options1Items_ = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items_ = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items_ = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<CityBean>>> options3Items = new ArrayList<>();
     private Thread thread;
     private static final int MSG_LOAD_DATA = 0x0001;
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
-
+    public String queryCode = "";
     private static boolean isLoaded = false;
+    public LoadingDialog loadingDialog;
+    public List<CarBean> carBeans;
     public static Fragment newInstance() {
        AcceptOrderFragment fragment = new AcceptOrderFragment();
         return fragment;
@@ -118,11 +133,24 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                     showTimePickView();
 
             });
-        initAdapter();
+       // initAdapter();
+        initLoading();
+    }
+
+    public void initLoading(){
+
+        LoadingDialog.Builder builder = new LoadingDialog.Builder(getContext());
+        builder.setLoading_text("加载中...")
+                .setFail_text("加载失败")
+                .setSuccess_text("加载成功");
+        //设置延时5000ms才消失,可以不设置默认1000ms
+        //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
+
+        loadingDialog = builder.create();
 
     }
-    private void initAdapter(){
-        mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext);
+    private void initAdapter(List<CarBean> list){
+        mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext,list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
@@ -139,15 +167,18 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
 
             String opt2tx = options2Items.size() > 0
                     && options2Items.get(options1).size() > 0 ?
-                    options2Items.get(options1).get(options2) : "";
+                    options2Items.get(options1).get(options2).getName() : "";
 
             String opt3tx = options2Items.size() > 0
                     && options3Items.get(options1).size() > 0
                     && options3Items.get(options1).get(options2).size() > 0 ?
-                    options3Items.get(options1).get(options2).get(options3) : "";
+                    options3Items.get(options1).get(options2).get(options3).getName() : "";
 
             String tx = opt1tx+"-"+ opt2tx+"-"+ opt3tx;
+            if (!TextUtils.isEmpty(opt2tx))
+                queryCode = options2Items.get(options1).get(options2).getCode();
             //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
+            Log.e("TAG",queryCode);
             areaSelectedTv.setText(tx);
         }
     })
@@ -204,18 +235,91 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
 
     @Override
     protected void initData() {
-
+        loadingDialog.loading();
+        getProvinceData();
+        getCarData();
     }
-    private void initJsonData() {//解析数据
+
+    public void getCarData(){
+        String url = Constants.GET_CARS;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("pageNum", "0");
+        params.put("pageSize", "10");
+        // ...
+        NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("TAG",result.toString());
+                if (!TextUtils.isEmpty(result)){
+                    JSONObject jsonObject =  JSON.parseObject(result);
+                    if (jsonObject.getString("success").equals("true")){
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        Message msg = new Message();
+                         carBeans =  JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(),CarBean.class);
+                        msg.what = 5;
+                        mHandler.sendMessage(msg);
+                        loadingDialog.cancel();
+                    }else{
+                        loadingDialog.cancel();
+                        Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                loadingDialog.cancel();
+                Log.e("TAG",request.toString()+e.getMessage());
+            }
+        });
+    }
+
+    public void getProvinceData(){
+        String url = Constants.GET_AREAA;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        // ...
+        NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("TAG",result.toString());
+                if (!TextUtils.isEmpty(result)){
+                    JSONObject jsonObject = JSON.parseObject(result);
+                    if (jsonObject.getString("success").equals("true")){
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        Message msg = new Message();
+                                msg.obj = jsonObject1.getJSONArray("provinceList").toString();
+                                msg.what = 4;
+                        mHandler.sendMessage(msg);
+                    }else{
+                        Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                Log.e("TAG",request.toString()+e.getMessage());
+            }
+        });
+    }
+    private void initJsonData(String result) {//解析数据
 
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          * */
-        String JsonData = new GetJsonDataUtil().getJson(getContext(), "province.json");//获取assets目录下的json文件数据
+       // String JsonData = new GetJsonDataUtil().getJson(result);//获取assets目录下的json文件数据
         String JsonDatas = new GetJsonDataUtil().getJson(getContext(), "money.json");//获取assets目录下的json文件数据
 
-        ArrayList<JsonBean> jsonBean = parseData(JsonData);//用Gson 转成实体
+        ArrayList<JsonBean> jsonBean = parseData(result);//用Gson 转成实体
         ArrayList<JsonBean> jsonBeans = parseData(JsonDatas);//用Gson 转成实体
 
         /**
@@ -227,13 +331,16 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
         options1Items = jsonBean;
 
         for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-            ArrayList<String> cityList = new ArrayList<>();//该省的城市列表（第二级）
-            ArrayList<ArrayList<String>> province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+            ArrayList<CityBean> cityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<CityBean>> province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
 
             for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
-                String cityName = jsonBean.get(i).getCityList().get(c).getName();
-                cityList.add(cityName);//添加城市
-                ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
+                CityBean cityBean = new CityBean();
+                cityBean.setName(jsonBean.get(i).getCityList().get(c).getName());
+                cityBean.setCode(jsonBean.get(i).getCityList().get(c).getCode());
+                cityList.add(cityBean);//添加城市
+
+                ArrayList<CityBean> city_AreaList = new ArrayList<>();//该城市的所有地区列表
 
                 //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
                 /*if (jsonBean.get(i).getCityList().get(c).getArea() == null
@@ -262,7 +369,7 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
         for (int i = 0; i < jsonBeans.size(); i++) {//遍历省份
             ArrayList<String> cityList_ = new ArrayList<>();//该省的城市列表（第二级）
             ArrayList<ArrayList<String>> province_AreaList_ = new ArrayList<>();//该省的所有地区列表（第三极）
-
+            if (jsonBeans.get(i).getCityList()!=null)
             for (int c = 0; c < jsonBeans.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
                 String cityName = jsonBeans.get(i).getCityList().get(c).getName();
                 cityList_.add(cityName);//添加城市
@@ -276,7 +383,7 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
              * 添加城市数据
              */
             options2Items_.add(cityList_);
-//            options3Items_.add(province_AreaList_);
+          //  options3Items_.add(province_AreaList_);
 
         }
         mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
@@ -293,7 +400,7 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                             @Override
                             public void run() {
                                 // 子线程中解析省市区数据
-                                initJsonData();
+                                //initJsonData("");
                             }
                         });
                         thread.start();
@@ -307,6 +414,18 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                 case MSG_LOAD_FAILED:
                     Toast.makeText(getContext(), "Parse Failed", Toast.LENGTH_SHORT).show();
                     break;
+                case 4:
+                    String result =(String) msg.obj;
+                    initJsonData(result);
+                    break;
+                case 5:
+                    loadingDialog.cancel();
+                    Log.e("!@#","size = "+carBeans.size());
+                    if (carBeans!=null){
+                        initAdapter(carBeans);
+                    }
+                    break;
+
             }
         }
     };
@@ -314,10 +433,10 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
     public ArrayList<JsonBean> parseData(String result) {//Gson 解析
         ArrayList<JsonBean> detail = new ArrayList<>();
         try {
-            JSONArray data = new JSONArray(result);
+            JSONArray data = JSON.parseArray(result);
             Gson gson = new Gson();
-            for (int i = 0; i < data.length(); i++) {
-                JsonBean entity = gson.fromJson(data.optJSONObject(i).toString(), JsonBean.class);
+            for (int i = 0; i < data.size(); i++) {
+                JsonBean entity = gson.fromJson(data.get(i).toString(), JsonBean.class);
                 detail.add(entity);
             }
         } catch (Exception e) {

@@ -20,7 +20,7 @@
             titlebar:centerText="保全-车辆列表"
             titlebar:centerType="textView"
             titlebar:fillStatusBar="true"
-            titlebar:leftImageResource="@mipmap/ic_menu"
+            titlebar:leftImageResource="@mipmap/ic_back"
             titlebar:leftType="imageButton"
             titlebar:showBottomLine="false"
             titlebar:rightText="消息"
@@ -42,12 +42,12 @@
     </android.support.v7.widget.LinearLayoutCompat>
 
     <!--侧边栏-->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        android:fitsSystemWindows="true"
-        app:insetForeground="@android:color/transparent"/>
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/navigation_view"-->
+        <!--android:layout_width="250dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:background="@color/white"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:insetForeground="@android:color/transparent"/>-->
 </android.support.v4.widget.DrawerLayout>

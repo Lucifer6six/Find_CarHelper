@@ -23,6 +23,8 @@ public class AuthActivity extends MVPBaseActivity {
     private String[] titles;
     private List<Fragment> fragments;
     private FaultRepairPagerAdapter mainPagerAdapter;
+    public static boolean GroupAuth = false;
+    public static boolean IdentityAuth = false;
     @Override
     protected boolean isBindEventBusHere() {
         return false;

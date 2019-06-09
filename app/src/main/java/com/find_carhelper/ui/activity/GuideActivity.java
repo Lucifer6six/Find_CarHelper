@@ -17,6 +17,7 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.MainActivity;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.utils.ToastUtil;
 import com.find_carhelper.widgets.CountDownTextView;
 import com.youth.banner.Banner;
@@ -71,35 +72,36 @@ public class GuideActivity extends MVPBaseActivity implements View.OnClickListen
     protected void initViews() {
         findViewById(R.id.image_bao).setOnClickListener(this);
         mCountDownTextView = findViewById(R.id.tvCountDown);
-         countdownView = findViewById(R.id.countdownView);
+        countdownView = findViewById(R.id.countdownView);
         mMZBanner = findViewById(R.id.banner);
         initImages();
         initImageView();
         count();
         initCountDownView();
+        SharedPreferencesUtil.putString(GuideActivity.this,"ces","123");
     }
 
     private void initCountDownView(){
         // 基本属性设置
-        countdownView.setCountTime(111111) // 设置倒计时时间戳
-                .setHourTvTextColorHex("#FFFFFF")
+        countdownView.setCountTime(3663) // 设置倒计时时间戳
+                .setHourTvTextColorHex("#f2692e")
                 .setHourTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
                 .setHourTvTextSize(21)
-
-                .setHourColonTvBackgroundColorHex("#00FFFFFF")
+                .setHourTvBackgroundColorHex("#FFFFFF")
                 .setHourColonTvSize(18, 0)
-                .setHourColonTvTextColorHex("#FF7198")
+                .setHourColonTvTextColorHex("#FFFFFF")
                 .setHourColonTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
                 .setHourColonTvTextSize(21)
 
-                .setMinuteTvTextColorHex("#FFFFFF")
+                .setMinuteTvTextColorHex("#f2692e")
                 .setMinuteTvTextSize(21)
-
+                .setMinuteTvBackgroundColorHex("#FFFFFF")
                 .setMinuteColonTvSize(18, 0)
-                .setMinuteColonTvTextColorHex("#FF7198")
+                .setMinuteColonTvTextColorHex("#FFFFFF")
                 .setMinuteColonTvTextSize(21)
 
-                .setSecondTvTextColorHex("#FFFFFF")
+                .setSecondTvTextColorHex("#f2692e")
+                .setSecondTvBackgroundColorHex("#FFFFFF")
                 .setSecondTvTextSize(21)
 
 //      .setTimeTvWH(18, 40)
@@ -114,7 +116,8 @@ public class GuideActivity extends MVPBaseActivity implements View.OnClickListen
                     public void onCountDownEnd() {
                         Toast.makeText(GuideActivity.this, "倒计时结束", Toast.LENGTH_SHORT).show();
                     }
-                });
+                })
+        ;
 
 
     }

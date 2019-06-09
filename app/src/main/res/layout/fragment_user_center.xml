@@ -43,6 +43,24 @@
         android:layout_marginTop="@dimen/margin_25"
         />
 
+    <TextView
+
+        android:id="@+id/auth_fail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/little_nick_name"
+        android:background="@mipmap/mine_btn_rz1_bg"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_toRightOf="@+id/auth_stutes"
+        android:textColor="@color/white"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:layout_marginTop="@dimen/margin_25"
+        android:text="认证失败  >"
+        android:gravity="center"
+        android:visibility="invisible"
+        />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

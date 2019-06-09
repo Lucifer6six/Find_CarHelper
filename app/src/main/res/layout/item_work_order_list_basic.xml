@@ -33,6 +33,7 @@
                     android:layout_margin="@dimen/margin_15"
                     />
                 <TextView
+                    android:id="@+id/car_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -43,6 +44,17 @@
                     android:textColor="@color/text_money_orange"
                     />
 
+                <TextView
+                    android:id="@+id/car_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="@dimen/margin_15"
+                    android:text="已被抢"
+                    android:textSize="@dimen/text_size_16"
+                    android:textColor="@color/text_money_orange"
+                    android:visibility="invisible"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -102,6 +114,7 @@
                     />
 
                 <Button
+                    android:id="@+id/acept_order"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
@@ -111,6 +124,17 @@
                     android:textColor="@color/white"
                     android:background="@mipmap/jd_btn_pre_bg"
                     />
+                <cc.ibooker.zcountdownviewlib.CountDownView
+                    android:id="@+id/countdownView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_marginTop="20dp"
+                    android:background="@mipmap/jd_btn_time_bg"
+                    android:paddingLeft="@dimen/padding_10"
+                    android:visibility="invisible"/>
             </RelativeLayout>
 
         </LinearLayout>

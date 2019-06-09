@@ -29,16 +29,16 @@
         android:background="@drawable/round_square_"
         android:layout_marginTop="150dp"
         >
-    
+
         <EditText
+            android:id="@+id/phone_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="18651090153"
-            android:padding="@dimen/margin_10"
-            android:background="@null"
             android:layout_margin="@dimen/margin_15"
-            />
+            android:background="@null"
+            android:inputType="number"
+            android:padding="@dimen/margin_10"
+            android:text="" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -51,18 +51,24 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="请输入验证码"
-                android:padding="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/margin_15"
                 android:background="@null"
-                android:layout_margin="@dimen/margin_15"
-                />
-            <TextView
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:padding="@dimen/margin_10" />
+
+            <com.find_carhelper.widgets.CountDownTextView
+                android:id="@+id/tvCountDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="获取验证码"
+                android:layout_marginRight="@dimen/margin_10"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textColor="@color/colorPrimary"
@@ -75,15 +81,16 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_15"
             />
+
         <EditText
+            android:id="@+id/psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="请输入密码"
-            android:padding="@dimen/margin_10"
-            android:background="@null"
             android:layout_margin="@dimen/margin_15"
-            />
+            android:background="@null"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:padding="@dimen/margin_10" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -91,24 +98,25 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_15"
             />
+
         <EditText
+            android:id="@+id/repsw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="再次输入密码"
-            android:padding="@dimen/margin_10"
-            android:background="@null"
             android:layout_margin="@dimen/margin_15"
-            />
+            android:background="@null"
+            android:hint="再次输入密码"
+            android:inputType="textPassword"
+            android:padding="@dimen/margin_10" />
 
         <Button
+            android:id="@+id/change"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_15"
             android:background="@mipmap/login_btn_pre"
             android:text="修改"
             android:textColor="@color/back_ground_white"
-            android:textSize="@dimen/text_size_15"
-            />
+            android:textSize="@dimen/text_size_15" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.find_carhelper.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -22,6 +23,7 @@ import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.adapter.MainFragmentAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.ui.fragment.FragmentFactory;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.utils.ToastUtil;
 import com.find_carhelper.utils.Utils;
 import com.find_carhelper.widgets.NoScrollViewPager;
@@ -48,7 +50,7 @@ public class MainActivity extends MVPBaseActivity{
 
         mViewPager = findViewById(R.id.vp_mian);
         DrawerLayout  drawerlayout = findViewById(R.id.drawerlayout_container);
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        //NavigationView navigationView = findViewById(R.id.navigation_view);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -77,8 +79,8 @@ public class MainActivity extends MVPBaseActivity{
 
         initFragments();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view,
-                FragmentFactory.getInstance().getNavigationViewFragmentt()).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view,
+//                FragmentFactory.getInstance().getNavigationViewFragmentt()).commit();
 
         //主页面右上角点击事件
         registerRightClickEvent(new View.OnClickListener() {
@@ -93,10 +95,12 @@ public class MainActivity extends MVPBaseActivity{
         registerLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerlayout.openDrawer(navigationView);
+
+                //drawerlayout.openDrawer(navigationView);
+                finish();
             }
         });
-        Log.e(TAG, "接单ed: " );
+       // Toast.makeText(MainActivity.this,"share = "+ SharedPreferencesUtil.getString(MainActivity.this,"ces"),Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -112,7 +116,7 @@ public class MainActivity extends MVPBaseActivity{
         //注入适配器
         mViewPager.setAdapter(mainFragmentAdapter);
         //设置Viewpager缓冲数量
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(0);
     }
 
     @Override

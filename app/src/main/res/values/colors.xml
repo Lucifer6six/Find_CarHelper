@@ -27,7 +27,7 @@
     <color name="text_color_gray">#969696</color>
     <color name="text_color_black">#353535</color>
     <color name="text_money_orange">#f2692e</color>
-
+    <color name="text_money_orange2">#FF7198</color>
     //-----------按钮颜色
     <color name="btn_them_color">#37aeff</color>
     <!--对话框背景色-->

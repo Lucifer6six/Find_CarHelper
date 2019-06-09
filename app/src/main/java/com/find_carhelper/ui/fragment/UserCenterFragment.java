@@ -3,12 +3,17 @@ package com.find_carhelper.ui.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -16,22 +21,41 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.LocationSource;
+import com.autonavi.amap.mapcore.tools.TextTextureGenerator;
 import com.find_carhelper.R;
+import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.entity.EventCenter;
+import com.find_carhelper.http.Constants;
+import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.EditPswActivity;
+import com.find_carhelper.ui.activity.InviteFriendsActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.activity.MyCountActivity;
 import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.activity.RequestInStoreActivity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
+import com.find_carhelper.utils.MobileInfoUtil;
+import com.google.gson.Gson;
+import com.wega.library.loadingDialog.LoadingDialog;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import okhttp3.Request;
 
 public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener, LocationSource {
     private AMapLocationClient mLocationClient;
     private RelativeLayout pswLayout,newsLayout,myTeamLayout,protocalLayout,acountLayout,updateLayout;
     private AMapLocationClientOption mLocationOption;
     private String TAG = "UserCenterFragment";
+    private TextView name,nickName,status;
+    private ImageView auth_stutes;
+    private UserBean userBean;
+    private TextView auth_fail;
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -116,6 +140,10 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         protocalLayout = mRootView.findViewById(R.id.protocal);
         acountLayout = mRootView.findViewById(R.id.acount);
         updateLayout = mRootView.findViewById(R.id.update);
+        name = mRootView.findViewById(R.id.nick_name);
+        nickName = mRootView.findViewById(R.id.little_nick_name);
+        auth_stutes = mRootView.findViewById(R.id.auth_stutes);
+        auth_fail = mRootView.findViewById(R.id.auth_fail);
         updateLayout.setOnClickListener(this);
         pswLayout.setOnClickListener(this);
         newsLayout.setOnClickListener(this);
@@ -129,10 +157,92 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             startLocaion();//开始定位
             Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
         }
+        initLoading();
     }
+    LoadingDialog loadingDialog;
+    public void initLoading(){
 
+        LoadingDialog.Builder builder = new LoadingDialog.Builder(getContext());
+        builder.setLoading_text("加载中...")
+                .setFail_text("加载失败")
+                .setSuccess_text("加载成功");
+                //设置延时5000ms才消失,可以不设置默认1000ms
+                //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
+
+         loadingDialog = builder.create();
+
+    }
     @Override
     protected void initData() {
+        loadingDialog.loading();
+        getData();
+    }
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            initDatas();
+        }
+    };
+
+    public void initDatas(){
+            if (userBean!=null){
+
+                name.setText(userBean.getCompanyName());
+                nickName.setText(userBean.getNickname());
+                if (userBean.getStatus().equals("AUTH_SUCCESS")){
+                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz2));
+                }else if (userBean.getStatus().equals("AUTH_FAILURE")){
+                    auth_fail.setVisibility(View.INVISIBLE);
+                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
+                }else
+                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
+                Constants.phoneNo = userBean.getPhoneNo();
+
+        }
+
+    }
+    public void getData(){
+
+        String url = Constants.MY_INFO;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        // ...
+        NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                loadingDialog.cancel();
+                Log.e("TAG",result.toString());
+                if (!TextUtils.isEmpty(result)){
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("success").equals("true")){
+                        Toast.makeText(getContext(),"查询成功",Toast.LENGTH_SHORT).show();
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        Gson gson = new Gson();
+                         userBean = gson.fromJson(jsonObject1.getJSONObject("user").toString(),UserBean.class);
+                         handler.sendEmptyMessage(0);
+                    }else{
+                        startIntent();
+                        Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                loadingDialog.cancel();
+                Log.e("TAG",request.toString()+e.getMessage());
+            }
+        });
+
+    }
+
+    public void startIntent(){
+
+        startActivity(new Intent(getContext(),LoginActivity.class));
 
     }
 

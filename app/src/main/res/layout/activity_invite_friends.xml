@@ -12,6 +12,7 @@
         android:background="@color/colorPrimary"
         />
     <ImageView
+        android:id="@+id/back_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/login_icon_back"
@@ -48,11 +49,11 @@
             />
 
         <EditText
+            android:id="@+id/phoneNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:gravity="center"
-            android:text="18651090153"
             android:padding="@dimen/margin_10"
             android:background="@null"
             android:layout_marginTop="20dp"
@@ -93,9 +94,7 @@
                 android:id="@+id/nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Satan"
-                android:layout_alignParentRight="true"
-                />
+                android:layout_alignParentRight="true" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -114,9 +113,7 @@
                 android:id="@+id/real_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Satan"
-                android:layout_alignParentRight="true"
-                />
+                android:layout_alignParentRight="true" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -135,20 +132,21 @@
                 android:id="@+id/auth_stutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Satan"
-                android:layout_alignParentRight="true"
-                />
+                android:layout_alignParentRight="true" />
 
         </RelativeLayout>
     </LinearLayout>
 
     <Button
+        android:id="@+id/invite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_15"
-        android:background="@mipmap/login_btn_pre"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginEnd="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:background="@mipmap/login_btn_pre"
         android:text="确认邀请"
-        android:textColor="@color/back_ground_white"
-        />
+        android:textColor="@color/back_ground_white" />
 </RelativeLayout>

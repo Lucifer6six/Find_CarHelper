@@ -3,8 +3,6 @@ package com.find_carhelper.ui.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +19,7 @@ import android.widget.Toast;
 import com.find_carhelper.R;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
+import com.find_carhelper.ui.activity.AuthActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.MobileInfoUtil;
@@ -63,6 +62,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
        contentView =  LayoutInflater.from(getActivity()).inflate(R.layout.fragment_group_auth, null);
 
        initView();
+        token = SharedPreferencesUtil.getString(getContext(),"token");
        return contentView;
     }
     public void initView(){
@@ -84,7 +84,6 @@ public class GroupAuthFragment extends TakePhotoFragment {
         mImageView.setOnClickListener(v -> {
             takePhoto();
         });
-         token = SharedPreferencesUtil.getStoreJobNumber(getContext(),"token");
     }
     public void takePhoto(){
         customHelper.onClick(takePhoto,getTakePhoto());
@@ -124,9 +123,8 @@ public class GroupAuthFragment extends TakePhotoFragment {
                     if (!TextUtils.isEmpty(result)){
                         JSONObject jsonObject = new JSONObject(result);
                         if (jsonObject.getString("success").equals("true")){
-
                             Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
-
+                            lockStatus();
                         }else{
                             Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                         }
@@ -150,6 +148,22 @@ public class GroupAuthFragment extends TakePhotoFragment {
 
 
     }
+
+    public void lockStatus(){
+
+        name.setEnabled(false);
+        jcname.setEnabled(false);
+        faren.setEnabled(false);
+        sfz.setEnabled(false);
+        tydm.setEnabled(false);
+        address.setEnabled(false);
+        commitAction.setBackgroundColor(getResources().getColor(R.color.back_ground_gray));
+        AuthActivity.GroupAuth = true;
+        if (AuthActivity.GroupAuth&&AuthActivity.IdentityAuth){
+            getActivity().finish();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,7 +223,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
                 .addFormDataPart("deviceId", userName)
-                .addFormDataPart("accessToken", token)
+                .addFormDataPart("accessToken", Constants.TOKEN)
                 .build();
 
         //4.构建请求

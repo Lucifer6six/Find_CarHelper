@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
-import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
+import com.find_carhelper.ui.adapter.AlreadyCompleteAcceptAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
@@ -17,7 +17,7 @@ import com.find_carhelper.widgets.OnItemClickListeners;
  */
 public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemClickListeners {
     private RecyclerView recycleListView;
-    private ListOrderAcceptAdapter mListOrderAcceptAdapter;
+    private AlreadyCompleteAcceptAdapter mListOrderAcceptAdapter;
     public static Fragment newInstance() {
        AlreadyCompleteFragment fragment = new AlreadyCompleteFragment();
         return fragment;
@@ -66,7 +66,7 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
         initAdapter();
     }
     private void initAdapter(){
-        mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext);
+        mListOrderAcceptAdapter = new AlreadyCompleteAcceptAdapter(mContext,null);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);

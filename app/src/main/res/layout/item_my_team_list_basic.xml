@@ -33,25 +33,60 @@
                     />
 
                 <TextView
+                    android:id="@+id/zai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_14"
-                    android:background="@mipmap/mine_td_btn_zt1"
-                    android:text="在职"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/margin_15"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@mipmap/mine_td_btn_zt1"
                     android:gravity="center"
+                    android:text="在职"
                     android:textColor="@color/back_ground_white"
+                    android:textSize="@dimen/text_size_14" />
+                <TextView
+                    android:id="@+id/yi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@mipmap/mine_td_btn_zt2"
+                    android:gravity="center"
+                    android:text="已邀请"
+                    android:textColor="@color/back_ground_white"
+                    android:textSize="@dimen/text_size_14"
+                    android:visibility="invisible"
+                    />
+                <TextView
+                    android:id="@+id/li"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@mipmap/mine_td_btn_zt3"
+                    android:gravity="center"
+                    android:text="已离职"
+                    android:textColor="@color/back_ground_white"
+                    android:textSize="@dimen/text_size_14"
+                    android:visibility="invisible"
                     />
 
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/real_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_15"
-                android:text="张YOUYOU(136*****1231)"
-                />
+                android:text="张YOUYOU(136*****1231)" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_marginLeft="@dimen/margin_15"
@@ -65,14 +100,14 @@
                     android:layout_height="wrap_content"
                     android:text="邀请时间:2019-04-08"
                     />
+
                 <TextView
-                    android:id="@+id/comein_time"
+                    android:id="@+id/join_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="邀请时间:2019-04-08"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    />
+                    android:text="邀请时间:2019-04-08" />
 
             </RelativeLayout>
         </LinearLayout>

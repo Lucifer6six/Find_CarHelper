@@ -76,7 +76,6 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                 break;
             case R.id.regist:
                 regist();
-                startActivity(new Intent(RegistActivity.this,AuthActivity.class));
                 break;
 
         }
@@ -134,7 +133,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                     if (jsonObject.getString("success").equals("true")){
                         String  data = jsonObject.getString("data");
                         if (!TextUtils.isEmpty(data)){
-                            codeEdit.setText(data);
+                            //codeEdit.setText(data);
                         }
                     }else {
                         Toast.makeText(RegistActivity.this,jsonObject.getString("message"), Toast.LENGTH_LONG).show();
@@ -155,8 +154,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
         String url = Constants.REGISTER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", "123456");
-        params.put("phoneNo", "18651090153");
+        params.put("deviceId", MobileInfoUtil.getIMEI(RegistActivity.this));
+        params.put("phoneNo",acount.getText().toString() );
         params.put("code", codeEdit.getText().toString());
         params.put("password",psw1);
         params.put("repassword", psw2);
@@ -168,14 +167,15 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equals("true")){
-                        String  data = jsonObject.getString("data");
-                        if (!TextUtils.isEmpty(data)){
+                        JSONObject  data = jsonObject.getJSONObject("data");
+                        if (!TextUtils.isEmpty(data.toString())){
                             //codeEdit.setText(data);
-
+                            if (data.has("accessToken")){
+                                SharedPreferencesUtil.putString(RegistActivity.this,"token",data.getString("accessToken"));
+                            }
                             Toast.makeText(RegistActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
-                            SharedPreferencesUtil.setStoreJobNumber(RegistActivity.this,data,"token");
                             startActivity(new Intent(RegistActivity.this,AuthActivity.class));
-
+                            finish();
                         }
 
                     }else{

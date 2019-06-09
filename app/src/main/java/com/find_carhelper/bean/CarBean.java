@@ -1,0 +1,95 @@
+package com.find_carhelper.bean;
+
+public class CarBean {
+
+    public String countdown;
+    public String hasKey;
+    public String lpn;
+    public String partya;
+    public String positioningMethod;
+    public String region;
+    public String rewardAmount;
+    public String status;
+    public String vehicleModel;
+    public String vin;
+
+    public String getCountdown() {
+        return countdown;
+    }
+
+    public void setCountdown(String countdown) {
+        this.countdown = countdown;
+    }
+
+    public String getHasKey() {
+        return hasKey;
+    }
+
+    public void setHasKey(String hasKey) {
+        this.hasKey = hasKey;
+    }
+
+    public String getLpn() {
+        return lpn;
+    }
+
+    public void setLpn(String lpn) {
+        this.lpn = lpn;
+    }
+
+    public String getPartya() {
+        return partya;
+    }
+
+    public void setPartya(String partya) {
+        this.partya = partya;
+    }
+
+    public String getPositioningMethod() {
+        return positioningMethod;
+    }
+
+    public void setPositioningMethod(String positioningMethod) {
+        this.positioningMethod = positioningMethod;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getRewardAmount() {
+        return rewardAmount;
+    }
+
+    public void setRewardAmount(String rewardAmount) {
+        this.rewardAmount = rewardAmount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public void setVehicleModel(String vehicleModel) {
+        this.vehicleModel = vehicleModel;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+}

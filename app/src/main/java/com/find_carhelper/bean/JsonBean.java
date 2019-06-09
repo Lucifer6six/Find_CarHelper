@@ -18,8 +18,8 @@ public class JsonBean implements IPickerViewData {
      */
 
     private String name;
-    private List<CityBean> city;
-
+    private List<CityBean> cityList;
+    private String code;
     public String getName() {
         return name;
     }
@@ -29,11 +29,19 @@ public class JsonBean implements IPickerViewData {
     }
 
     public List<CityBean> getCityList() {
-        return city;
+        return cityList;
     }
 
-    public void setCityList(List<CityBean> city) {
-        this.city = city;
+    public void setCityList(List<CityBean> cityList) {
+        this.cityList = cityList;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     // 实现 IPickerViewData 接口，
@@ -52,8 +60,8 @@ public class JsonBean implements IPickerViewData {
          */
 
         private String name;
-        private List<String> area;
-
+        private List<com.find_carhelper.bean.CityBean> cityList;
+        private String code;
         public String getName() {
             return name;
         }
@@ -62,12 +70,20 @@ public class JsonBean implements IPickerViewData {
             this.name = name;
         }
 
-        public List<String> getArea() {
-            return area;
+        public List<com.find_carhelper.bean.CityBean> getArea() {
+            return cityList;
         }
 
-        public void setArea(List<String> area) {
-            this.area = area;
+        public void setArea(List<String> acityListrea) {
+            this.cityList = cityList;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
         }
     }
 }
