@@ -92,18 +92,21 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
                 .setHourTvTextSize(16)
                 .setHourTvBackgroundColorHex("#fef0ea")
                 .setHourColonTvSize(18, 0)
-                .setHourColonTvTextColorHex("#FFFFFF")
+                .setHourColonTvTextColorHex("#f2692e")
                 .setHourColonTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
                 .setHourColonTvTextSize(21)
 
                 .setMinuteTvTextColorHex("#f2692e")
+                .setMinuteTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
                 .setMinuteTvTextSize(16)
                 .setMinuteTvBackgroundColorHex("#fef0ea")
                 .setMinuteColonTvSize(18, 0)
-                .setMinuteColonTvTextColorHex("#FFFFFF")
+                .setMinuteColonTvTextColorHex("#f2692e")
+                .setMinuteColonTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
                 .setMinuteColonTvTextSize(21)
 
                 .setSecondTvTextColorHex("#f2692e")
+                .setSecondTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
                 .setSecondTvBackgroundColorHex("#fef0ea")
                 .setSecondTvTextSize(16)
 

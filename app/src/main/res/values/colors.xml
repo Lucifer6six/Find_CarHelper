@@ -10,7 +10,8 @@
     <color name="press">#e8e8e8</color>
     <color name="orange">#ff902d</color>
     <color name="orange_red">#fe8966</color>
-
+    <color name="green">#6dc91b</color>
+    <color name="purpol">#ae6fb1</color>
     <color name="text_line_color">#dfdfdd</color>
     <color name="black_overlay">#66000000</color>
     <color name="item_title_color">#979797</color>

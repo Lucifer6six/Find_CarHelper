@@ -11,10 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.find_carhelper.R;
+import com.find_carhelper.bean.CarBean;
 import com.find_carhelper.ui.activity.RequestInStoreActivity;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 
 /**
@@ -24,10 +27,11 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
 
     private Context mContext;
     private OnItemClickListeners onItemClickListeners;
+    private List<CarBean> list;
 
-
-    public MyCooperationOrderAdapter(Context context) {
+    public MyCooperationOrderAdapter(List<CarBean> list,Context context) {
         this.mContext = context;
+        this.list = list;
     }
 
     public void setOnItemClickListeners(OnItemClickListeners onItemClickListeners) {
@@ -46,13 +50,31 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
         if (onItemClickListeners != null) {
             holder.itemView.setOnClickListener(v -> onItemClickListeners.onItemClick(holder, null, position));
         }
+        if (list!=null){
+
+            if (list.size()>0){
+
+                    holder.carType.setText(list.get(position).getVehicleModel());
+                    holder.status.setText(list.get(position).getAssignTask());
+                    holder.carId.setText(list.get(position).getLpn());
+                    holder.carNo.setText("车架号  "+list.get(position).getVin());
+                    holder.tips1.setText(list.get(position).getRegion()+
+                                    "/"+list.get(position).getPositioningMethod()+
+                            "/"+list.get(position).getHasKey()+"/"+list.get(position).getPartya()
+                            );
+                    holder.money.setText(list.get(position).getRewardAmount());
+
+            }
+
+        }
+
 
     }
 
 
     @Override
     public int getItemCount() {
-        return 3;
+        return list.size();
     }
 
     @Override
@@ -69,6 +91,7 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
         TextView tips1;
         TextView money;
         TextView time;
+        TextView status;
         public RepairViewHolder(View itemView) {
             super(itemView);
             shenqingBtn = itemView.findViewById(R.id.request_save);
@@ -78,7 +101,7 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
             tips1 = itemView.findViewById(R.id.tips1);
             money = itemView.findViewById(R.id.money);
             time = itemView.findViewById(R.id.time);
-
+            status = itemView.findViewById(R.id.status);
             shenqingBtn.setOnClickListener(MyCooperationOrderAdapter.this);
         }
     }

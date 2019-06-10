@@ -20,8 +20,11 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.adapter.MyAcountAdapter;
 import com.find_carhelper.ui.adapter.MyTeamAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.google.gson.Gson;
 
@@ -35,7 +38,7 @@ import okhttp3.Request;
 
 public class MyCountActivity extends MVPBaseActivity implements OnItemClickListeners {
     private RecyclerView recycleListView;
-    private MyTeamAdapter mListOrderAcceptAdapter;
+    private MyAcountAdapter mListOrderAcceptAdapter;
     private ImageView withdraw;
     private String withDraw;
     private String totalDraw;
@@ -43,7 +46,7 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
     private String tips2;
     TextView canDraw,total,tip1,tip2;
     private boolean canApply = false;
-
+    private String reason = "";
     private List<BillListBean> list;
     @Override
     protected boolean isBindEventBusHere() {
@@ -66,14 +69,18 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MyCountActivity.this,WithDrawActivity.class));
+                if (canApply)
+                    startActivity(new Intent(MyCountActivity.this,WithDrawActivity.class));
+                else {
+                    Toast.makeText(MyCountActivity.this,reason,Toast.LENGTH_SHORT).show();
+                }
             }
         });
-        initAdapter();
+        //initAdapter();
     }
 
-    private void initAdapter(){
-        mListOrderAcceptAdapter = new MyTeamAdapter(null,mContext);
+    private void initAdapter(List<BillListBean> list){
+        mListOrderAcceptAdapter = new MyAcountAdapter(list,mContext);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
@@ -93,7 +100,8 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
         String url = Constants.GET_ACCOUNT_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", MobileInfoUtil.getIMEI(MyCountActivity.this));//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(MyCountActivity.this,"token"));
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -112,9 +120,12 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
                         tips2 = jsonObject1.getString("paymentDateTips");
                         if (jsonObject1.getString("canApply").equals("true")){
                             canApply = true;
-                        }else
+                        }else{
                             canApply = false;
-
+                            reason = jsonObject1.getString("reason");
+                        }
+                        initAdapter(list);
+                        setData();
                     }else{
                         Toast.makeText(MyCountActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }
@@ -128,7 +139,12 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
             }
         });
     }
-
+    public void setData(){
+        total.setText("已累计提现"+withDraw+"元");
+        canDraw.setText(totalDraw);
+        tip1.setText(tips);
+        tip2.setText(tips2);
+    }
     @Override
     protected BasePresenter createPresenter() {
         return null;

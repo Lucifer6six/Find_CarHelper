@@ -26,6 +26,7 @@ import com.find_carhelper.ui.fragment.FragmentFactory;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.utils.ToastUtil;
 import com.find_carhelper.utils.Utils;
+import com.find_carhelper.widgets.NoCacheViewPager;
 import com.find_carhelper.widgets.NoScrollViewPager;
 
 import java.security.MessageDigest;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends MVPBaseActivity{
-    private NoScrollViewPager mViewPager;
+    private NoCacheViewPager mViewPager;
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -49,6 +50,7 @@ public class MainActivity extends MVPBaseActivity{
     protected void initViews() {
 
         mViewPager = findViewById(R.id.vp_mian);
+        mViewPager.setOffscreenPageLimit(0);
         DrawerLayout  drawerlayout = findViewById(R.id.drawerlayout_container);
         //NavigationView navigationView = findViewById(R.id.navigation_view);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

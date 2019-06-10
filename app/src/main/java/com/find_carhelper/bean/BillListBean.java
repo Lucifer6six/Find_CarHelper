@@ -5,6 +5,15 @@ import java.util.List;
 public class BillListBean {
     private String year;
     private List<list> list;
+    private String totalAmount;
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
     public String getYear() {
         return year;
@@ -22,7 +31,7 @@ public class BillListBean {
         this.list = list;
     }
 
-    class list{
+    public class list{
         private String month;
         private String amount;
         private String applyTime;

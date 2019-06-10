@@ -35,8 +35,8 @@
 
     <ImageView
         android:id="@+id/auth_stutes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
         android:layout_below="@+id/little_nick_name"
         android:background="@mipmap/mine_btn_rz1"
         android:layout_marginLeft="@dimen/margin_15"
@@ -83,8 +83,8 @@
 
         <ImageView
             android:id="@+id/icon_psw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@mipmap/mine_menu_icon1"
             />
         <TextView
@@ -97,7 +97,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:src="@mipmap/mine_icon_arrow1"
             />
@@ -123,8 +123,8 @@
 
             <ImageView
                 android:id="@+id/icon_acount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@mipmap/mine_menu_icon2"
                 />
             <TextView
@@ -137,7 +137,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/mine_icon_arrow1"
                 />
@@ -158,8 +158,8 @@
 
             <ImageView
                 android:id="@+id/icon_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@mipmap/mine_menu_icon3"
                 />
             <TextView
@@ -193,8 +193,8 @@
 
         <ImageView
             android:id="@+id/icon_news"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@mipmap/mine_menu_icon4"
             />
         <TextView
@@ -207,7 +207,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:src="@mipmap/mine_icon_arrow1"
             />
@@ -232,8 +232,8 @@
 
             <ImageView
                 android:id="@+id/icon_protocal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@mipmap/mine_menu_icon5"
                 />
             <TextView
@@ -246,7 +246,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/mine_icon_arrow1"
                 />
@@ -267,8 +267,8 @@
 
             <ImageView
                 android:id="@+id/icon_update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@mipmap/mine_menu_icon6"
                 />
             <TextView
@@ -282,7 +282,7 @@
             <ImageView
                 android:id="@+id/right_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/mine_icon_arrow1"
                 />

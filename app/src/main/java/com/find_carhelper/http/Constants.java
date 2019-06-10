@@ -22,4 +22,5 @@ public class Constants {
     public static String CHANGE_PSW = "http://39.100.119.162:9090/onstage/user/modify/password";
     public static String GET_NEWS = "http://39.100.119.162:9090/onstage/message";
     public static String GET_ACCOUNT_INFO = "http://39.100.119.162:9090/onstage/user/my/account";
+    public static String GET_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";
 }

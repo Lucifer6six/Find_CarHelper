@@ -12,6 +12,24 @@ public class CarBean {
     public String status;
     public String vehicleModel;
     public String vin;
+    public String assignTask;
+    public String orderStatusName;
+
+    public String getOrderStatusName() {
+        return orderStatusName;
+    }
+
+    public void setOrderStatusName(String orderStatusName) {
+        this.orderStatusName = orderStatusName;
+    }
+
+    public String getAssignTask() {
+        return assignTask;
+    }
+
+    public void setAssignTask(String assignTask) {
+        this.assignTask = assignTask;
+    }
 
     public String getCountdown() {
         return countdown;

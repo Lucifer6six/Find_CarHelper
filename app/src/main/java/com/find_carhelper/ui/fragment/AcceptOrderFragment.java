@@ -271,7 +271,7 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                     JSONObject jsonObject =  JSON.parseObject(result);
                     if (jsonObject.getString("status")!=null)
                     if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
-                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        startIntent();
                         return;
                     }
                     if (jsonObject.getString("success").equals("true")){
@@ -285,7 +285,9 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                         loadingDialog.cancel();
                         Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }
-                }
+                    }
+                }else{
+                    startIntent();
                 }
             }
 
@@ -297,7 +299,13 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
             }
         });
     }
-
+    boolean flag = false;
+    public void startIntent(){
+        if (!flag){
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            flag = true;
+        }
+    }
     public void getProvinceData(){
         String url = Constants.GET_AREAA;
         HashMap<String, String> params = new HashMap<>();
@@ -314,7 +322,7 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                     JSONObject jsonObject = JSON.parseObject(result);
                     if (jsonObject.getString("status")!=null)
                     if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
-                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        startIntent();
                         return;
                     }
                     if (jsonObject.getString("success").equals("true")){
@@ -326,7 +334,9 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                     }else{
                         Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }
-                    }
+                    }else{
+                    startIntent();
+                }
             }
 
             @Override

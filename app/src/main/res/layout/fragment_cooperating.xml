@@ -11,4 +11,52 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/margin_10"
         />
+    <RelativeLayout
+        android:id="@+id/no_auth_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/round_square"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/img"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/dd_icon6"
+            android:layout_marginTop="@dimen/margin_40"
+            />
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的身份尚未认证"
+            android:textSize="@dimen/text_size_25"
+            android:layout_below="@+id/img"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="认证成功之后可接单并跟踪处理"
+            android:textSize="@dimen/text_size_18"
+            android:layout_below="@+id/tv1"
+            android:layout_centerHorizontal="true"
+            />
+        <Button
+            android:id="@+id/auth_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="去认证"
+            android:layout_below="@id/tv2"
+            android:layout_marginTop="@dimen/margin_20"
+            android:textColor="@color/white"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/jd_btn_tj_bg"
+            />
+    </RelativeLayout>
 </RelativeLayout>
