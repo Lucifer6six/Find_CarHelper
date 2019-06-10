@@ -52,7 +52,6 @@ public class GroupAuthFragment extends TakePhotoFragment {
     private Button commitAction;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
     private final OkHttpClient client = new OkHttpClient();
-    private String token;
     private String imgName;
     private boolean upload = false;
     public String businessName = "";
@@ -62,7 +61,6 @@ public class GroupAuthFragment extends TakePhotoFragment {
        contentView =  LayoutInflater.from(getActivity()).inflate(R.layout.fragment_group_auth, null);
 
        initView();
-        token = SharedPreferencesUtil.getString(getContext(),"token");
        return contentView;
     }
     public void initView(){
@@ -106,7 +104,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
             params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));
-            params.put("accessToken", token);
+            params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
             params.put("companyName", groupName);
             params.put("companyShortName", groupJc);
             params.put("uscc", groupDm);
@@ -159,9 +157,9 @@ public class GroupAuthFragment extends TakePhotoFragment {
         address.setEnabled(false);
         commitAction.setBackgroundColor(getResources().getColor(R.color.back_ground_gray));
         AuthActivity.GroupAuth = true;
-        if (AuthActivity.GroupAuth&&AuthActivity.IdentityAuth){
+        //if (AuthActivity.GroupAuth&&AuthActivity.IdentityAuth){
             getActivity().finish();
-        }
+       // }
     }
 
     @Override
@@ -222,8 +220,8 @@ public class GroupAuthFragment extends TakePhotoFragment {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
-                .addFormDataPart("deviceId", userName)
-                .addFormDataPart("accessToken", Constants.TOKEN)
+                .addFormDataPart("deviceId", MobileInfoUtil.getIMEI(getContext()))
+                .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getContext(),"token"))
                 .build();
 
         //4.构建请求

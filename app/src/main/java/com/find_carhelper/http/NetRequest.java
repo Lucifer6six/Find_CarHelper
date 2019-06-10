@@ -126,13 +126,18 @@ public class NetRequest {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) { // 请求成功
+//                if (response.isSuccessful()) { // 请求成功
                     //执行请求成功的操作
                     String result = response.body().string();
+                    if(response.code() == 401&&result == ""){
+                        result = "401";
+                    }else if (response.code() == 500&&result == ""){
+                        result = "500";
+                    }
                     deliverDataSuccess(result, callBack);
-                } else {
-                    throw new IOException(response + "");
-                }
+//                } else {
+//                    throw new IOException(response + "");
+//                }
             }
         });
     }

@@ -190,8 +190,8 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
             String url = Constants.REGISTER_Identity;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
-            params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-            params.put("accessToken", Constants.TOKEN);
+            params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+            params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
             params.put("realName", realName);
             params.put("idCardNo", sid);
             params.put("idCardObverseImgUrl", imageName1);

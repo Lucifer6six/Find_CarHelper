@@ -37,6 +37,7 @@ import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.activity.RequestInStoreActivity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.google.gson.Gson;
 import com.wega.library.loadingDialog.LoadingDialog;
 
@@ -143,7 +144,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         name = mRootView.findViewById(R.id.nick_name);
         nickName = mRootView.findViewById(R.id.little_nick_name);
         auth_stutes = mRootView.findViewById(R.id.auth_stutes);
-        auth_fail = mRootView.findViewById(R.id.auth_fail);
+        auth_fail = mRootView.findViewById(R.id.auth_fail_);
         updateLayout.setOnClickListener(this);
         pswLayout.setOnClickListener(this);
         newsLayout.setOnClickListener(this);
@@ -175,7 +176,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     @Override
     protected void initData() {
         loadingDialog.loading();
-        getData();
+        //getData();
     }
     private Handler handler = new Handler(){
         @Override
@@ -208,6 +209,8 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));//MobileInfoUtil.getIMEI(getContext())
+
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -217,15 +220,29 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 Log.e("TAG",result.toString());
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getString("success").equals("true")){
-                        Toast.makeText(getContext(),"查询成功",Toast.LENGTH_SHORT).show();
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        Gson gson = new Gson();
-                         userBean = gson.fromJson(jsonObject1.getJSONObject("user").toString(),UserBean.class);
-                         handler.sendEmptyMessage(0);
+                    String status = "";
+                    if (jsonObject.has("status")){
+                        status = jsonObject.getString("status");
+                    }
+                    if (status.equals("200")||jsonObject.getString("code").equals("I00000")) {
+                        if (jsonObject.getString("success").equals("true")) {
+                            Toast.makeText(getContext(), "查询成功", Toast.LENGTH_SHORT).show();
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                            Gson gson = new Gson();
+                            userBean = gson.fromJson(jsonObject1.getJSONObject("user").toString(), UserBean.class);
+                            handler.sendEmptyMessage(0);
+                        } else {
+                            //startIntent();
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
                     }else{
-                        startIntent();
-                        Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        if (status.equals("401")||status.equals("500")){
+                            Toast.makeText(getContext(), "请重新登录", Toast.LENGTH_SHORT).show();
+                            startIntent();
+                        }else{
+                            Toast.makeText(getContext(), "系统错误", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }
             }
@@ -238,6 +255,12 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
     }
 
     public void startIntent(){

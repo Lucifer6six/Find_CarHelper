@@ -15,7 +15,7 @@
         android:id="@+id/nick_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_30"
+        android:textSize="@dimen/text_size_25"
         android:text="公司简称字段"
         android:textColor="@color/back_ground_white"
         android:layout_marginTop="@dimen/margin_50"
@@ -44,8 +44,7 @@
         />
 
     <TextView
-
-        android:id="@+id/auth_fail"
+        android:id="@+id/auth_fail_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/little_nick_name"
@@ -62,8 +61,8 @@
         />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/dp_50"
         android:layout_marginRight="@dimen/margin_15"

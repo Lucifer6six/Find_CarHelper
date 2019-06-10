@@ -1,5 +1,6 @@
 package com.find_carhelper.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -27,9 +28,12 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.GetJsonDataUtil;
+import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.google.gson.Gson;
 import com.wega.library.loadingDialog.LoadingDialog;
@@ -235,16 +239,25 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         loadingDialog.loading();
-        getProvinceData();
-        getCarData();
+        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(getContext(),"token"))){
+            getProvinceData();
+            getCarData();
+        }
     }
 
     public void getCarData(){
         String url = Constants.GET_CARS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
         params.put("pageNum", "0");
         params.put("pageSize", "10");
         // ...
@@ -253,8 +266,14 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
                 Log.e("TAG",result.toString());
+                if (!result.equals("401")){
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject =  JSON.parseObject(result);
+                    if (jsonObject.getString("status")!=null)
+                    if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        return;
+                    }
                     if (jsonObject.getString("success").equals("true")){
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         Message msg = new Message();
@@ -266,6 +285,7 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                         loadingDialog.cancel();
                         Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }
+                }
                 }
             }
 
@@ -282,15 +302,21 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
         String url = Constants.GET_AREAA;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
                 Log.e("TAG",result.toString());
-                if (!TextUtils.isEmpty(result)){
+                if (!result.equals("401")){
                     JSONObject jsonObject = JSON.parseObject(result);
+                    if (jsonObject.getString("status")!=null)
+                    if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        return;
+                    }
                     if (jsonObject.getString("success").equals("true")){
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         Message msg = new Message();
@@ -300,7 +326,7 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
                     }else{
                         Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }
-                }
+                    }
             }
 
             @Override
