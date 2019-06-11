@@ -52,7 +52,7 @@ public class MyAcountAdapter extends RecyclerView.Adapter<MyAcountAdapter.Repair
         if (list!=null){
           if (list.size()>0){
                holder.year.setText(list.get(position).getYear());
-               holder.money.setText(list.get(position).getTotalAmount());
+               holder.money.setText("¥"+list.get(position).getTotalAmount());
               List<BillListBean.list> lists = list.get(position).getList();
                for (int i= 0;i<lists.size();i++){
                    View  listView =  LayoutInflater.from(mContext).inflate(R.layout.item_my_acount_list_item, null);

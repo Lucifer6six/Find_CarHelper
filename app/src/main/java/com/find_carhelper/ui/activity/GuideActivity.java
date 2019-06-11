@@ -1,10 +1,17 @@
 package com.find_carhelper.ui.activity;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.gesture.GestureUtils;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +21,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
+import com.find_carhelper.http.Constants;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.MainActivity;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.utils.Logger;
+import com.find_carhelper.utils.PermissionChecker;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.utils.ToastUtil;
 import com.find_carhelper.widgets.CountDownTextView;
@@ -30,6 +40,7 @@ import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cc.ibooker.zcountdownviewlib.CountDownView;
@@ -70,17 +81,76 @@ public class GuideActivity extends MVPBaseActivity implements View.OnClickListen
 
     @Override
     protected void initViews() {
+
         findViewById(R.id.image_bao).setOnClickListener(this);
         mCountDownTextView = findViewById(R.id.tvCountDown);
         countdownView = findViewById(R.id.countdownView);
         mMZBanner = findViewById(R.id.banner);
         initImages();
         initImageView();
-        count();
-        initCountDownView();
-        SharedPreferencesUtil.putString(GuideActivity.this,"ces","123");
+       // count();
+        //initCountDownView();
+       // SharedPreferencesUtil.putString(GuideActivity.this,"ces","123");
+       // PermissionChecker.getInstance().requestReadPhoneState(this);
+        int checkCoarseFine = ContextCompat.checkSelfPermission(GuideActivity.this, Manifest.permission.READ_PHONE_STATE);
+        if (checkCoarseFine == PackageManager.PERMISSION_GRANTED ) {
+            //Toast.makeText(GuideActivity.this,"already",Toast.LENGTH_SHORT).show();
+            initDeviceID();
+        } else {//没有权限
+            ActivityCompat.requestPermissions(GuideActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION}, 1);//申请授权
+        }
+
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] ==PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted 授予权限
+                    //处理授权之后逻辑
+                    initDeviceID();
+                } else {
+                    // Permission Denied 权限被拒绝
+                    Toast.makeText(GuideActivity.this,"权限被禁用",Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            default:
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    private void initDeviceID() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "无法获取设备信息", Toast.LENGTH_SHORT);
+        }else {
+            TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(mContext.TELEPHONY_SERVICE);
+            String imei = telephonyManager.getDeviceId();
+            Constants.ID = imei;
+            Log.e("TAG", "imei = "+imei);
+        }
+    }
+    private void initPermission() {
+        List<String> permissionList = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.READ_PHONE_STATE);
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        if (!permissionList.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), 1);
+        } else {}
+    }
     private void initCountDownView(){
         // 基本属性设置
         countdownView.setCountTime(3663) // 设置倒计时时间戳

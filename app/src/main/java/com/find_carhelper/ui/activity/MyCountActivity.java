@@ -14,21 +14,16 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.BillListBean;
-import com.find_carhelper.bean.NewsBean;
-import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.MyAcountAdapter;
-import com.find_carhelper.ui.adapter.MyTeamAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
-import com.google.gson.Gson;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
@@ -69,9 +64,12 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (canApply)
-                    startActivity(new Intent(MyCountActivity.this,WithDrawActivity.class));
-                else {
+                if (!canApply) {
+                    Intent intent = new Intent(MyCountActivity.this,WithDrawActivity.class);
+                    intent.putExtra("draw",totalDraw);
+                    startActivity(intent);
+                    //startActivity(new Intent(MyCountActivity.this,WithDrawActivity.class));
+                }else {
                     Toast.makeText(MyCountActivity.this,reason,Toast.LENGTH_SHORT).show();
                 }
             }
@@ -89,6 +87,11 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
 
     @Override
     protected void initData() {
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
         getData();
     }
 

@@ -47,10 +47,11 @@
             />
 
         <EditText
+            android:id="@+id/draw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:text="¥100"
+            android:text="100"
             android:padding="@dimen/margin_10"
             android:background="@null"
             android:layout_marginTop="20dp"
@@ -69,30 +70,33 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_15"
             >
+
             <TextView
+                android:id="@+id/tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_color_gray"
                 android:layout_centerVertical="true"
                 android:text="可提现金额88000元"
-                />
+                android:textColor="@color/text_color_gray"/>
+
             <ImageView
+                android:id="@+id/allin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/mine_zh_btn_tx2"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                />
+                android:src="@mipmap/mine_zh_btn_tx2"/>
         </RelativeLayout>
+
         <Button
+            android:id="@+id/drawAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/margin_15"
             android:background="@mipmap/login_btn_pre"
-            android:layout_alignParentBottom="true"
             android:text="提现"
-            android:textColor="@color/back_ground_white"
-            />
+            android:textColor="@color/back_ground_white"/>
     </LinearLayout>
 
 
