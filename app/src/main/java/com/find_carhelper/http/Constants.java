@@ -23,4 +23,6 @@ public class Constants {
     public static String GET_NEWS = "http://39.100.119.162:9090/onstage/message";
     public static String GET_ACCOUNT_INFO = "http://39.100.119.162:9090/onstage/user/my/account";
     public static String GET_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";
+    public static String ACCEPT_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";
+    public static String REQUEST_LATER = "http://39.100.119.162:9090/onstage/upload/vehicle/retrieve/defer/apply";
 }

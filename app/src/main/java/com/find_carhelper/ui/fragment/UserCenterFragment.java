@@ -35,6 +35,7 @@ import com.find_carhelper.ui.activity.MyCountActivity;
 import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.activity.RequestInStoreActivity;
+import com.find_carhelper.ui.activity.RequestLaterActivity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
@@ -226,7 +227,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                     }
                     if (status.equals("200")||jsonObject.getString("code").equals("I00000")) {
                         if (jsonObject.getString("success").equals("true")) {
-                            Toast.makeText(getContext(), "查询成功", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getContext(), "查询成功", Toast.LENGTH_SHORT).show();
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Gson gson = new Gson();
                             userBean = gson.fromJson(jsonObject1.getJSONObject("user").toString(), UserBean.class);
@@ -289,7 +290,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 break;
 
             case R.id.protocal:
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                startActivity(new Intent(getContext(), RequestLaterActivity.class));
                 break;
             case R.id.acount:
                 startActivity(new Intent(getContext(), MyCountActivity.class));

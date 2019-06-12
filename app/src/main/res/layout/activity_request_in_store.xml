@@ -144,6 +144,7 @@
                         android:minLines="8"
                         android:hint="点击输入车辆备注信息"
                         android:maxLines="10"
+                        android:textSize="@dimen/text_size_14"
                         android:background="@null"
                         android:scrollbars="vertical"
                         android:layout_margin="@dimen/margin_15"

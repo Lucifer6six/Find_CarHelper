@@ -19,6 +19,7 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.SystemNewsAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
+import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
 import java.io.IOException;
@@ -100,7 +101,7 @@ public class SystemNewsFragment extends MVPBaseFragment implements OnItemClickLi
         String url = Constants.GET_NEWS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//
         params.put("type", "NOTICE");
         params.put("pageNum", "0");
         params.put("pageSize", "10");

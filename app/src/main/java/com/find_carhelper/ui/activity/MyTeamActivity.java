@@ -25,6 +25,7 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.MyTeamAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.wega.library.loadingDialog.LoadingDialog;
 
@@ -113,7 +114,8 @@ public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListen
         String url = Constants.MY_TEAM;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));//
+
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override

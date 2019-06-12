@@ -21,15 +21,11 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.AuthActivity;
-import com.find_carhelper.ui.activity.RequestInStoreActivity;
-import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.adapter.MyCooperationOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
-import com.find_carhelper.widgets.MarkerOrderPopWindow;
 import com.find_carhelper.widgets.OnItemClickListeners;
-import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
 import com.wega.library.loadingDialog.LoadingDialog;
 
 import java.io.IOException;

@@ -52,24 +52,13 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
 
     public void initImages(){
         Log.e("TAG","?????");
-        for(int i=0; i<13; i++){
+        for(int i=0; i<27; i++){
             ItemBean images = new ItemBean();
             images.setPosition(i);
             images.setPath("");
+            images.setName(i+"");
             list.add(images);
-           // list.set(i,images);
         }
-//        new Thread(){
-//
-//            @Override
-//            public void run() {
-//                super.run();
-//
-//
-//
-//            }
-//
-//        }.start();
 
     }
 
@@ -92,15 +81,6 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
 
        //
         mMyImageUploadAdapter.notifyDataSetChanged();
-    }
-
-    private void showImg(ArrayList<TImage> images) {
-       // mMyImageUploadAdapter.getItemId(position).
-        //images.add(images.get(0));
-
-       // Intent intent = new Intent(this, ResultActivity.class);
-       // intent.putExtra("images", images);
-       // startActivity(intent);
     }
 
     @Override

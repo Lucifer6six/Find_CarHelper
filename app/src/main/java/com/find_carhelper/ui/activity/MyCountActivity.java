@@ -69,7 +69,7 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (canApply)
+                if (!canApply)
                     startActivity(new Intent(MyCountActivity.this,WithDrawActivity.class));
                 else {
                     Toast.makeText(MyCountActivity.this,reason,Toast.LENGTH_SHORT).show();

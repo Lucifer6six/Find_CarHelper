@@ -13,4 +13,33 @@
         <item>企业认证</item>
         <item>个人认证</item>
     </string-array>
+    <string-array name="img_name">
+        <item>发动机舱</item>
+        <item>左前避震器座(主驾侧)</item>
+        <item>左前避震器座(副驾侧)</item>
+        <item>左前纵梁(主驾侧)</item>
+        <item>左前纵梁(副驾侧)</item>
+        <item>车架号</item>
+        <item>左A柱</item>
+        <item>仪表盘</item>
+        <item>安全带</item>
+        <item>铭牌</item>
+        <item>左B柱(主驾侧)</item>
+        <item>中控台</item>
+        <item>左C柱(主驾侧)</item>
+        <item>车架号</item>
+        <item>左A柱()</item>
+        <item>个人认证</item>
+        <item>企业认证</item>
+        <item>个人认证</item>
+        <item>企业认证</item>
+        <item>个人认证</item>
+        <item>企业认证</item>
+        <item>个人认证</item>
+        <item>企业认证</item>
+        <item>个人认证</item>
+        <item>个人认证</item>
+        <item>企业认证</item>
+        <item>个人认证</item>
+    </string-array>
 </resources>

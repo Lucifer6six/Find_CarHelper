@@ -76,7 +76,7 @@ public class MyImageUploadAdapter extends RecyclerView.Adapter<MyImageUploadAdap
 
     @Override
     public int getItemCount() {
-        return 13;
+        return 27;
     }
 
     static class RepairViewHolder extends RecyclerView.ViewHolder {

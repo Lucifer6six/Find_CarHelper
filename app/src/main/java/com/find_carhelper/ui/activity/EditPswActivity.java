@@ -73,7 +73,7 @@ public class EditPswActivity extends MVPBaseActivity {
         String url = Constants.CHANGE_PSW;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);
+        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));
         params.put("code", code);
         params.put("password", psws);
         params.put("repassword", repsws);
@@ -146,7 +146,7 @@ public class EditPswActivity extends MVPBaseActivity {
         String url = Constants.GET_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);
+        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override

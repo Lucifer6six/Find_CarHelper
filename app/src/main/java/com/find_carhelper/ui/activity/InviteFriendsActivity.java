@@ -15,6 +15,7 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.utils.MobileInfoUtil;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -79,7 +80,7 @@ public class InviteFriendsActivity extends MVPBaseActivity {
         String url = Constants.GET_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));//
         params.put("phoneNo", phoneNo.getText().toString());
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {

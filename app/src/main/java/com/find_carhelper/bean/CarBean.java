@@ -1,7 +1,7 @@
 package com.find_carhelper.bean;
 
 public class CarBean {
-
+    public int id;
     public String countdown;
     public String hasKey;
     public String lpn;
@@ -14,6 +14,14 @@ public class CarBean {
     public String vin;
     public String assignTask;
     public String orderStatusName;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getOrderStatusName() {
         return orderStatusName;

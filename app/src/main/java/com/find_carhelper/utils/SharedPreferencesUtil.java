@@ -17,7 +17,7 @@ public class SharedPreferencesUtil {
 
     public static String getString(Context context, String key) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(key, "未获取到值");
+        return sharedPreferences.getString(key, "");
 
 }
 }
