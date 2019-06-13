@@ -36,7 +36,7 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
 
     private List<CarBean> list;
     private final SparseArray<RepairViewHolder> mCountdownVHList;
-    Long startTime ;
+    Long startTime;
     public ListOrderAcceptAdapter(Context context, List<CarBean> list) {
         this.mContext = context;
         this.list = list;
@@ -58,19 +58,8 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
 
     @Override
     public void onBindViewHolder(@NonNull final ListOrderAcceptAdapter.RepairViewHolder holder, final int position) {
-//        if (onItemClickListeners != null) {
-//            holder.itemView.setOnClickListener(v -> onItemClickListeners.onItemClick(holder, null, position));
-//        }
         CarBean curItemInfo = list.get(position);
         holder.bindData(curItemInfo,position);
-
-        // 处理倒计时
-//        if (Integer.parseInt(curItemInfo.getCountdown()) > 0) {
-//            synchronized (mCountdownVHList) {
-//                mCountdownVHList.put(curItemInfo.getId(), holder);
-//            }
-//        }
-
     }
 
     public void initCountDown(CountDownView countDownView, int seconds) {
@@ -98,13 +87,8 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
                 .setSecondTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
                 .setSecondTvBackgroundColorHex("#fef0ea")
                 .setSecondTvTextSize(16)
-
-//      .setTimeTvWH(18, 40)
-//      .setColonTvSize(30)
-
                 // 开启倒计时
                 .startCountDown()
-
                 // 设置倒计时结束监听
                 .setCountDownEndListener(new CountDownView.CountDownEndListener() {
                     @Override
@@ -130,7 +114,6 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
                     break;
                 case R.id.acept_order:
                     mOnItemClickListener.onItemClick(view, ViewName.ORDERS, position);
-
                     break;
                 default:
                     mOnItemClickListener.onItemClick(view, ViewName.ITEM, position);

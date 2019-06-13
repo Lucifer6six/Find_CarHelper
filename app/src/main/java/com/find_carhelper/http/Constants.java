@@ -25,5 +25,8 @@ public class Constants {
     public static String GET_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";
     public static String WITH_DRAW = "http://39.100.119.162:9090/onstage/user/my/account/withdraw/apply";
     public static String ACCEPT_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";
-    public static String REQUEST_LATER = "http://39.100.119.162:9090/onstage/upload/vehicle/retrieve/defer/apply";
+    public static String REQUEST_LATER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/defer/apply";
+    public static String GET_CONFIG = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/defer/config";
+    public static String QUERY_PHOTOS = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/garage/photo";
+    public static String SAVE_LIBIARY = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/garage/apply";
 }

@@ -171,7 +171,9 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
                         }
                         Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                         finish();
-                    };
+                    }else{
+                        Toast.makeText(LoginActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

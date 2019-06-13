@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.ItemBean;
+import com.find_carhelper.bean.photoBean;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.jph.takephoto.model.TImage;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.w3c.dom.Text;
 
@@ -33,11 +38,16 @@ public class MyImageUploadAdapter extends RecyclerView.Adapter<MyImageUploadAdap
 
     private Context mContext;
     private OnItemClickListeners onItemClickListeners;
-    List<ItemBean> images;
-
-    public MyImageUploadAdapter(Context context, List<ItemBean> images) {
+    List<photoBean> images;
+    DisplayImageOptions mOptions;
+    public MyImageUploadAdapter(Context context, List<photoBean> images) {
         this.mContext = context;
         this.images = images;
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context).writeDebugLogs().build();
+        ImageLoader.getInstance().init(configuration);
+        mOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(false).cacheOnDisc(false)
+                .bitmapConfig(Bitmap.Config.RGB_565).build();
     }
 
     public void setOnItemClickListeners(OnItemClickListeners onItemClickListeners) {
@@ -61,22 +71,27 @@ public class MyImageUploadAdapter extends RecyclerView.Adapter<MyImageUploadAdap
 
         holder.imageView.setVisibility(View.VISIBLE);
         if (images.size()>0){
-            File file = new File((images.get(position).getPath()));
-            if (file.exists()){
-                Toast.makeText(mContext,""+images.get(0).getPath(),Toast.LENGTH_LONG).show();
-                Bitmap bitmap = BitmapFactory.decodeFile(images.get(position).getPath());
-                holder.imageView.setImageBitmap(bitmap);
+            String url = images.get(position).getPhotoUrl();
+            if (!TextUtils.isEmpty(images.get(position).getPhotoUrl())){
+                if (!url.contains("/data")){
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.displayImage(images.get(position).getPhotoUrl(), holder.imageView);
+                }else{
+                    Bitmap bitmap = BitmapFactory.decodeFile(images.get(position).getPhotoUrl());
+                    holder.imageView.setImageBitmap(bitmap);
+                }
                 holder.defaultImg.setVisibility(View.GONE);
                 holder.title.setVisibility(View.GONE);
+            }else{
+                holder.title.setText(images.get(position).getName());
             }
 
         }
     }
 
-
     @Override
     public int getItemCount() {
-        return 27;
+        return images.size();
     }
 
     static class RepairViewHolder extends RecyclerView.ViewHolder {

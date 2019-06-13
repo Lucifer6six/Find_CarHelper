@@ -166,11 +166,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
             @Override
             public void onItemClick(View v, ListOrderAcceptAdapter.ViewName viewName, int position) {
-                    Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
 
                     acceptOrderAction(position);
-                    carBeans.get(position).setCountdown("3603");
-                    mListOrderAcceptAdapter.notifyItemChanged(position);
 
 
             }
@@ -189,7 +187,6 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
         params.put("vin", carBeans.get(position).getVin());
-        params.put("pageSize", "10");
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -199,17 +196,10 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 if (!result.equals("401")){
                     if (!TextUtils.isEmpty(result)){
                         JSONObject jsonObject =  JSON.parseObject(result);
-                        if (jsonObject.getString("status")!=null)
-                            if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
-                                startIntent();
-                                return;
-                            }
                         if (jsonObject.getString("success").equals("true")){
-                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                            Message msg = new Message();
-                            carBeans =  JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(),CarBean.class);
-                            msg.what = 5;
-                            mHandler.sendMessage(msg);
+                            String countDown = jsonObject.getString("data");
+                            carBeans.get(position).setCountdown(countDown);
+                            mListOrderAcceptAdapter.notifyItemChanged(position);
                             loadingDialog.cancel();
                         }else{
                             loadingDialog.cancel();

@@ -139,7 +139,7 @@
                         android:textSize="@dimen/text_size_12"
                         />
                 <cc.ibooker.zcountdownviewlib.CountDownView
-                    android:id="@+id/countdownView_"
+                    android:id="@+id/countdownView_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
@@ -147,13 +147,12 @@
                 <cc.ibooker.zcountdownviewlib.CountDownView
                     android:id="@+id/countdownView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_toLeftOf="@+id/request_save"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="20dp"
                     android:background="@mipmap/jd_btn_time_bg"
-                    android:paddingLeft="@dimen/padding_10"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin_10"
                     android:visibility="visible"/>
             </RelativeLayout>
         </LinearLayout>

@@ -34,8 +34,10 @@
             android:layout_below="@+id/img"
             android:layout_centerHorizontal="true"
             android:text="发动机仓"
+            android:gravity="center"
             android:paddingBottom="@dimen/margin_20"
-            android:layout_marginTop="-15dp"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
             />
             <ImageView
                 android:id="@+id/photoView"

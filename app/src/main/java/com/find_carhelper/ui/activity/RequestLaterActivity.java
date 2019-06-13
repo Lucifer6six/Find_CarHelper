@@ -9,15 +9,21 @@ import android.os.Message;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.ItemBean;
+import com.find_carhelper.bean.photoBean;
+import com.find_carhelper.http.Constants;
+import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.adapter.MyImageUploadAdapter;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.MobileInfoUtil;
@@ -29,7 +35,9 @@ import com.jph.takephoto.model.TResult;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -51,27 +59,109 @@ public class RequestLaterActivity extends TakePhotoActivity {
     private ImageView photoView;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
     private final OkHttpClient client = new OkHttpClient();
+    public Button commitAction;
+    public EditText request_hour,late_reason;
+    public String vin;
+    public String orderCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_later);
+        vin = getIntent().getStringExtra("vin");
+        orderCode = getIntent().getStringExtra("no");
         initViews();
+        getConfigInfo();
     }
+    public void getConfigInfo(){
+            String url = Constants.GET_CONFIG;
+            HashMap<String, String> params = new HashMap<>();
+            // 添加请求参数
+            params.put("deviceId",Constants.ID);//
+            params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
+            // ...
+            NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
+                @Override
+                public void requestSuccess(String result) throws Exception {
+                    // 请求成功的回调
+                    Log.e("TAG",result.toString());
+                    if (!TextUtils.isEmpty(result)){
+                        com.alibaba.fastjson.JSONObject jsonObject =  JSON.parseObject(result);
+                        if (jsonObject.getString("success").equals("true")){
+                           String hour = jsonObject.getString("data");
+                            Log.e("TAG","list size = "+ hour);
+                            request_hour.setHint("请输入1到"+hour+"的整数");
+                        }else{
+                            Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
 
+                @Override
+                public void requestFailure(Request request, IOException e) {
+                    // 请求失败的回调
+                    Log.e("TAG",request.toString()+e.getMessage());
+                }
+            });
+
+    }
 
     private void initViews() {
         list = new ArrayList<ItemBean>();
         tekeImage = findViewById(R.id.takePic);
         photoView = findViewById(R.id.photoView);
+        commitAction = findViewById(R.id.commit);
+        request_hour = findViewById(R.id.request_hour);
+        late_reason = findViewById(R.id.memo);
         commenView = LayoutInflater.from(this).inflate(R.layout.common_layout,null);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         customHelper = CustomHelper.of(commenView);
         tekeImage.setOnClickListener(view -> {
             customHelper.onClick(takePhoto,getTakePhoto());
         });
+        commitAction.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(request_hour.getText())&&!TextUtils.isEmpty(late_reason.getText()))
+                commitAction();
+            else
+                Toast.makeText(getApplicationContext(),"请填写完整信息",Toast.LENGTH_SHORT).show();
+        });
     }
 
+    public void commitAction(){
+        String url = Constants.REQUEST_LATER;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId",Constants.ID);//
+        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
+        params.put("orderCode", orderCode);
+        params.put("vin", vin);
+        params.put("applyReason", late_reason.getText().toString());
+        params.put("applyAddHour", request_hour.getText().toString());
+        // ...
+        NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("TAG",result.toString());
+                if (!TextUtils.isEmpty(result)){
+                    com.alibaba.fastjson.JSONObject jsonObject =  JSON.parseObject(result);
+                    if (jsonObject.getString("success").equals("true")){
+                        Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
 
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                Log.e("TAG",request.toString()+e.getMessage());
+            }
+        });
+
+    }
 
     @Override
     public void takeSuccess(TResult result) {
@@ -89,7 +179,7 @@ public class RequestLaterActivity extends TakePhotoActivity {
                 public void run() {
                     super.run();
                     try{
-                        String response = uploadImage(MobileInfoUtil.getIMEI(RequestLaterActivity.this),new File(result.getImage().getCompressPath()));
+                        String response = uploadImage(Constants.ID,new File(result.getImage().getCompressPath()));
                         JSONObject myJson = new JSONObject(response);
                         if (myJson.getString("success").equals("true"))
                             mhandler.sendEmptyMessage(0);
@@ -103,12 +193,14 @@ public class RequestLaterActivity extends TakePhotoActivity {
         }
 
     }
+    public boolean isUpload = false;
     public Handler mhandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
                 case 0:
+                    isUpload = true;
                     Toast.makeText(getApplicationContext(),"处理成功",Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
@@ -131,13 +223,15 @@ public class RequestLaterActivity extends TakePhotoActivity {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
-                .addFormDataPart("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()))
+                .addFormDataPart("deviceId", userName)
+                .addFormDataPart("vin", vin)
+                .addFormDataPart("orderCode", orderCode)
                 .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getApplicationContext(),"token"))
                 .build();
 
         //4.构建请求
         Request request = new Request.Builder()
-                .url("http://39.100.119.162:9090/onstage/upload/company/businessLicense")
+                .url("http://39.100.119.162:9090/onstage/upload/vehicle/retrieve/defer/apply")
                 .post(requestBody)
                 .build();
 

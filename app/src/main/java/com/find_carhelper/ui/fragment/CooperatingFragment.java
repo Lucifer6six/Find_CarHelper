@@ -21,6 +21,8 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.AuthActivity;
+import com.find_carhelper.ui.activity.RequestInStoreActivity;
+import com.find_carhelper.ui.activity.RequestLaterActivity;
 import com.find_carhelper.ui.adapter.MyCooperationOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.MobileInfoUtil;
@@ -102,6 +104,32 @@ public class CooperatingFragment extends MVPBaseFragment  implements OnItemClick
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mListOrderAcceptAdapter);
+        mListOrderAcceptAdapter.setOnItemClickListener(new MyCooperationOrderAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, MyCooperationOrderAdapter.ViewName viewName, int position) {
+                Intent intent;
+                    switch (v.getId()){
+                        case R.id.time_layout:
+                           // Toast.makeText(getContext(),"申请延时",Toast.LENGTH_SHORT).show();
+                             intent = new Intent(mContext, RequestLaterActivity.class);
+                            intent.putExtra("no",list.get(position).getOrderCode());
+                            intent.putExtra("vin",list.get(position).getVin());
+                            mContext.startActivity(intent);
+                            break;
+                        case R.id.request_save:
+                             intent = new Intent(mContext, RequestInStoreActivity.class);
+                            intent.putExtra("no",list.get(position).getOrderCode());
+                            intent.putExtra("vin",list.get(position).getVin());
+                            mContext.startActivity(intent);
+                                break;
+                    }
+            }
+
+            @Override
+            public void onItemLongClick(View v) {
+
+            }
+        });
     }
     public void initLoading(){
 
