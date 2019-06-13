@@ -22,9 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.RequestLaterActivity"></activity>
-        <activity android:name=".ui.activity.WithDrawActivity"></activity>
-        <activity android:name=".ui.activity.AuthActivity"></activity>
+        <activity android:name=".ui.activity.NewsInfoDetail"></activity>
+        <activity android:name=".ui.activity.ReUploadImageActivity" />
+        <activity android:name=".ui.activity.RequestLaterActivity" />
+        <activity android:name=".ui.activity.WithDrawActivity" />
+        <activity android:name=".ui.activity.AuthActivity" />
         <activity android:name=".ui.activity.RequestInStoreActivity" />
         <activity android:name=".ui.activity.MyCountActivity" />
         <activity android:name=".ui.activity.MyTeamActivity" />

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_ground_gray"
+    tools:context=".ui.activity.EditPswActivity">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/colorPrimary"
+        />
+    <ImageView
+        android:id="@+id/back_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/login_icon_back"
+        android:layout_margin="@dimen/margin_15"
+        />
+
+    <TextView
+        android:id="@+id/pageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="消息详情"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/back_ground_white"
+        android:textSize="@dimen/text_size_30" />
+    <TextView
+        android:id="@+id/pageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="消息详情"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/back_ground_white"
+        android:textSize="@dimen/text_size_15" />
+    <LinearLayout
+        android:id="@+id/noLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_15"
+        android:orientation="vertical"
+        android:layout_below="@+id/pageTime"
+        android:background="@drawable/round_square_1"
+        >
+
+        <TextView
+            android:id="@+id/new_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_15"
+            android:gravity="center"
+            android:text="输入对方手机号"
+            android:layout_margin="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_25"
+            />
+
+    </LinearLayout>
+        <Button
+            android:id="@+id/abort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/mine_mes_btn2"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_50"
+            android:layout_marginLeft="@dimen/margin_30"
+            />
+    <Button
+        android:id="@+id/agree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/mine_mes_btn1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_30"
+        android:layout_marginBottom="@dimen/margin_50"
+        />
+</RelativeLayout>

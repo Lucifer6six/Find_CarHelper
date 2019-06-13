@@ -21,8 +21,11 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.AuthActivity;
+import com.find_carhelper.ui.activity.ReUploadImageActivity;
 import com.find_carhelper.ui.adapter.AlreadyCompleteAcceptAdapter;
+import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.adapter.MyCooperationOrderAdapter;
+import com.find_carhelper.ui.adapter.ReUploadAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
@@ -115,6 +118,22 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mListOrderAcceptAdapter);
+
+        mListOrderAcceptAdapter.setOnItemClickListener(new AlreadyCompleteAcceptAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, AlreadyCompleteAcceptAdapter.ViewName viewName, int position) {
+
+                    Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
+                    intent.putExtra("vin",list.get(position).getVin());
+                    intent.putExtra("no",list.get(position).getOrderCode());
+                    startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(View v) {
+
+            }
+        });
     }
     @Override
     protected void initData() {

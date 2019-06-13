@@ -1,5 +1,6 @@
 package com.find_carhelper.ui.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,12 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.NewsInfoDetail;
 import com.find_carhelper.ui.adapter.SystemNewsAdapter;
 import com.find_carhelper.ui.adapter.TogetherNewsAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
 import java.io.IOException;
@@ -90,6 +93,7 @@ public class TogetherNewsFragment extends MVPBaseFragment implements OnItemClick
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
         params.put("type", "MESSAGE");
         params.put("pageNum", "0");
         params.put("pageSize", "10");
@@ -99,6 +103,7 @@ public class TogetherNewsFragment extends MVPBaseFragment implements OnItemClick
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
                 Log.e("TAG",result.toString());
+                if (!result.equals("401"))
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject =  JSON.parseObject(result);
                     if (jsonObject.getString("success").equals("true")){
@@ -134,7 +139,10 @@ public class TogetherNewsFragment extends MVPBaseFragment implements OnItemClick
     };
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder, Object data, int position) {
-
+        Intent intent = new Intent(getContext(), NewsInfoDetail.class);
+        intent.putExtra("id",list.get(position).getId());
+        intent.putExtra("type","MESSAGE");
+        startActivity(intent);
     }
     private void initAdapter(List<NewsBean> list){
         mListOrderAcceptAdapter = new TogetherNewsAdapter(mContext,list);

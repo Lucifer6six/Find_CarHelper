@@ -29,4 +29,7 @@ public class Constants {
     public static String GET_CONFIG = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/defer/config";
     public static String QUERY_PHOTOS = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/garage/photo";
     public static String SAVE_LIBIARY = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/garage/apply";
+    public static String GET_RE_CONFIG = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/garage/apply/reject";
+    public static String RE_COMMIT = "http://39.100.119.162:9090/onstage/vehicle/retireve/order/garage/apply/reject/submit";
+    public static String NEWS_DETAIL = "http://39.100.119.162:9090/onstage/message/";
 }

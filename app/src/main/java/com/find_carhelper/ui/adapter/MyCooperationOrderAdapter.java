@@ -75,11 +75,14 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
 
                     int seconds = Integer.parseInt(list.get(position).getCountdown());
 
-                    if (seconds<5*60*60){
+                    if (seconds<5*60*60&&seconds>0){
                         Long endTime = System.currentTimeMillis();
                         int timeLost = (int)(endTime-startTime)/1000;
                         initCountDown(holder.countdownView_,seconds-timeLost);
                         holder.time_layout.setVisibility(View.VISIBLE);
+                        holder.countdownView.setVisibility(View.INVISIBLE);
+                    }else if (seconds == 0){
+                        holder.time_layout.setVisibility(View.INVISIBLE);
                         holder.countdownView.setVisibility(View.INVISIBLE);
                     }else{
                         Long endTime = System.currentTimeMillis();

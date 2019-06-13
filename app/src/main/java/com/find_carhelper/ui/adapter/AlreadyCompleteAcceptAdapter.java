@@ -6,14 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -21,7 +19,7 @@ import java.util.List;
 /**
  *列表抢单
  */
-public class AlreadyCompleteAcceptAdapter extends RecyclerView.Adapter<AlreadyCompleteAcceptAdapter.RepairViewHolder> {
+public class AlreadyCompleteAcceptAdapter extends RecyclerView.Adapter<AlreadyCompleteAcceptAdapter.RepairViewHolder> implements View.OnClickListener {
 
     private Context mContext;
     private OnItemClickListeners onItemClickListeners;
@@ -73,7 +71,7 @@ public class AlreadyCompleteAcceptAdapter extends RecyclerView.Adapter<AlreadyCo
                 }else{
                     holder.shenqingBtn.setTextColor(mContext.getResources().getColor(R.color.black));
                 }
-
+                holder.time.setTag(position);
                 holder.shenqingBtn.setText(text);
             }
 
@@ -86,7 +84,23 @@ public class AlreadyCompleteAcceptAdapter extends RecyclerView.Adapter<AlreadyCo
         return list.size();
     }
 
-    static class RepairViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onClick(View view) {
+
+        int position = (int) view.getTag(); //getTag()获取数据
+        if (mOnItemClickListener != null) {
+            switch (view.getId()) {
+                case R.id.time:
+                    mOnItemClickListener.onItemClick(view, ViewName.PRACTISE, position);
+                    break;
+                default:
+                    mOnItemClickListener.onItemClick(view, ViewName.ITEM, position);
+                    break;
+            }
+        }
+    }
+
+    public class RepairViewHolder extends RecyclerView.ViewHolder {
         TextView shenqingBtn;
         TextView carType;
         TextView carId;
@@ -106,6 +120,25 @@ public class AlreadyCompleteAcceptAdapter extends RecyclerView.Adapter<AlreadyCo
             money = itemView.findViewById(R.id.money);
             time = itemView.findViewById(R.id.time);
             status = itemView.findViewById(R.id.status);
+            time.setOnClickListener(AlreadyCompleteAcceptAdapter.this);
         }
+    }
+    //item里面有多个控件可以点击
+    public enum ViewName {
+        ITEM,
+        PRACTISE,
+        ORDERS;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(View v, ViewName viewName, int position);
+
+        void onItemLongClick(View v);
+    }
+
+    private OnItemClickListener mOnItemClickListener;//声明自定义的接口
+
+    //定义方法并暴露给外面的调用者
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
     }
 }
