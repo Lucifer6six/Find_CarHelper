@@ -5,6 +5,15 @@ public class ItemBean {
 
     private  String path;
     private  int position;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getPath() {
         return path;

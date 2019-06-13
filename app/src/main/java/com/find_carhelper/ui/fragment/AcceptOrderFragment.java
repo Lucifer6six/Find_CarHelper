@@ -50,7 +50,7 @@ import java.util.List;
 import okhttp3.Request;
 
 
-public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickListeners {
+public class AcceptOrderFragment extends MVPBaseFragment {
 
     private RelativeLayout areaSelectedLayout,timeSelectedLayout;
     private TextView areaSelectedTv,timeSelectedTv;
@@ -154,11 +154,80 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
 
     }
     private void initAdapter(List<CarBean> list){
+        for (int i = 0;i<list.size();i++){
+            list.get(i).setId(i);
+        }
         mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext,list);
-        mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mListOrderAcceptAdapter);
+
+        mListOrderAcceptAdapter.setOnItemClickListener(new ListOrderAcceptAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View v, ListOrderAcceptAdapter.ViewName viewName, int position) {
+                    Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
+
+                    acceptOrderAction(position);
+                    carBeans.get(position).setCountdown("3603");
+                    mListOrderAcceptAdapter.notifyItemChanged(position);
+
+
+            }
+
+            @Override
+            public void onItemLongClick(View v) {
+
+            }
+        });
+    }
+    public void acceptOrderAction(int position){
+        Log.e("TAG","position == "+position);
+        String url = Constants.ACCEPT_ORDER;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
+        params.put("vin", carBeans.get(position).getVin());
+        params.put("pageSize", "10");
+        // ...
+        NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("TAG",result.toString());
+                if (!result.equals("401")){
+                    if (!TextUtils.isEmpty(result)){
+                        JSONObject jsonObject =  JSON.parseObject(result);
+                        if (jsonObject.getString("status")!=null)
+                            if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
+                                startIntent();
+                                return;
+                            }
+                        if (jsonObject.getString("success").equals("true")){
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                            Message msg = new Message();
+                            carBeans =  JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(),CarBean.class);
+                            msg.what = 5;
+                            mHandler.sendMessage(msg);
+                            loadingDialog.cancel();
+                        }else{
+                            loadingDialog.cancel();
+                            Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }else{
+                    startIntent();
+                }
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                loadingDialog.cancel();
+                Log.e("TAG",request.toString()+e.getMessage());
+            }
+        });
     }
     private void showAreaPickView(){
 
@@ -245,11 +314,17 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
     @Override
     public void onResume() {
         super.onResume();
-        loadingDialog.loading();
-        if (!TextUtils.isEmpty(SharedPreferencesUtil.getString(getContext(),"token"))){
+
+        String token = SharedPreferencesUtil.getString(getContext(),"token");
+        if (!TextUtils.isEmpty(token)){
+            loadingDialog.loading();
             getProvinceData();
             getCarData();
+        }else{
+            Toast.makeText(getContext(),"请重新登录",Toast.LENGTH_SHORT).show();
+            startIntent();
         }
+
     }
 
     public void getCarData(){
@@ -482,8 +557,6 @@ public class AcceptOrderFragment extends MVPBaseFragment implements OnItemClickL
         return detail;
     }
 
-    @Override
-    public void onItemClick(RecyclerView.ViewHolder viewHolder, Object data, int position) {
 
-    }
+
 }

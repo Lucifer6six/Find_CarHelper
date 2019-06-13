@@ -16,6 +16,7 @@ public class Constants {
     public static String GET_AREAA = "http://39.100.119.162:9090/onstage/vehicle/retireve/searchData";
     public static String GET_CARS = "http://39.100.119.162:9090/onstage/vehicle/retireve/list";
     public static String MY_TEAM = "http://39.100.119.162:9090/onstage/user/my/team";
+    public static String INVITE_FRIENDS = "http://39.100.119.162:9090/onstage/user/my/team/invite";
     public static String GET_INFO = "http://39.100.119.162:9090/onstage/user/my/team/invite";
     public static String GET_CODE = "http://39.100.119.162:9090/onstage/user/modify/password/sendMsgCode";
     public static String CHANGE_PSW = "http://39.100.119.162:9090/onstage/user/modify/password";
@@ -23,4 +24,6 @@ public class Constants {
     public static String GET_ACCOUNT_INFO = "http://39.100.119.162:9090/onstage/user/my/account";
     public static String GET_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";
     public static String WITH_DRAW = "http://39.100.119.162:9090/onstage/user/my/account/withdraw/apply";
+    public static String ACCEPT_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";
+    public static String REQUEST_LATER = "http://39.100.119.162:9090/onstage/upload/vehicle/retrieve/defer/apply";
 }
