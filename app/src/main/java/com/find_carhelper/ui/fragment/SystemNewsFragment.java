@@ -104,7 +104,7 @@ public class SystemNewsFragment extends MVPBaseFragment implements OnItemClickLi
         String url = Constants.GET_NEWS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//
+        params.put("deviceId", Constants.ID);//
 
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
         params.put("type", "NOTICE");

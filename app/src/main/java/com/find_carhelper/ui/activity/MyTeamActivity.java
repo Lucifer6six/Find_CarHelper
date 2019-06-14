@@ -26,6 +26,7 @@ import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.MyTeamAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.wega.library.loadingDialog.LoadingDialog;
 
@@ -83,6 +84,12 @@ public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListen
         inviteBtn.setOnClickListener(view -> startActivity(new Intent(MyTeamActivity.this,InviteFriendsActivity.class)));
         //initAdapter();
         initLoading();
+        registerLeftClickEvent(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initAdapter(List<TeamBean> list){
@@ -114,7 +121,8 @@ public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListen
         String url = Constants.MY_TEAM;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));//
+        params.put("deviceId", Constants.ID);//
+        params.put("accessToken", SharedPreferencesUtil.getString(getApplicationContext(),"token"));
 
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {

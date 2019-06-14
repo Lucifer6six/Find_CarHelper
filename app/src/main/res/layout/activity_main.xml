@@ -20,10 +20,14 @@
             titlebar:centerText="保全-车辆列表"
             titlebar:centerType="textView"
             titlebar:fillStatusBar="true"
-            titlebar:leftImageResource="@mipmap/ic_back"
+            app:titleBarColor="@color/colorPrimary"
+            titlebar:statusBarColor="@color/colorPrimary"
+            titlebar:leftImageResource="@mipmap/login_icon_back"
             titlebar:leftType="imageButton"
             titlebar:showBottomLine="false"
             titlebar:rightText="消息"
+            app:rightTextColor="@color/white"
+            app:centerTextColor="@color/white"
             titlebar:rightType="textView"/>
         <com.find_carhelper.widgets.NoCacheViewPager
             android:id="@+id/vp_mian"

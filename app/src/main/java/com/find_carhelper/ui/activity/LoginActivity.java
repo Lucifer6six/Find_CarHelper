@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
     private EditText name,psw;
     private Button login;
     private CountDownTextView mCountDownTextView;
+    private ImageView back;
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -54,9 +56,11 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
             name = findViewById(R.id.name);
             psw = findViewById(R.id.psw);
             login = findViewById(R.id.login);
+        back = findViewById(R.id.back);
             registTv.setOnClickListener(this);
             login.setOnClickListener(this);
         initCountText();
+        back.setOnClickListener(v -> finish());
     }
     private void initCountText() {
         mCountDownTextView
@@ -97,7 +101,8 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
         String url = Constants.GET_MSG_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(LoginActivity.this));
+        params.put("deviceId", Constants.ID);
+        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
         params.put("phoneNo", name.getText().toString());
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
@@ -150,7 +155,7 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
         String url = Constants.LOGIN;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(LoginActivity.this));
+        params.put("deviceId", Constants.ID);
         params.put("username", name.getText().toString());
         params.put("password", psw.getText().toString());
         // ...

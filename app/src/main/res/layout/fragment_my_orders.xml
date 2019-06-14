@@ -12,12 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/back_ground_gray"
+        android:layout_marginLeft="@dimen/dp_50"
+        android:layout_marginRight="@dimen/dp_50"
         android:layout_below="@+id/title_bar"
         app:tabIndicatorColor="@color/colorPrimary"
         app:tabIndicatorHeight="2dp"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabTextColor="@color/text_color_black"
-
+        app:tabSelectedTextColor="@color/text_color_black"
+        app:tabTextColor="@color/text_color_gray"
         />
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"

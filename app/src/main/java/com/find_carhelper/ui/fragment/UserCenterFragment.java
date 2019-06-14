@@ -46,6 +46,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import okhttp3.Request;
 
@@ -72,7 +73,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                     Log.i(TAG, "地址-----------------" + amapLocation.getAddress());//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
                     Log.i(TAG, "国家信息-------------" + amapLocation.getCountry());//国家信息
                     Log.i(TAG, "省信息---------------" + amapLocation.getProvince());//省信息
-                    Toast.makeText(getContext(),"省信息---------------" + amapLocation.getCity(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), amapLocation.getProvince()+ amapLocation.getCity(),Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "城市信息-------------" + amapLocation.getCity());//城市信息
                     Log.i(TAG, "城区信息-------------" + amapLocation.getDistrict());//城区信息
                     Log.i(TAG, "街道信息-------------" + amapLocation.getStreet());//街道信息
@@ -157,7 +158,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},200);
         }else{
             startLocaion();//开始定位
-            Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
+           // Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
         }
         initLoading();
     }
@@ -209,7 +210,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         String url = Constants.MY_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));//MobileInfoUtil.getIMEI(getContext())
 
         // ...
@@ -290,13 +291,13 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 break;
 
             case R.id.protocal:
-                startActivity(new Intent(getContext(), RequestLaterActivity.class));
+                //startActivity(new Intent(getContext(), RequestLaterActivity.class));
                 break;
             case R.id.acount:
                 startActivity(new Intent(getContext(), MyCountActivity.class));
                 break;
             case R.id.update:
-                startActivity(new Intent(getContext(), RequestInStoreActivity.class));
+               // startActivity(new Intent(getContext(), RequestInStoreActivity.class));
                 break;
         }
     }

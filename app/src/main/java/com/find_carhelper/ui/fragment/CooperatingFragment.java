@@ -151,7 +151,7 @@ public class CooperatingFragment extends MVPBaseFragment  implements OnItemClick
         String url = Constants.GET_ORDER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
         params.put("status", "COOPERATING");
         params.put("pageNum", "0");

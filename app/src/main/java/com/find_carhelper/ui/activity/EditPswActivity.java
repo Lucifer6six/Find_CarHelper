@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.find_carhelper.R;
@@ -30,6 +31,7 @@ public class EditPswActivity extends MVPBaseActivity {
     private CountDownTextView mCountDownTextView;
     private EditText phone,code,psw,repsw;
     private Button changeAction;
+    private ImageView back;
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -47,6 +49,8 @@ public class EditPswActivity extends MVPBaseActivity {
         code = findViewById(R.id.code);
         psw = findViewById(R.id.psw);
         repsw = findViewById(R.id.repsw);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(v -> finish());
         if (!TextUtils.isEmpty(Constants.phoneNo)){
             phone.setText(Constants.phoneNo);
         }
@@ -73,7 +77,8 @@ public class EditPswActivity extends MVPBaseActivity {
         String url = Constants.CHANGE_PSW;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));
+        params.put("deviceId", Constants.ID);
+        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
         params.put("code", code);
         params.put("password", psws);
         params.put("repassword", repsws);
@@ -146,7 +151,8 @@ public class EditPswActivity extends MVPBaseActivity {
         String url = Constants.GET_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));
+        params.put("deviceId", Constants.ID);
+        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -158,11 +164,9 @@ public class EditPswActivity extends MVPBaseActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equals("true")){
                         Toast.makeText(EditPswActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
-
+                        finish();
                     }else {
-
                         Toast.makeText(EditPswActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
-
                     }
                 }
             }

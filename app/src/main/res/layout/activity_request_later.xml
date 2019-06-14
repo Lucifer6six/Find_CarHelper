@@ -22,9 +22,13 @@
         titlebar:centerText="订单申请延时"
         titlebar:centerType="textView"
         titlebar:fillStatusBar="true"
-        titlebar:leftImageResource="@mipmap/ic_back"
         titlebar:leftType="imageButton"
         titlebar:rightText=""
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:statusBarColor="@color/colorPrimary"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
+        app:rightTextColor="@color/white"
+        app:centerTextColor="@color/white"
         titlebar:rightType="textView"
         titlebar:showBottomLine="false" />
         <TextView

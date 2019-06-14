@@ -80,6 +80,12 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
             }
         });
         //initAdapter();
+        registerLeftClickEvent(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initAdapter(List<BillListBean> list){
@@ -103,7 +109,7 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
         String url = Constants.GET_ACCOUNT_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(MyCountActivity.this));//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(MyCountActivity.this,"token"));
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {

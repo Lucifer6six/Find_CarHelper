@@ -29,6 +29,7 @@ import com.find_carhelper.widgets.OnItemClickListeners;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.json.JSONObject;
 
@@ -59,6 +60,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     private String vin;
     public Button save,update;
     public EditText memo;
+    public CommonTitleBar mTitleBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +123,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     };
     private void initViews() {
         //initImages();
-
+        mTitleBar = findViewById(R.id.title_bar);
         commenView = LayoutInflater.from(this).inflate(R.layout.common_layout,null);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         customHelper = CustomHelper.of(commenView);
@@ -136,6 +138,14 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
             commitAction("YES");
         });
        // initAdapter();
+        mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
+            @Override
+            public void onClicked(View v, int action, String extra) {
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON){
+                    finish();
+                }
+            }
+        });
     }
 
     public void commitAction(String type){

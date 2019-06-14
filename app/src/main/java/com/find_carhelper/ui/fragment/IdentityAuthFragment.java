@@ -99,7 +99,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
-                .addFormDataPart("deviceId", MobileInfoUtil.getIMEI(getContext()))//MobileInfoUtil.getIMEI(getContext())
+                .addFormDataPart("deviceId", Constants.ID)//MobileInfoUtil.getIMEI(getContext())
                 .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getContext(),"token"))
                 .addFormDataPart("imgType", imageType)
                 .build();
@@ -190,7 +190,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
             String url = Constants.REGISTER_Identity;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
-            params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+            params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
             params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
             params.put("realName", realName);
             params.put("idCardNo", sid);

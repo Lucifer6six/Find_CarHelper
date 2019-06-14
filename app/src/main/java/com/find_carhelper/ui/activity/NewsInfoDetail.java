@@ -66,6 +66,12 @@ public class NewsInfoDetail extends MVPBaseActivity {
        agree.setOnClickListener(view -> {
             choose(agreeURL);
        });
+        registerLeftClickEvent(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

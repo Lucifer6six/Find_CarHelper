@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.find_carhelper.R;
@@ -30,6 +31,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
     private CountDownTextView mCountDownTextView;
     private EditText codeEdit,psw,repsw,acount;
     private Button regist;
+    private ImageView back;
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -53,6 +55,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
         psw = findViewById(R.id.psw);
         repsw = findViewById(R.id.repsw);
         acount = findViewById(R.id.acount);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(v -> finish());
         findViewById(R.id.login_tv).setOnClickListener(this);
         regist.setOnClickListener(this);
         initCountText();
@@ -119,7 +123,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
         String url = Constants.GET_MSG_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(RegistActivity.this));
+        params.put("deviceId", Constants.ID);
+        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
         params.put("phoneNo", acount.getText().toString());
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
@@ -154,7 +159,8 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
         String url = Constants.REGISTER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(RegistActivity.this));
+        params.put("deviceId", Constants.ID);
+        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
         params.put("phoneNo",acount.getText().toString() );
         params.put("code", codeEdit.getText().toString());
         params.put("password",psw1);

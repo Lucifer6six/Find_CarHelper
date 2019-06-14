@@ -97,7 +97,6 @@ public class MainActivity extends MVPBaseActivity{
         registerLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //drawerlayout.openDrawer(navigationView);
                 finish();
             }

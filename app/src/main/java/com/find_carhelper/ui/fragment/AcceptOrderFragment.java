@@ -184,7 +184,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         String url = Constants.ACCEPT_ORDER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
         params.put("vin", carBeans.get(position).getVin());
         // ...
@@ -321,7 +321,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         String url = Constants.GET_CARS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
         params.put("pageNum", "0");
         params.put("pageSize", "10");
@@ -375,7 +375,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         String url = Constants.GET_AREAA;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {

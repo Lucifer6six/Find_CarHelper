@@ -13,11 +13,15 @@
         android:layout_height="wrap_content"
         titlebar:centerText="消息中心"
         titlebar:centerType="textView"
-        titlebar:leftImageResource="@mipmap/ic_back"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:statusBarColor="@color/colorPrimary"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
         titlebar:leftType="imageButton"
         titlebar:fillStatusBar="true"
         titlebar:showBottomLine="false"
         titlebar:rightText=""
+        app:rightTextColor="@color/white"
+        app:centerTextColor="@color/white"
         titlebar:rightType="textView"/>
 
     <android.support.design.widget.TabLayout

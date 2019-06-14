@@ -103,7 +103,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
             String url = Constants.REGISTER_GROUP;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
-            params.put("deviceId", MobileInfoUtil.getIMEI(getContext()));
+            params.put("deviceId", Constants.ID);
             params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
             params.put("companyName", groupName);
             params.put("companyShortName", groupJc);
@@ -189,7 +189,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
                 public void run() {
                     super.run();
                     try{
-                       String response = uploadImage(MobileInfoUtil.getIMEI(getContext()),new File(result.getImage().getCompressPath()));
+                       String response = uploadImage(Constants.ID,new File(result.getImage().getCompressPath()));
                         JSONObject  myJson = new JSONObject(response);
                         JSONObject jsonObject = myJson.getJSONObject("data");
                         businessName = jsonObject.getString("name");
@@ -220,7 +220,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
-                .addFormDataPart("deviceId", MobileInfoUtil.getIMEI(getContext()))
+                .addFormDataPart("deviceId", Constants.ID)
                 .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getContext(),"token"))
                 .build();
 

@@ -70,7 +70,7 @@ public class WithDrawActivity extends MVPBaseActivity {
         String url = Constants.WITH_DRAW;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(WithDrawActivity.this));//MobileInfoUtil.getIMEI(getContext())
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(WithDrawActivity.this,"token"));
         params.put("amount",amount);
         // ...

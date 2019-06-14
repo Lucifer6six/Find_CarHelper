@@ -2,6 +2,7 @@ package com.find_carhelper.ui.activity;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.utils.MobileInfoUtil;
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -62,6 +64,12 @@ public class InviteFriendsActivity extends MVPBaseActivity {
                 if (phoneNo.getText()!=null)
                     getData();
             });
+        registerLeftClickEvent(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -80,7 +88,8 @@ public class InviteFriendsActivity extends MVPBaseActivity {
         String url = Constants.GET_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId", MobileInfoUtil.getIMEI(getApplicationContext()));//
+        params.put("deviceId", Constants.ID);//
+        params.put("accessToken", SharedPreferencesUtil.getString(getApplicationContext(),"token"));
         params.put("phoneNo", phoneNo.getText().toString());
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
