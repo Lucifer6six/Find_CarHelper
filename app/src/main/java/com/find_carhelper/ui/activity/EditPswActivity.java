@@ -79,7 +79,10 @@ public class EditPswActivity extends MVPBaseActivity {
         // 添加请求参数
         params.put("deviceId", Constants.ID);
         params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
-        params.put("phoneNo", Constants.phoneNo);
+        if (TextUtils.isEmpty(Constants.phoneNo))
+            params.put("phoneNo", Constants.phoneNo);
+        else
+            params.put("phoneNo", phone);
         params.put("code", code);
         params.put("password", psws);
         params.put("repassword", repsws);
@@ -143,8 +146,12 @@ public class EditPswActivity extends MVPBaseActivity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(EditPswActivity.this, "短信已发送", Toast.LENGTH_SHORT).show();
-                        mCountDownTextView.startCountDown(100);
-                        getCodeRequest();
+                        if (!TextUtils.isEmpty(phone.getText().toString())){
+                            mCountDownTextView.startCountDown(100);
+                            getCodeRequest();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"请先输入号码",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
@@ -155,7 +162,10 @@ public class EditPswActivity extends MVPBaseActivity {
         // 添加请求参数
         params.put("deviceId", Constants.ID);
         params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
-        params.put("phoneNo", Constants.phoneNo);
+        if (!TextUtils.isEmpty(Constants.phoneNo))
+            params.put("phoneNo", Constants.phoneNo);
+        else
+            params.put("phoneNo", phone.getText().toString());
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
