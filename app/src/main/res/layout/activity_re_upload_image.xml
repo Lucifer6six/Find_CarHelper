@@ -12,9 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         titlebar:centerText="保全申请入库-被驳回"
+        app:centerTextColor="@color/white"
         titlebar:centerType="textView"
         titlebar:fillStatusBar="true"
-        titlebar:leftImageResource="@mipmap/ic_back"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:statusBarColor="@color/colorPrimary"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
         titlebar:leftType="imageButton"
         titlebar:rightText=""
         titlebar:rightType="textView"
@@ -23,7 +26,8 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_15"
         android:text="2018款POLO车型"
         android:textSize="@dimen/text_size_18"
         android:textStyle="bold" />
@@ -34,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_15"
         android:text="提交时间:2019-04-28"
+        android:layout_marginTop="5dp"
         android:textColor="@color/text_color_gray"
         android:textSize="@dimen/text_size_12" />
 
@@ -63,17 +68,16 @@
                 android:textSize="@dimen/text_size_18"
                 android:layout_marginTop="@dimen/margin_10"
                 />
-            <LinearLayout
-                android:id="@+id/re_take"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_orders"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="5dp"
+                android:background="@color/back_ground_gray"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_orders"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_10"

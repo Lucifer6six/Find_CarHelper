@@ -23,22 +23,46 @@
         app:rightTextColor="@color/white"
         app:centerTextColor="@color/white"
         titlebar:rightType="textView"/>
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tool_tab"
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:id="@+id/smart_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="40dp"
         android:layout_below="@+id/title_bar"
-        app:tabIndicatorColor="@color/colorPrimary"
-        app:tabIndicatorHeight="2dp"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabTextColor="@color/text_color_black"
-        />
+        android:background="@color/white"
+        app:stl_clickable="true"
+        android:foregroundGravity="left"
+        app:stl_customTabTextLayoutId="@layout/view_tab_text"
+        app:stl_distributeEvenly="true"
+        app:stl_dividerThickness="0dp"
+        app:stl_indicatorColor="@color/colorPrimary"
+        app:stl_indicatorGravity="bottom"
+        app:stl_indicatorInterpolation="linear"
+        app:stl_indicatorThickness="2dp"
+        app:stl_indicatorWidth="60dp"
+        app:stl_indicatorCornerRadius="5dp"
+        app:stl_overlineThickness="0dp"
+        app:stl_titleOffset="auto_center"
+        app:stl_underlineThickness="0dp">
+
+    </com.ogaclejapan.smarttablayout.SmartTabLayout>
+
+  <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tool_tab"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:layout_below="@+id/title_bar"-->
+        <!--app:tabIndicatorColor="@color/colorPrimary"-->
+        <!--app:tabIndicatorHeight="2dp"-->
+        <!--android:layout_marginLeft="@dimen/dp_50"-->
+        <!--android:layout_marginRight="@dimen/dp_50"-->
+        <!--app:tabSelectedTextColor="@color/colorPrimary"-->
+        <!--app:tabTextColor="@color/text_color_black"-->
+        <!--/>-->
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tool_tab"
+            android:layout_below="@+id/smart_tablayout"
             />
 </RelativeLayout>

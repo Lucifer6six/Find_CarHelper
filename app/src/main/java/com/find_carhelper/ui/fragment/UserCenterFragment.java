@@ -28,6 +28,7 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.AuthActivity;
 import com.find_carhelper.ui.activity.EditPswActivity;
 import com.find_carhelper.ui.activity.InviteFriendsActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
@@ -160,6 +161,15 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             startLocaion();//开始定位
            // Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
         }
+        auth_stutes.setOnClickListener(view -> {
+            if (userBean!=null){
+                if (userBean.getStatus().equals("AUTH_SUCCESS")||userBean.getStatus().equals("IN_AUTH")){
+
+                }else{
+                    startActivity(new Intent(getContext(), AuthActivity.class));
+                }
+            }
+        });
         initLoading();
     }
     LoadingDialog loadingDialog;
@@ -198,8 +208,10 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 }else if (userBean.getStatus().equals("AUTH_FAILURE")){
                     auth_fail.setVisibility(View.INVISIBLE);
                     auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
-                }else
+                }else if (userBean.getStatus().equals("IN_AUTH")){
                     auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
+                }else
+                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz1));
                 Constants.phoneNo = userBean.getPhoneNo();
 
         }

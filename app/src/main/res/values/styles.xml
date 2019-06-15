@@ -29,4 +29,9 @@
         <item name="android:padding">@dimen/padding_5</item>
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
+    <style name="Tabtext">
+        <item name="android:textColor">@drawable/selector_tab_text</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
 </resources>

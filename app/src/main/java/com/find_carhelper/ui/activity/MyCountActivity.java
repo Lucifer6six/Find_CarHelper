@@ -86,6 +86,9 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
                 finish();
             }
         });
+        registerLeftClickEvent(view -> {
+            finish();
+        });
     }
 
     private void initAdapter(List<BillListBean> list){

@@ -7,7 +7,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="230dp"
         android:background="@color/colorPrimary"
         />
 
@@ -15,10 +15,10 @@
         android:id="@+id/nick_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_25"
+        android:textSize="@dimen/text_size_20"
         android:text="公司简称字段"
         android:textColor="@color/back_ground_white"
-        android:layout_marginTop="@dimen/margin_50"
+        android:layout_marginTop="@dimen/margin_65"
         android:layout_marginLeft="@dimen/margin_15"
         />
     <TextView
@@ -40,7 +40,7 @@
         android:layout_below="@+id/little_nick_name"
         android:background="@mipmap/mine_btn_rz1"
         android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_15"
         />
 
     <TextView
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_square"
         android:layout_below="@+id/auth_stutes"
-        android:layout_marginTop="@dimen/margin_60"
+        android:layout_marginTop="@dimen/margin_40"
         android:padding="@dimen/margin_15"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginRight="@dimen/margin_15"

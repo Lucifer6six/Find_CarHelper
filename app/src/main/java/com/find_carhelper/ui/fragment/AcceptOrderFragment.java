@@ -68,6 +68,8 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
     public String queryCode = "";
+    public String minMoney = "";
+    public String maxMoney = "";
     private static boolean isLoaded = false;
     public LoadingDialog loadingDialog;
     public List<CarBean> carBeans;
@@ -241,7 +243,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             if (!TextUtils.isEmpty(opt2tx))
                 queryCode = options2Items.get(options1).get(options2).getCode();
             //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
-            Log.e("TAG",queryCode);
+            getCarData();
             areaSelectedTv.setText(tx);
         }
     })
@@ -257,7 +259,6 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }
-
 
     private ArrayList<CardBean> cardItem = new ArrayList<>();
     private OptionsPickerView  pvCustomOptions;
@@ -280,6 +281,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 String tx = opt1tx +" ~ "+ opt2tx;
                 //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
                 timeSelectedTv.setText(tx);
+                minMoney = opt1tx;
+                maxMoney = opt2tx;
+                getCarData();
             }
         })
 
@@ -323,6 +327,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
+        params.put("cityCode",queryCode);
+        params.put("minAmount",minMoney);
+        params.put("maxAmount",maxMoney);
         params.put("pageNum", "0");
         params.put("pageSize", "10");
         // ...
@@ -522,6 +529,10 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 case 5:
                     loadingDialog.cancel();
                     Log.e("!@#","size = "+carBeans.size());
+                    if (carBeans.size() == 0){
+                        Toast.makeText(getContext(),"没有查询到该条件下的车辆",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if (carBeans!=null){
                         initAdapter(carBeans);
                     }

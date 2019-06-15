@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:titlebar="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back_ground_gray"
     tools:context=".ui.activity.EditPswActivity">
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="240dp"
         android:background="@color/colorPrimary"
         />
-    <ImageView
-        android:id="@+id/back_up"
-        android:layout_width="wrap_content"
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/login_icon_back"
-        android:layout_margin="@dimen/margin_15"
-        />
-
+        titlebar:centerText=""
+        titlebar:centerType="textView"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:statusBarColor="@color/colorPrimary"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
+        titlebar:leftType="imageButton"
+        titlebar:fillStatusBar="true"
+        titlebar:showBottomLine="false"
+        titlebar:rightText=""
+        app:rightTextColor="@color/white"
+        app:centerTextColor="@color/white"
+        titlebar:rightType="textView"/>
     <TextView
         android:id="@+id/pageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginTop="40dp"
         android:text="消息详情"
         android:layout_centerHorizontal="true"
         android:textColor="@color/back_ground_white"
@@ -32,7 +43,8 @@
         android:id="@+id/pageTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/pageTitle"
         android:text="消息详情"
         android:layout_centerHorizontal="true"
         android:textColor="@color/back_ground_white"

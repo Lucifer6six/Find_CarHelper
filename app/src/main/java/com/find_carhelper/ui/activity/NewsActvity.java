@@ -13,16 +13,19 @@ import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.ui.fragment.SystemNewsFragment;
 import com.find_carhelper.ui.fragment.TogetherNewsFragment;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewsActvity extends MVPBaseActivity {
-    private TabLayout mTabLayout;
+    //private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private String[] titles;
     private List<Fragment> fragments;
     private FaultRepairPagerAdapter mainPagerAdapter;
+    private SmartTabLayout mSmartTablayout;
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -40,7 +43,8 @@ public class NewsActvity extends MVPBaseActivity {
 
     @Override
     protected void initViews() {
-        mTabLayout = findViewById(R.id.tool_tab);
+        mSmartTablayout = (SmartTabLayout) findViewById(R.id.smart_tablayout);
+        //mTabLayout = findViewById(R.id.tool_tab);
         mViewPager = findViewById(R.id.view_pager);
         titles = getResources().getStringArray(R.array.plan_repair_main_tab);
         SystemNewsFragment systemNewsFragment = new SystemNewsFragment();
@@ -51,8 +55,8 @@ public class NewsActvity extends MVPBaseActivity {
         mainPagerAdapter = new FaultRepairPagerAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(mainPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mTabLayout.setupWithViewPager(mViewPager);
-
+       // mTabLayout.setupWithViewPager(mViewPager);
+        mSmartTablayout.setViewPager(mViewPager);
         registerLeftClickEvent(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -31,7 +31,6 @@ public class EditPswActivity extends MVPBaseActivity {
     private CountDownTextView mCountDownTextView;
     private EditText phone,code,psw,repsw;
     private Button changeAction;
-    private ImageView back;
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -49,8 +48,6 @@ public class EditPswActivity extends MVPBaseActivity {
         code = findViewById(R.id.code);
         psw = findViewById(R.id.psw);
         repsw = findViewById(R.id.repsw);
-        back = findViewById(R.id.back);
-        back.setOnClickListener(v -> finish());
         if (!TextUtils.isEmpty(Constants.phoneNo)){
             phone.setText(Constants.phoneNo);
         }
@@ -58,6 +55,9 @@ public class EditPswActivity extends MVPBaseActivity {
         initCountText();
         changeAction.setOnClickListener(view -> {
             changeAction();
+        });
+        registerLeftClickEvent(view -> {
+            finish();
         });
     }
     public void changeAction(){

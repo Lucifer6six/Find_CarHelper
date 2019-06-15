@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:titlebar="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,13 +8,23 @@
     android:background="@color/colorPrimary"
     tools:context=".ui.activity.EditPswActivity">
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/login_icon_back"
-        android:layout_margin="@dimen/margin_15"
-        />
+        titlebar:centerText=""
+        titlebar:centerType="textView"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:statusBarColor="@color/colorPrimary"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
+        titlebar:leftType="imageButton"
+        titlebar:fillStatusBar="true"
+        titlebar:showBottomLine="false"
+        titlebar:rightText=""
+        app:rightTextColor="@color/white"
+        app:centerTextColor="@color/white"
+        titlebar:rightType="textView"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -9,6 +9,7 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,12 @@ import java.util.List;
  * 路径分析
  */
 public class MyOrdersFragment extends MVPBaseFragment {
-    private TabLayout mTabLayout;
+   // private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private String[] titles;
     private List<Fragment> fragments;
     private FaultRepairPagerAdapter mainPagerAdapter;
+    private SmartTabLayout mSmartTablayout;
     public static Fragment newInstance() {
        MyOrdersFragment fragment = new MyOrdersFragment();
         return fragment;
@@ -67,7 +69,8 @@ public class MyOrdersFragment extends MVPBaseFragment {
 
     @Override
     protected void initViews() {
-        mTabLayout = mRootView.findViewById(R.id.tool_tab);
+        mSmartTablayout = (SmartTabLayout)mRootView.findViewById(R.id.smart_tablayout);
+       // mTabLayout = mRootView.findViewById(R.id.tool_tab);
         mViewPager = mRootView.findViewById(R.id.view_pager);
         titles = getResources().getStringArray(R.array.orders_tab);
         CooperatingFragment cooperatingFragment = new CooperatingFragment();
@@ -78,7 +81,7 @@ public class MyOrdersFragment extends MVPBaseFragment {
         mainPagerAdapter = new FaultRepairPagerAdapter(getChildFragmentManager(), fragments, titles);
         mViewPager.setAdapter(mainPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mSmartTablayout.setViewPager(mViewPager);
     }
 
     @Override
