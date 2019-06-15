@@ -60,11 +60,11 @@ public class MainActivity extends MVPBaseActivity{
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         mViewPager.setCurrentItem(0);
-                        setTitleBar("保全车辆", "消息");
+                        setTitleBar("保全车辆");
                         return true;
                     case R.id.navigation_work:
                         mViewPager.setCurrentItem(1);
-                        setTitleBar("保全订单", "");
+                        setTitleBar("保全订单");
                         return true;
                     case R.id.navigation_plan:
                         mViewPager.setCurrentItem(2);
@@ -92,7 +92,6 @@ public class MainActivity extends MVPBaseActivity{
                 startActivity(new Intent(MainActivity.this, NewsActvity.class));
             }
         });
-
         //主页面左上角点击事件
         registerLeftClickEvent(new View.OnClickListener() {
             @Override

@@ -25,10 +25,10 @@
             titlebar:leftImageResource="@mipmap/login_icon_back"
             titlebar:leftType="imageButton"
             titlebar:showBottomLine="false"
-            titlebar:rightText="消息"
-            app:rightTextColor="@color/white"
             app:centerTextColor="@color/white"
-            titlebar:rightType="textView"/>
+            app:rightType="imageButton"
+            app:rightImageResource="@mipmap/jd_icon_mes"
+            />
         <com.find_carhelper.widgets.NoCacheViewPager
             android:id="@+id/vp_mian"
             android:layout_width="match_parent"
