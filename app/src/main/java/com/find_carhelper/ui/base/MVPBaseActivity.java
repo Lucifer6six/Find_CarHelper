@@ -52,7 +52,7 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
      */
     public void setTitleBar(String title) {
         mCommonTitleBar = findViewById(R.id.title_bar);
-
+        mCommonTitleBar.setVisibility(View.VISIBLE);
         if (mCommonTitleBar.getCenterTextView() == null) {
             throw new IllegalArgumentException("You must return a centertext layout");
         }
@@ -74,7 +74,7 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
      */
     public void setTitleBar(int resId) {
         mCommonTitleBar = findViewById(R.id.title_bar);
-
+        mCommonTitleBar.setVisibility(View.VISIBLE);
         if (mCommonTitleBar.getCenterTextView() == null) {
             throw new IllegalArgumentException("You must return a centertext layout");
         }
@@ -100,7 +100,7 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseAppCo
      */
     public void setTitleBar(int resId, int rightId) {
         mCommonTitleBar = findViewById(R.id.title_bar);
-
+        mCommonTitleBar.setVisibility(View.VISIBLE);
         if (mCommonTitleBar.getRightTextView() == null) {
             throw new IllegalArgumentException("You must return a right textview layout");
         }

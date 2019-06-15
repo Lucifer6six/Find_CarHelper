@@ -61,6 +61,7 @@ public class MainActivity extends MVPBaseActivity{
                     case R.id.navigation_home:
                         mViewPager.setCurrentItem(0);
                         setTitleBar("保全车辆");
+
                         return true;
                     case R.id.navigation_work:
                         mViewPager.setCurrentItem(1);

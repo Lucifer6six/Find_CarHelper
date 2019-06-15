@@ -79,6 +79,7 @@ public class EditPswActivity extends MVPBaseActivity {
         // 添加请求参数
         params.put("deviceId", Constants.ID);
         params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
+        params.put("phoneNo", Constants.phoneNo);
         params.put("code", code);
         params.put("password", psws);
         params.put("repassword", repsws);
@@ -93,6 +94,7 @@ public class EditPswActivity extends MVPBaseActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equals("true")){
                         Toast.makeText(EditPswActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     }else {
                         Toast.makeText(EditPswActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                     }
@@ -153,6 +155,7 @@ public class EditPswActivity extends MVPBaseActivity {
         // 添加请求参数
         params.put("deviceId", Constants.ID);
         params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
+        params.put("phoneNo", Constants.phoneNo);
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -164,7 +167,6 @@ public class EditPswActivity extends MVPBaseActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equals("true")){
                         Toast.makeText(EditPswActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
-                        finish();
                     }else {
                         Toast.makeText(EditPswActivity.this,jsonObject.getString("message"),Toast.LENGTH_LONG).show();
                     }
