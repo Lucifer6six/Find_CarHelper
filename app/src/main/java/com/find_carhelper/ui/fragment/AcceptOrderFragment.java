@@ -289,6 +289,11 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 timeSelectedTv.setText(tx);
                 minMoney = opt1tx;
                 maxMoney = opt2tx;
+                if (minMoney.equals("全部赏金")){
+                    minMoney = "";
+                    maxMoney = "";
+
+                }
                 getCarData();
             }
         })

@@ -73,7 +73,7 @@ public class MyTeamAdapter extends RecyclerView.Adapter<MyTeamAdapter.RepairView
 
     @Override
     public int getItemCount() {
-        return 3;
+        return list.size();
     }
 
     static class RepairViewHolder extends RecyclerView.ViewHolder {
