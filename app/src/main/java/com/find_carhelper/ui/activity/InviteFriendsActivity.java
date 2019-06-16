@@ -54,12 +54,6 @@ public class InviteFriendsActivity extends MVPBaseActivity {
             realNameTv = findViewById(R.id.real_name);
             statusTv = findViewById(R.id.auth_stutes);
             inviteAction = findViewById(R.id.invite);
-        back_up = findViewById(R.id.back_up);
-        back_up.setOnClickListener(view -> {
-
-            finish();
-
-        });
             inviteAction.setOnClickListener(view -> {
                 if (phoneNo.getText()!=null)
                     getData();

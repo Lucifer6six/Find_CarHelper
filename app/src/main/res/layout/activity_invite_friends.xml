@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:titlebar="http://schemas.android.com/apk/res-auto"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -11,13 +12,22 @@
         android:layout_height="180dp"
         android:background="@color/colorPrimary"
         />
-    <ImageView
-        android:id="@+id/back_up"
-        android:layout_width="wrap_content"
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/login_icon_back"
-        android:layout_margin="@dimen/margin_15"
-        />
+        titlebar:centerText=""
+        titlebar:centerType="textView"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:statusBarColor="@color/colorPrimary"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
+        titlebar:fillStatusBar="true"
+        titlebar:leftType="imageButton"
+        app:rightTextColor="@color/white"
+        app:centerTextColor="@color/white"
+        titlebar:rightText=""
+        titlebar:rightType="textView"
+        titlebar:showBottomLine="false" />
 
     <TextView
         android:id="@+id/pageTitle"
@@ -54,7 +64,6 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:gravity="center"
-            android:padding="@dimen/margin_10"
             android:background="@null"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="@dimen/margin_15"
@@ -65,7 +74,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
             android:background="@color/back_ground_gray"
-            android:layout_marginTop="@dimen/margin_30"
+            android:layout_margin="@dimen/margin_20"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_30"
+            android:background="@drawable/round_square_1"
+            android:visibility="invisible"
             />
     </LinearLayout>
     <LinearLayout
