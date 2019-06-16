@@ -79,7 +79,7 @@ public class EditPswActivity extends MVPBaseActivity {
         // 添加请求参数
         params.put("deviceId", Constants.ID);
         params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
-        if (TextUtils.isEmpty(Constants.phoneNo))
+        if (!TextUtils.isEmpty(Constants.phoneNo))
             params.put("phoneNo", Constants.phoneNo);
         else
             params.put("phoneNo", phone);

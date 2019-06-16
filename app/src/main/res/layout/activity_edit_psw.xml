@@ -49,6 +49,7 @@
             android:layout_margin="@dimen/margin_15"
             android:background="@null"
             android:inputType="number"
+            android:hint="请输入手机号码"
             android:padding="@dimen/margin_10"
             android:text="" />
         <View

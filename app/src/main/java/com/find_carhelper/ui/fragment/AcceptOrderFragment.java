@@ -68,6 +68,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
     public String queryCode = "";
+    public String queryCode1 = "";
     public String minMoney = "";
     public String maxMoney = "";
     private static boolean isLoaded = false;
@@ -239,9 +240,14 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     && options3Items.get(options1).get(options2).size() > 0 ?
                     options3Items.get(options1).get(options2).get(options3).getName() : "";
 
-            String tx = opt1tx+"-"+ opt2tx+"-"+ opt3tx;
-            if (!TextUtils.isEmpty(opt2tx))
-                queryCode = options2Items.get(options1).get(options2).getCode();
+            String tx = opt1tx+"-"+ opt2tx;
+            if(!opt2tx.equals("全部")) {
+                if (!TextUtils.isEmpty(opt2tx)) {
+                    queryCode = options2Items.get(options1).get(options2).getCode();
+                }
+            }else{
+                queryCode1 = options1Items.get(options1).getCode();
+            }
             //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
             getCarData();
             areaSelectedTv.setText(tx);
@@ -256,7 +262,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
         /*pvOptions.setPicker(options1Items);//一级选择器
         pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
-        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.setPicker(options1Items, options2Items);//三级选择器
         pvOptions.show();
     }
 
@@ -327,6 +333,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
+        params.put("provinceCode",queryCode1);
         params.put("cityCode",queryCode);
         params.put("minAmount",minMoney);
         params.put("maxAmount",maxMoney);
@@ -448,7 +455,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 cityBean.setCode(jsonBean.get(i).getCityList().get(c).getCode());
                 cityList.add(cityBean);//添加城市
 
-                ArrayList<CityBean> city_AreaList = new ArrayList<>();//该城市的所有地区列表
+              //  ArrayList<CityBean> city_AreaList = new ArrayList<>();//该城市的所有地区列表
 
                 //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
                 /*if (jsonBean.get(i).getCityList().get(c).getArea() == null
@@ -457,8 +464,8 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 } else {
                     city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
                 }*/
-                city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
-                province_AreaList.add(city_AreaList);//添加该省所有地区数据
+               // city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
+              //  province_AreaList.add(city_AreaList);//添加该省所有地区数据
             }
 
             /**
@@ -531,7 +538,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     Log.e("!@#","size = "+carBeans.size());
                     if (carBeans.size() == 0){
                         Toast.makeText(getContext(),"没有查询到该条件下的车辆",Toast.LENGTH_SHORT).show();
-                        return;
+                       // return;
                     }
                     if (carBeans!=null){
                         initAdapter(carBeans);

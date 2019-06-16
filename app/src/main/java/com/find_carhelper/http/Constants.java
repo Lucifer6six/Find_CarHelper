@@ -18,8 +18,8 @@ public class Constants {
     public static String MY_TEAM = "http://39.100.119.162:9090/onstage/user/my/team";
     public static String INVITE_FRIENDS = "http://39.100.119.162:9090/onstage/user/my/team/invite";
     public static String GET_INFO = "http://39.100.119.162:9090/onstage/user/my/team/invite";
-    public static String GET_CODE = "http://39.100.119.162:9090/onstage/user/modify/password/sendMsgCode";
-    public static String CHANGE_PSW = "http://39.100.119.162:9090/onstage/user/modify/password";
+    public static String GET_CODE = "http://39.100.119.162:9090/onstage/passport/anon/modify/password/sendMsgCode";
+    public static String CHANGE_PSW = "http://39.100.119.162:9090/onstage/passport/anon/modify/password";
     public static String GET_NEWS = "http://39.100.119.162:9090/onstage/message";
     public static String GET_ACCOUNT_INFO = "http://39.100.119.162:9090/onstage/user/my/account";
     public static String GET_ORDER = "http://39.100.119.162:9090/onstage/vehicle/retireve/order";

@@ -31,7 +31,6 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
     private CountDownTextView mCountDownTextView;
     private EditText codeEdit,psw,repsw,acount;
     private Button regist;
-    private ImageView back;
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -55,11 +54,10 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
         psw = findViewById(R.id.psw);
         repsw = findViewById(R.id.repsw);
         acount = findViewById(R.id.acount);
-        back = findViewById(R.id.back);
-        back.setOnClickListener(v -> finish());
         findViewById(R.id.login_tv).setOnClickListener(this);
         regist.setOnClickListener(this);
         initCountText();
+        registerLeftClickEvent(v -> finish());
     }
 
     @Override

@@ -27,11 +27,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/margin_10"
-            android:text="专注手车二十年 这是一个牛逼的sologen"
+            android:layout_marginTop="@dimen/margin_15"
+            android:text="汇聚您我 共享荣耀"
             android:layout_marginBottom="@dimen/margin_60"
             android:textColor="@color/text_color_gray"
-            android:textSize="@dimen/text_size_10"
+            android:textSize="@dimen/text_size_15"
             />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
