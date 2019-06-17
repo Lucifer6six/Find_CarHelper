@@ -80,7 +80,7 @@ public class CooperatingFragment extends MVPBaseFragment  implements OnItemClick
 
     @Override
     protected void onUserVisible() {
-
+        getCarData();
     }
 
     @Override

@@ -15,12 +15,11 @@
         android:id="@+id/nick_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_20"
-        android:text="公司简称字段"
-        android:textColor="@color/back_ground_white"
-        android:layout_marginTop="@dimen/margin_65"
         android:layout_marginLeft="@dimen/margin_15"
-        />
+        android:layout_marginTop="@dimen/margin_65"
+        android:text="您尚未登录"
+        android:textColor="@color/back_ground_white"
+        android:textSize="@dimen/text_size_20" />
     <TextView
         android:id="@+id/little_nick_name"
         android:layout_width="wrap_content"
@@ -29,7 +28,7 @@
         android:layout_marginLeft="@dimen/margin_15"
         android:textColor="@color/back_ground_white"
         android:textSize="@dimen/text_size_16"
-        android:text="我是昵称  11111111111"
+        android:text="点击去登录"
         android:layout_marginTop="@dimen/margin_10"
         />
 

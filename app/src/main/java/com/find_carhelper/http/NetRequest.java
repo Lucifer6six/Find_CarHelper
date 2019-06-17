@@ -2,8 +2,10 @@ package com.find_carhelper.http;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -130,11 +132,14 @@ public class NetRequest {
 //                if (response.isSuccessful()) { // 请求成功
                     //执行请求成功的操作
                     String result = response.body().string();
-                    String header = response.header("accessToken");
-                Log.e("NET REQUEST == ","header == "+ header);
-                    if(response.code() == 401&&result == ""){
+                String header = response.header("accessToken");
+                if (!TextUtils.isEmpty(header)){
+                    SharedPreferencesUtil.putString(Application.getContext(),"token",header);
+                    Log.e("NetRequest","update the token"+header);
+                }
+                    if(response.code() == 401){
                         result = "401";
-                    }else if (response.code() == 500&&result == ""){
+                    }else if (response.code() == 500){
                         result = "500";
                     }
                     deliverDataSuccess(result, callBack);
@@ -191,7 +196,18 @@ public class NetRequest {
                 if (response.isSuccessful()) { // 请求成功
                     //执行请求成功的操作
                     String result = response.body().string();
+                    String header = response.header("accessToken");
+                    if (!TextUtils.isEmpty(header)){
+                        SharedPreferencesUtil.putString(Application.getContext(),"token",header);
+                        Log.e("NetRequest","update the token");
+                    }
+                    if(response.code() == 401){
+                        result = "401";
+                    }else if (response.code() == 500){
+                        result = "500";
+                    }
                     deliverDataSuccess(result, callBack);
+
                 } else {
                     throw new IOException(response + "");
                 }

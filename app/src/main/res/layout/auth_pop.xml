@@ -1,49 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/round_square"
-               >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginLeft="@dimen/margin_40"
+    android:layout_marginRight="@dimen/margin_40"
+    android:background="@drawable/round_square">
 
-        <ImageView
-            android:id="@+id/img"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/dd_icon6"
-            android:layout_marginTop="@dimen/margin_40"
-            />
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="您的身份尚未认证"
-            android:textSize="@dimen/text_size_25"
-            android:layout_below="@+id/img"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            />
+
     <TextView
-        android:id="@+id/tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="认证成功之后可接单并跟踪处理"
-        android:textSize="@dimen/text_size_18"
-        android:layout_below="@+id/tv1"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:text="您确定接单吗？"
+        android:textSize="@dimen/text_size_18" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="@dimen/text_size_15"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="@dimen/margin_15"
         />
-    <Button
-        android:id="@+id/auth_action"
+
+    <TextView
+        android:id="@+id/accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="去认证"
-        android:layout_below="@id/tv2"
-        android:layout_marginTop="@dimen/margin_20"
-        android:textColor="@color/white"
-        android:paddingBottom="8dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:background="@mipmap/jd_btn_tj_bg"
+        android:textSize="@dimen/text_size_15"
+        android:text="确定"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="@dimen/margin_15"
         />
 </RelativeLayout>

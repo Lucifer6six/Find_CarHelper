@@ -82,7 +82,7 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
 
     @Override
     protected void onUserVisible() {
-
+        getCarData();
     }
 
     @Override

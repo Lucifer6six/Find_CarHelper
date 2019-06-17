@@ -140,7 +140,9 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         updateLayout = mRootView.findViewById(R.id.update);
         name = mRootView.findViewById(R.id.nick_name);
         nickName = mRootView.findViewById(R.id.little_nick_name);
+        nickName.setOnClickListener(this);
         auth_stutes = mRootView.findViewById(R.id.auth_stutes);
+        auth_stutes.setOnClickListener(this);
         auth_fail = mRootView.findViewById(R.id.auth_fail_);
         updateLayout.setOnClickListener(this);
         pswLayout.setOnClickListener(this);
@@ -155,15 +157,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             startLocaion();//开始定位
            // Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
         }
-        auth_stutes.setOnClickListener(view -> {
-            if (userBean!=null){
-                if (userBean.getStatus().equals("AUTH_SUCCESS")||userBean.getStatus().equals("IN_AUTH")){
-
-                }else{
-                    startActivity(new Intent(getContext(), AuthActivity.class));
-                }
-            }
-        });
+        auth_stutes.setOnClickListener(this);
         initLoading();
     }
     LoadingDialog loadingDialog;
@@ -286,12 +280,12 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+        if (Constants.isLogin)
         switch (view.getId()){
 
             case R.id.edit_psw:
 
                 startActivity(new Intent(getContext(), EditPswActivity.class));
-                //
 
                 break;
 
@@ -312,7 +306,20 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             case R.id.update:
                // startActivity(new Intent(getContext(), RequestInStoreActivity.class));
                 break;
+            case R.id.auth_stutes:
+
+                if (userBean!=null){
+                    if (userBean.getStatus().equals("AUTH_SUCCESS")||userBean.getStatus().equals("IN_AUTH")){
+
+                    }else{
+                        startActivity(new Intent(getContext(), AuthActivity.class));
+                    }
+                }
+
+                break;
         }
+        else
+         startIntent();
     }
     public void startLocaion(){
         Log.e(TAG,"开始定位");

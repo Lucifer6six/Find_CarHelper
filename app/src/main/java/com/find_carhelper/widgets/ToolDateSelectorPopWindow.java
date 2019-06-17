@@ -41,7 +41,7 @@ private OptionsPickerView mOptionsPickerView;
     private OptionsPickerView pvOptions;
     public ToolDateSelectorPopWindow(Context context, MarkerOrderPopWindow.getdata getdata) {
         super(context);
-        setPopupGravity(Gravity.BOTTOM|Gravity.CENTER);
+        setPopupGravity(Gravity.CENTER|Gravity.CENTER);
         bindEvent();
         this.mGetdata = getdata;
     }
@@ -62,16 +62,20 @@ private OptionsPickerView mOptionsPickerView;
     }
 
     private void bindEvent() {
-        findViewById(R.id.auth_action).setOnClickListener(this);
+        findViewById(R.id.cancel).setOnClickListener(this);
+        findViewById(R.id.accept).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.auth_action:
-                mGetdata.getdatas("go");
+            case R.id.cancel:
+                dismiss();
                 break;
-
+            case R.id.accept:
+                mGetdata.getdatas("1");
+                dismiss();
+                break;
         }
     }
 

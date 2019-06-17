@@ -25,6 +25,7 @@ import com.find_carhelper.bean.CityBean;
 import com.find_carhelper.bean.JsonBean;
 import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.entity.EventCenter;
+import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
@@ -34,7 +35,9 @@ import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.GetJsonDataUtil;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.widgets.MarkerOrderPopWindow;
 import com.find_carhelper.widgets.OnItemClickListeners;
+import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
 import com.google.gson.Gson;
 import com.wega.library.loadingDialog.LoadingDialog;
 
@@ -108,7 +111,8 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
     @Override
     protected void onUserVisible() {
-
+        getProvinceData();
+        getCarData();
     }
 
     @Override
@@ -171,9 +175,15 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             public void onItemClick(View v, ListOrderAcceptAdapter.ViewName viewName, int position) {
                   //  Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
 
-                    acceptOrderAction(position);
 
-
+                new ToolDateSelectorPopWindow(getContext(), new MarkerOrderPopWindow.getdata() {
+                    @Override
+                    public void getdatas(String str) {
+                        if (str.equals("1")){
+                            acceptOrderAction(position);
+                        }
+                    }
+                }).showPopupWindow();
             }
 
             @Override
@@ -181,9 +191,10 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
             }
         });
+
     }
     public void acceptOrderAction(int position){
-        Log.e("TAG","position == "+position);
+        Log.e("失败的","position == "+position);
         String url = Constants.ACCEPT_ORDER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
@@ -195,7 +206,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG",result.toString());
+                Log.e("acceptOrderAction",result.toString());
                 if (!result.equals("401")){
                     if (!TextUtils.isEmpty(result)){
                         JSONObject jsonObject =  JSON.parseObject(result);
@@ -337,7 +348,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
+        params.put("accessToken", SharedPreferencesUtil.getString(Application.getContext(),"token"));
         params.put("provinceCode",queryCode1);
         params.put("cityCode",queryCode);
         params.put("minAmount",minMoney);
@@ -349,7 +360,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG",result.toString());
+                Log.e("getCarData",result.toString());
                 if (!result.equals("401")){
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject =  JSON.parseObject(result);
@@ -395,13 +406,13 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
+        params.put("accessToken", SharedPreferencesUtil.getString(Application.getContext(),"token"));
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG",result.toString());
+                Log.e("AcceptOrder",result.toString());
                 if (!result.equals("401")){
                     JSONObject jsonObject = JSON.parseObject(result);
                     if (jsonObject.getString("status")!=null)
@@ -426,7 +437,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             @Override
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
-                Log.e("TAG",request.toString()+e.getMessage());
+                Log.e("AcceptOrderFrament失败的",request.toString()+e.getMessage());
             }
         });
     }

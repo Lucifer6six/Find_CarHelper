@@ -107,6 +107,7 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
                             SharedPreferencesUtil.putString(LoginActivity.this,"token",token);
                             Log.e("TAG","写入成功"+token);
                         }
+                        Constants.isLogin = true;
                         Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                         finish();
                     }else{
