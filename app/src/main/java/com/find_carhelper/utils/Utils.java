@@ -24,6 +24,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,14 +50,6 @@ public class Utils {
         }else {
 
         }
-    }
-    public static String getDeviceId(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if(tm == null) return null;
-        //if(ContextCompat.checkSelfPermission(context,"") > 0) {
-            return tm.getDeviceId();
-        //}
-        //return "";
     }
 
     public static void snackShow(View view, String msg){
@@ -182,5 +175,8 @@ public class Utils {
             return upperBound;
         }
     }
-
+    public static String addComma(String str) {
+        DecimalFormat decimalFormat = new DecimalFormat(",##0.00");
+        return decimalFormat.format(Double.parseDouble(str));
+    }
 }

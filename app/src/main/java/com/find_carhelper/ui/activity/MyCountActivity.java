@@ -14,21 +14,16 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.BillListBean;
-import com.find_carhelper.bean.NewsBean;
-import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.MyAcountAdapter;
-import com.find_carhelper.ui.adapter.MyTeamAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
-import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.utils.Utils;
 import com.find_carhelper.widgets.OnItemClickListeners;
-import com.google.gson.Gson;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
@@ -152,8 +147,14 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
         });
     }
     public void setData(){
-        total.setText("已累计提现"+withDraw+"元");
-        canDraw.setText(totalDraw);
+        if (withdraw.equals("0"))
+            total.setText("已累计提现"+withDraw+"元");
+        else
+            total.setText("已累计提现"+ Utils.addComma(withDraw)+"元");
+        if (totalDraw.equals("0"))
+            canDraw.setText(totalDraw);
+        else
+            canDraw.setText(Utils.addComma(totalDraw));
         tip1.setText(tips);
         tip2.setText(tips2);
     }

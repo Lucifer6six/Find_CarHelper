@@ -65,6 +65,7 @@ public class WithDrawActivity extends MVPBaseActivity {
                 draw.setText(drawText);
             }
         });
+        registerLeftClickEvent(v -> finish());
     }
     public void drawAction(String amount){
         String url = Constants.WITH_DRAW;

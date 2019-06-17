@@ -76,10 +76,7 @@ public class MyAcountAdapter extends RecyclerView.Adapter<MyAcountAdapter.Repair
                    holder.room.addView(listView);
               }
           }
-
         }
-
-
     }
 
 

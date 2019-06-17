@@ -2,6 +2,7 @@ package com.find_carhelper.http;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -129,6 +130,8 @@ public class NetRequest {
 //                if (response.isSuccessful()) { // 请求成功
                     //执行请求成功的操作
                     String result = response.body().string();
+                    String header = response.header("accessToken");
+                Log.e("NET REQUEST == ","header == "+ header);
                     if(response.code() == 401&&result == ""){
                         result = "401";
                     }else if (response.code() == 500&&result == ""){
