@@ -113,6 +113,12 @@ public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListen
     }
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getTeamData();
     }
 
@@ -134,9 +140,8 @@ public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListen
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject =  JSON.parseObject(result);
                     if (jsonObject.getString("success").equals("true")){
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         Message msg = new Message();
-                        teamBeans =  JSON.parseArray(jsonObject1.getJSONArray("user").toJSONString(), TeamBean.class);
+                        teamBeans =  JSON.parseArray(jsonObject.getJSONArray("data").toJSONString(), TeamBean.class);
                         msg.what = 1;
                         handler.sendMessage(msg);
                     }else{

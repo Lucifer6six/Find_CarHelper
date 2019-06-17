@@ -21,7 +21,6 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.LocationSource;
-import com.autonavi.amap.mapcore.tools.TextTextureGenerator;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.entity.EventCenter;
@@ -30,15 +29,11 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.AuthActivity;
 import com.find_carhelper.ui.activity.EditPswActivity;
-import com.find_carhelper.ui.activity.InviteFriendsActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.activity.MyCountActivity;
 import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
-import com.find_carhelper.ui.activity.RequestInStoreActivity;
-import com.find_carhelper.ui.activity.RequestLaterActivity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
-import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.google.gson.Gson;
 import com.wega.library.loadingDialog.LoadingDialog;
@@ -47,7 +42,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import okhttp3.Request;
 
@@ -127,7 +121,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     @Override
     protected void onUserVisible() {
-
+            getData();
     }
 
     @Override
@@ -187,8 +181,6 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     }
     @Override
     protected void initData() {
-        loadingDialog.loading();
-        //getData();
     }
     private Handler handler = new Handler(){
         @Override
@@ -213,12 +205,26 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 }else
                     auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz1));
                 Constants.phoneNo = userBean.getPhoneNo();
+                if (userBean.getRole().equals("COMPANY")){
+                    myTeamLayout.setVisibility(View.VISIBLE);
+                    acountLayout.setVisibility(View.VISIBLE);
+                }else {
+                    myTeamLayout.setVisibility(View.GONE);
+                    acountLayout.setVisibility(View.GONE);
+                }
 
         }
 
     }
-    public void getData(){
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    public void getData(){
+        loadingDialog.loading();
         String url = Constants.MY_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
@@ -271,11 +277,6 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getData();
-    }
 
     public void startIntent(){
 

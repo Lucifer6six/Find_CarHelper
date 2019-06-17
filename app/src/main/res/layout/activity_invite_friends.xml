@@ -84,6 +84,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_15"
@@ -91,6 +92,7 @@
         android:layout_below="@+id/noLayout"
         android:background="@drawable/round_square_1"
         android:layout_marginTop="@dimen/margin_10"
+        android:visibility="gone"
         >
 
         <RelativeLayout
@@ -151,7 +153,41 @@
 
         </RelativeLayout>
     </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_15"
+        android:orientation="vertical"
+        android:layout_below="@+id/noLayout"
+        android:background="@color/back_ground_gray"
+        android:layout_marginTop="@dimen/margin_10"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/mine_td_icon1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:text="该用户不存在"
+            android:textSize="@dimen/text_size_18"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请输入正确的手机号查找"
+            android:textSize="@dimen/text_size_13"
+            android:textColor="#999999"
+            android:layout_gravity="center_horizontal"
+            />
+    </LinearLayout>
     <Button
         android:id="@+id/invite"
         android:layout_width="match_parent"
