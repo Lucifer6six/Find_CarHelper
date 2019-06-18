@@ -132,10 +132,10 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         update = findViewById(R.id.update);
         memo = findViewById(R.id.memo);
         save.setOnClickListener(v -> {
-            commitAction("NO");
+            commitAction("YES");
         });
         update.setOnClickListener(v -> {
-            commitAction("YES");
+            commitAction("NO");
         });
        // initAdapter();
         mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {

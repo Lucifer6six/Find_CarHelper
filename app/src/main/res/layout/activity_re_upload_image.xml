@@ -54,6 +54,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
         >
 
         <LinearLayout

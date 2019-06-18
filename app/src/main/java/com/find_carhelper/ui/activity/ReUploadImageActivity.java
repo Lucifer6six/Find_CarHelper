@@ -24,6 +24,7 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.adapter.ReUploadAdapter;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.widgets.ShowImgPopWindow;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TResult;
 
@@ -178,7 +179,7 @@ public class ReUploadImageActivity extends TakePhotoActivity {
     }
 
     private void initAdapter() {
-        mListOrderAcceptAdapter = new ReUploadAdapter(this, photoes);
+        mListOrderAcceptAdapter = new ReUploadAdapter(ReUploadImageActivity.this, photoes);
         // mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recycleListView.setHasFixedSize(true);
@@ -196,6 +197,10 @@ public class ReUploadImageActivity extends TakePhotoActivity {
                     case R.id.btnPickByTake2:
                         imagNo = 2;
                         customHelper.onClick(takePhoto, getTakePhoto());
+                        break;
+                    case R.id.check_photo:
+                            new ShowImgPopWindow(ReUploadImageActivity.this,photoes.get(position).getPhotoUrl()).showPopupWindow();
+
                         break;
                 }
 

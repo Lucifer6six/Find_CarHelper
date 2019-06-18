@@ -86,6 +86,7 @@ public class ReUploadAdapter extends RecyclerView.Adapter<ReUploadAdapter.Repair
             holder.reasonView.setText("驳回原因：" + images.get(position).getReason());
             holder.btnPickByTake.setTag(position);
             holder.btnPickByTake2.setTag(position);
+            holder.checkPhoto.setTag(position);
             holder.imageView.setVisibility(View.GONE);
             holder.defaultImg.setVisibility(View.VISIBLE);
             holder.photoName.setVisibility(View.VISIBLE);
@@ -143,6 +144,9 @@ public class ReUploadAdapter extends RecyclerView.Adapter<ReUploadAdapter.Repair
                 case R.id.btnPickByTake2:
                     mOnItemClickListener.onItemClick(view, ViewName.PRACTISE, position);
                     break;
+                case R.id.check_photo:
+                    mOnItemClickListener.onItemClick(view, ViewName.PRACTISE, position);
+                    break;
                 default:
                     mOnItemClickListener.onItemClick(view, ViewName.ITEM, position);
                     break;
@@ -179,6 +183,7 @@ public class ReUploadAdapter extends RecyclerView.Adapter<ReUploadAdapter.Repair
             btnPickByTake2 = itemView.findViewById(R.id.btnPickByTake2);
             btnPickByTake.setOnClickListener(ReUploadAdapter.this);
             btnPickByTake2.setOnClickListener(ReUploadAdapter.this);
+            checkPhoto.setOnClickListener(ReUploadAdapter.this);
         }
     }
 

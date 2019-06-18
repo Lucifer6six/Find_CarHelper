@@ -175,7 +175,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             public void onItemClick(View v, ListOrderAcceptAdapter.ViewName viewName, int position) {
                   //  Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
 
-
+                if (v.getId() == R.id.acept_order)
                 new ToolDateSelectorPopWindow(getContext(), new MarkerOrderPopWindow.getdata() {
                     @Override
                     public void getdatas(String str) {
