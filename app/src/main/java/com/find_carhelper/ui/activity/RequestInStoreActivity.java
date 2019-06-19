@@ -25,9 +25,8 @@ import com.find_carhelper.bean.photoBean;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.adapter.MyImageUploadAdapter;
-import com.find_carhelper.ui.fragment.IdentityAuthFragment;
+import com.find_carhelper.ui.adapter.MyImageUploadAdapter2;
 import com.find_carhelper.utils.CustomHelper;
-import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.google.android.flexbox.FlexboxLayout;
@@ -52,26 +51,25 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RequestInStoreActivity extends TakePhotoActivity implements OnItemClickListeners {
-    private RecyclerView recycleListView;
+    private RecyclerView recycleListView,recycleListView2;
     private MyImageUploadAdapter mMyImageUploadAdapter;
+    private MyImageUploadAdapter2 mMyImageUploadAdapter2;
     private CustomHelper customHelper;
     private View commenView;
     private Button takePhoto;
-    private int position;
+    public int position;
     ArrayList<TImage> images;
     private List<photoBean> photoes;
     private List<photoBean> addPhotoes;
     private List<String> updateList;
     private String orderCode;
     private String vin;
-    public Button save,update;
+    public Button save, update;
     public EditText memo;
     public CommonTitleBar mTitleBar;
     public RelativeLayout add_photo;
-    public boolean addPhoto = false;
     public ImageView photoView;
-    public View addview;
-    FlexboxLayout presentLayot;
+    public boolean isAddPhoto = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,13 +80,13 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         initData();
     }
 
-    public void initData(){
+    public void initData() {
 
         String url = Constants.QUERY_PHOTOS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId",Constants.ID);//
-        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
+        params.put("deviceId", Constants.ID);//
+        params.put("accessToken", SharedPreferencesUtil.getString(getApplicationContext(), "token"));
         params.put("vin", vin);
         params.put("orderCode", orderCode);
         // ...
@@ -96,17 +94,17 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG",result.toString());
-                if (!TextUtils.isEmpty(result)){
-                    com.alibaba.fastjson.JSONObject jsonObject =  JSON.parseObject(result);
-                    if (jsonObject.getString("success").equals("true")){
+                Log.e("TAG", result.toString());
+                if (!TextUtils.isEmpty(result)) {
+                    com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(result);
+                    if (jsonObject.getString("success").equals("true")) {
                         com.alibaba.fastjson.JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        photoes =  JSON.parseArray(jsonObject1.getJSONArray("photoTypeList").toJSONString(), photoBean.class);
+                        photoes = JSON.parseArray(jsonObject1.getJSONArray("photoTypeList").toJSONString(), photoBean.class);
                         addPhotoes = JSON.parseArray(jsonObject1.getJSONArray("addedPhotoList").toJSONString(), photoBean.class);
-                        Toast.makeText(getApplicationContext(),"size="+photoes.size(),Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "size=" + photoes.size(), Toast.LENGTH_SHORT).show();
                         mHandler.sendEmptyMessage(0);
-                    }else{
-                        Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -114,38 +112,44 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
             @Override
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
-                Log.e("TAG",request.toString()+e.getMessage());
+                Log.e("TAG", request.toString() + e.getMessage());
             }
         });
 
     }
-    private Handler mHandler = new Handler(){
+
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
-                   // initImages(photoes.size());
+                    // initImages(photoes.size());
                     initAdapter();
-                    initAddView();
+                    initAdapter2();
+                    break;
+                case 2:
+                    int position = (int)msg.obj;
+                    fotPostition( position);
                     break;
             }
 
         }
     };
+    public void fotPostition(int position){
+        this.position = position;
+    }
     private void initViews() {
         //initImages();
         mTitleBar = findViewById(R.id.title_bar);
 
         photoView = findViewById(R.id.photoView);
-        presentLayot = findViewById(R.id.addPresent);
-        addview = LayoutInflater.from(this).inflate(R.layout.add_photo_item,null);
-        commenView = LayoutInflater.from(this).inflate(R.layout.common_layout,null);
-        add_photo = addview.findViewById(R.id.add_photo);
+        commenView = LayoutInflater.from(this).inflate(R.layout.common_layout, null);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         customHelper = CustomHelper.of(commenView);
         recycleListView = findViewById(R.id.img_list);
+        recycleListView2 = findViewById(R.id.img_list2);
         save = findViewById(R.id.save);//暂存
         update = findViewById(R.id.update);
         memo = findViewById(R.id.memo);
@@ -155,32 +159,22 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         update.setOnClickListener(v -> {
             commitAction("NO");
         });
-        add_photo.setOnClickListener(v -> {
-            addPhoto = true;
-            customHelper.onClick(takePhoto,getTakePhoto());
-        });
         mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
             @Override
             public void onClicked(View v, int action, String extra) {
-                if (action == CommonTitleBar.ACTION_LEFT_BUTTON){
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
                     finish();
                 }
             }
         });
     }
-    public void initAddView(){
-        if (addPhotoes.size()>0){
-                for (int i = 0;i<addPhotoes.size();i++){
-                    presentLayot.addView(addview);
-                }
-            }
-    }
-    public void commitAction(String type){
+
+    public void commitAction(String type) {
         String url = Constants.SAVE_LIBIARY;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
-        params.put("deviceId",Constants.ID);//
-        params.put("accessToken",SharedPreferencesUtil.getString(getApplicationContext(),"token"));
+        params.put("deviceId", Constants.ID);//
+        params.put("accessToken", SharedPreferencesUtil.getString(getApplicationContext(), "token"));
         params.put("vin", vin);
         params.put("orderCode", orderCode);
         params.put("staging", type);
@@ -190,14 +184,14 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG",result.toString());
-                if (!TextUtils.isEmpty(result)){
-                    com.alibaba.fastjson.JSONObject jsonObject =  JSON.parseObject(result);
-                    if (jsonObject.getString("success").equals("true")){
-                        Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                Log.e("TAG", result.toString());
+                if (!TextUtils.isEmpty(result)) {
+                    com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(result);
+                    if (jsonObject.getString("success").equals("true")) {
+                        Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
-                        Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -205,14 +199,14 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
             @Override
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
-                Log.e("TAG",request.toString()+e.getMessage());
+                Log.e("TAG", request.toString() + e.getMessage());
             }
         });
     }
 
-    public void initImages(int size){
-        Log.e("TAG","?????");
-        for(int i=0; i<size; i++){
+    public void initImages(int size) {
+        Log.e("TAG", "?????");
+        for (int i = 0; i < size; i++) {
             ItemBean images = new ItemBean();
             images.setPosition(i);
             images.setPath("");
@@ -221,33 +215,51 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
 
     }
 
-    private void initAdapter(){
-        mMyImageUploadAdapter= new MyImageUploadAdapter(this,photoes);
+    private void initAdapter() {
+        mMyImageUploadAdapter = new MyImageUploadAdapter(this, photoes);
         mMyImageUploadAdapter.setOnItemClickListeners(this);
-        recycleListView.setLayoutManager(new GridLayoutManager(this,2));
+        recycleListView.setLayoutManager(new GridLayoutManager(this, 2));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mMyImageUploadAdapter);
     }
+
+    public void initAdapter2() {
+        mMyImageUploadAdapter2 = new MyImageUploadAdapter2(this, addPhotoes);
+        mMyImageUploadAdapter2.setOnItemClickListeners(new OnItemClickListeners() {
+            @Override
+            public void onItemClick(RecyclerView.ViewHolder viewHolder, Object data, int position) {
+                Message msg = new Message();
+                msg.obj = position;
+                msg.what = 2;
+                mHandler.sendMessage(msg);
+                isAddPhoto = true;
+                customHelper.onClick(takePhoto, getTakePhoto());
+            }
+        });
+        recycleListView2.setLayoutManager(new GridLayoutManager(this, 2));
+        recycleListView2.setHasFixedSize(true);
+        recycleListView2.setAdapter(mMyImageUploadAdapter2);
+    }
+
 
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
 
-        if (addPhoto){
-            addPhoto = false;
-            Bitmap bitmap = BitmapFactory.decodeFile(result.getImage().getCompressPath());
-            if (bitmap!=null){
-                photoView.setImageBitmap(bitmap);
-                uploadImg(result.getImage().getCompressPath(),photoes.get(position).getCode());
-            }
+        if (isAddPhoto) {
+            isAddPhoto = false;
+            addPhotoes.get(position).setPhotoUrl(result.getImage().getCompressPath());
+            uploadImg(result.getImage().getCompressPath(), addPhotoes.get(position).getCode());
+            mMyImageUploadAdapter2.notifyDataSetChanged();
             return;
         }
 
-        if (photoes.size()>0){
+        if (photoes.size() > 0) {
             photoes.get(position).setPhotoUrl(result.getImage().getCompressPath());
-            uploadImg(result.getImage().getCompressPath(),photoes.get(position).getCode());
-          }
-        mMyImageUploadAdapter.notifyDataSetChanged();
+            uploadImg(result.getImage().getCompressPath(), photoes.get(position).getCode());
+            mMyImageUploadAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -259,16 +271,20 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     public void onItemClick(RecyclerView.ViewHolder viewHolder, Object data, int position) {
         //takePhoto.performClick();
         this.position = position;
-        customHelper.onClick(takePhoto,getTakePhoto());
+        isAddPhoto = false;
+        customHelper.onClick(takePhoto, getTakePhoto());
     }
+
     private UpImgAsyncTask mbuttonAsyncTask;
-    public void uploadImg(String url,String code){
+
+    public void uploadImg(String url, String code) {
 
         mbuttonAsyncTask = new UpImgAsyncTask();
-        mbuttonAsyncTask.execute(url,code);
+        mbuttonAsyncTask.execute(url, code);
 
     }
-    private class UpImgAsyncTask extends AsyncTask<String,Object,String> {
+
+    private class UpImgAsyncTask extends AsyncTask<String, Object, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -278,16 +294,16 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
             String imageName = "";
-            try{
-                Log.e("TAG","result = "+response);
+            try {
+                Log.e("TAG", "result = " + response);
                 JSONObject myJson = new JSONObject(response);
                 JSONObject jsonObject = myJson.getJSONObject("data");
                 imageName = jsonObject.getString("name");
-                if (myJson.getString("success").equals("true")){
-                    Toast.makeText(getApplicationContext(),"上传成功",Toast.LENGTH_LONG).show();
-                }else
-                    Toast.makeText(getApplicationContext(),"上传失败",Toast.LENGTH_LONG).show();
-            }catch (Exception e){
+                if (myJson.getString("success").equals("true")) {
+                    Toast.makeText(getApplicationContext(), "上传成功", Toast.LENGTH_LONG).show();
+                } else
+                    Toast.makeText(getApplicationContext(), "上传失败", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -301,17 +317,19 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         protected String doInBackground(String... params) {
             File file = new File(params[0]);
             String re = "";
-            try{
-                re =  uploadImage(file,params[1]);
-            }catch (Exception e){
+            try {
+                re = uploadImage(file, params[1]);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return re;
         }
     }
+
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
     private final OkHttpClient client = new OkHttpClient();
-    public String uploadImage(File  file,String code) throws Exception{
+
+    public String uploadImage(File file, String code) throws Exception {
 
         //2.创建RequestBody
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
@@ -321,7 +339,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
                 .addFormDataPart("deviceId", Constants.ID)//MobileInfoUtil.getIMEI(getContext())
-                .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getApplicationContext(),"token"))
+                .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getApplicationContext(), "token"))
                 .addFormDataPart("vin", vin)
                 .addFormDataPart("orderCode", orderCode)
                 .addFormDataPart("imgType", code)
@@ -336,7 +354,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         //5.发送请求
         Response response = client.newCall(request).execute();
         String re = response.toString();
-        Log.e("hhh",re);
+        Log.e("hhh", re);
         return response.body().string();
     }
 }

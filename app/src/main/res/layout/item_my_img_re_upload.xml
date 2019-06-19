@@ -13,7 +13,8 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_10"
             android:text="查看原图"
             android:textSize="@dimen/text_size_15"
             android:textStyle="bold" />
@@ -23,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_10"
             android:text="查看原图"
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>
@@ -32,7 +34,6 @@
         android:id="@+id/reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:layout_marginBottom="@dimen/margin_10"
         android:background="@drawable/round_square_gray"
         android:padding="@dimen/margin_10"
@@ -61,8 +62,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="@dimen/padding_40"
-                    android:paddingBottom="@dimen/padding_40"
+                    android:paddingTop="@dimen/padding_20"
+                    android:paddingBottom="@dimen/padding_20"
                     android:src="@mipmap/dd_icon_photo" />
 
                 <TextView
@@ -74,7 +75,6 @@
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginRight="@dimen/margin_5"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/margin_20"
                     android:text="发动机仓" />
 
                 <ImageView
@@ -103,8 +103,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="@dimen/padding_40"
-                    android:paddingBottom="@dimen/padding_40"
+                    android:paddingTop="@dimen/padding_20"
+                    android:paddingBottom="@dimen/padding_20"
                     android:src="@mipmap/dd_icon_photo" />
 
                 <TextView
@@ -116,7 +116,6 @@
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginRight="@dimen/margin_5"
                     android:gravity="center"
-                    android:paddingBottom="@dimen/margin_20"
                     android:text="附加照片(选填)" />
 
                 <ImageView

@@ -16,6 +16,7 @@ public class CarBean {
     public String orderStatusName;
     public String orderCode;
     public String orderStatus;
+    public String canOrder;
 
     public String getOrderCode() {
         return orderCode;

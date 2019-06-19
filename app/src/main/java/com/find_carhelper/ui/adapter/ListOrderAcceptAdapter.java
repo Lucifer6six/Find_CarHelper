@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
+import com.find_carhelper.http.Constants;
 import com.find_carhelper.ui.activity.GuideActivity;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
@@ -158,6 +159,14 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
             gpsTips.setText(mItemInfo.getPositioningMethod());
             keyTips.setText(mItemInfo.getHasKey());
             groupTips.setText(mItemInfo.getPartya());
+            if (Constants.canOrder){
+                acept_order.setClickable(true);
+                acept_order.setBackgroundResource(R.mipmap.jd_btn_pre_bg);
+            }else{
+                acept_order.setBackgroundResource(R.mipmap.jd_btn_n_bg);
+                acept_order.setClickable(false);
+            }
+
             if (!TextUtils.isEmpty(mItemInfo.getCountdown())&&!mItemInfo.getCountdown().equals("0")) {
                 acept_order.setVisibility(View.INVISIBLE);
                 countdownView.setVisibility(View.VISIBLE);
@@ -172,6 +181,9 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
             } else {
                 car_money.setVisibility(View.VISIBLE);
                 car_status.setVisibility(View.INVISIBLE);
+            }
+            if (!Constants.canOrder){
+                car_money.setVisibility(View.INVISIBLE);
             }
             itemView.setTag(position);
             acept_order.setTag(position);

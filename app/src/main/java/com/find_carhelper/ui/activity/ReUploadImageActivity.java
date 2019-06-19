@@ -27,6 +27,7 @@ import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.ShowImgPopWindow;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TResult;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.json.JSONObject;
 
@@ -61,7 +62,7 @@ public class ReUploadImageActivity extends TakePhotoActivity {
     private Button commit;
     public int positions;
     public int imagNo = 0;
-
+    public CommonTitleBar mTitleBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +96,7 @@ public class ReUploadImageActivity extends TakePhotoActivity {
                         //photoes2 = JSON.parseArray(jsonObject1.getJSONArray("addList").toJSONString(), ReasonBean.class);
                         time = jsonObject1.getString("submitTime");
                         title = jsonObject1.getString("vehicleModel");
-                        Toast.makeText(getApplicationContext(), "size=" + photoes.size(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "size=" + photoes.size(), Toast.LENGTH_SHORT).show();
                         mHandler.sendEmptyMessage(0);
                     } else {
                         Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -131,6 +132,7 @@ public class ReUploadImageActivity extends TakePhotoActivity {
     };
 
     public void initView() {
+        mTitleBar = findViewById(R.id.title_bar);
         recycleListView = findViewById(R.id.list_orders);
         recycleListView2 = findViewById(R.id.list_orders2);
         titleView = findViewById(R.id.title);
@@ -142,6 +144,14 @@ public class ReUploadImageActivity extends TakePhotoActivity {
         customHelper = CustomHelper.of(commenView);
         commit.setOnClickListener(view -> {
             commitAction();
+        });
+        mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
+            @Override
+            public void onClicked(View v, int action, String extra) {
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
+                    finish();
+                }
+            }
         });
     }
 

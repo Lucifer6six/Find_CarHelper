@@ -56,6 +56,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     private UserBean userBean;
     private TextView auth_fail;
     private LinearLayout countLayout;
+    boolean fistLoad = false;
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -118,12 +119,15 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     @Override
     protected void onFirstUserVisible() {
-
+        fistLoad = true;
     }
 
     @Override
     protected void onUserVisible() {
+        if (!fistLoad){
             getData();
+            fistLoad = false;
+        }
     }
 
     @Override
@@ -166,7 +170,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     LoadingDialog loadingDialog;
     public void initLoading(){
 
-        LoadingDialog.Builder builder = new LoadingDialog.Builder(getContext());
+        LoadingDialog.Builder builder = new LoadingDialog.Builder(getActivity());
         builder.setLoading_text("加载中...")
                 .setFail_text("加载失败")
                 .setSuccess_text("加载成功");

@@ -79,10 +79,6 @@
                 android:layout_marginTop="@dimen/margin_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_10"
-                android:background="@color/back_ground_gray"/>
 
             <LinearLayout
                 android:id="@+id/addLayout"

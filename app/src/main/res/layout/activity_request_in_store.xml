@@ -16,18 +16,18 @@
             android:id="@+id/title_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:centerTextColor="@color/white"
+            app:rightTextColor="@color/white"
+            app:titleBarColor="@color/colorPrimary"
             titlebar:centerText="保全申请入库"
             titlebar:centerType="textView"
-            app:titleBarColor="@color/colorPrimary"
-            titlebar:statusBarColor="@color/colorPrimary"
-            titlebar:leftImageResource="@mipmap/login_icon_back"
             titlebar:fillStatusBar="true"
+            titlebar:leftImageResource="@mipmap/login_icon_back"
             titlebar:leftType="imageButton"
-            app:rightTextColor="@color/white"
-            app:centerTextColor="@color/white"
             titlebar:rightText=""
             titlebar:rightType="textView"
-            titlebar:showBottomLine="false" />
+            titlebar:showBottomLine="false"
+            titlebar:statusBarColor="@color/colorPrimary" />
 
 
         <android.support.v4.widget.NestedScrollView
@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
@@ -48,6 +49,7 @@
                     android:text="车辆照片"
                     android:textSize="@dimen/text_size_15"
                     android:textStyle="bold" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/img_list"
                     android:layout_width="match_parent"
@@ -63,25 +65,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_15">
+
                     <TextView
                         android:id="@+id/tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_15"
                         android:text="附加车辆照片"
                         android:textSize="@dimen/text_size_16"
-                        android:textStyle="bold"
-                        android:layout_margin="@dimen/margin_15"
-                        />
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:id="@+id/addPresent"
-                        android:layout_width="match_parent"
-                        android:layout_margin="@dimen/margin_10"
-                        android:layout_below="@+id/tv"
-                        android:layout_height="wrap_content">
+                        android:textStyle="bold" />
 
-                    </com.google.android.flexbox.FlexboxLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/img_list2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/tv"></android.support.v7.widget.RecyclerView>
 
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_15"
@@ -91,41 +92,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    >
+                    android:focusableInTouchMode="true">
 
                     <TextView
                         android:id="@+id/tv1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_15"
                         android:text="入库备注"
                         android:textSize="@dimen/text_size_16"
-                        android:textStyle="bold"
-                        android:layout_margin="@dimen/margin_15"
-                        />
+                        android:textStyle="bold" />
+
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_10"
-                        app:cardCornerRadius="10dp"
                         android:layout_below="@+id/tv1"
+                        android:layout_margin="@dimen/margin_10"
                         android:background="@color/back_ground_gray"
-                        >
-                    <EditText
-                        android:id="@+id/memo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:enabled="true"
-                        android:gravity="top"
-                        android:inputType="textMultiLine"
-                        android:minLines="8"
-                        android:hint="点击输入车辆备注信息"
-                        android:maxLines="10"
-                        android:textSize="@dimen/text_size_14"
-                        android:background="@null"
-                        android:scrollbars="vertical"
-                        android:layout_margin="@dimen/margin_15"
-                        />
+                        app:cardCornerRadius="10dp">
+
+                        <EditText
+                            android:id="@+id/memo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/margin_15"
+                            android:background="@null"
+                            android:enabled="true"
+                            android:gravity="top"
+                            android:hint="点击输入车辆备注信息"
+                            android:inputType="textMultiLine"
+                            android:maxLines="10"
+                            android:minLines="8"
+                            android:scrollbars="vertical"
+                            android:textSize="@dimen/text_size_14" />
                     </android.support.v7.widget.CardView>
                 </RelativeLayout>
 
@@ -139,16 +138,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_margin="@dimen/margin_15"
-                        android:background="@mipmap/jd_btn_zc"
-                        />
+                        android:background="@mipmap/jd_btn_zc" />
+
                     <Button
                         android:id="@+id/update"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_margin="@dimen/margin_15"
-                        android:background="@mipmap/jd_btn_tj"
-                        />
+                        android:background="@mipmap/jd_btn_tj" />
                 </RelativeLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

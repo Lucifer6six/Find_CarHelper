@@ -31,6 +31,7 @@ import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.json.JSONObject;
 
@@ -63,7 +64,7 @@ public class RequestLaterActivity extends TakePhotoActivity {
     public EditText request_hour,late_reason;
     public String vin;
     public String orderCode;
-
+    public CommonTitleBar mTitleBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +108,7 @@ public class RequestLaterActivity extends TakePhotoActivity {
     }
 
     private void initViews() {
+        mTitleBar = findViewById(R.id.title_bar);
         list = new ArrayList<ItemBean>();
         tekeImage = findViewById(R.id.takePic);
         photoView = findViewById(R.id.photoView);
@@ -125,6 +127,16 @@ public class RequestLaterActivity extends TakePhotoActivity {
             else
                 Toast.makeText(getApplicationContext(),"请填写完整信息",Toast.LENGTH_SHORT).show();
         });
+
+        mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
+            @Override
+            public void onClicked(View v, int action, String extra) {
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
+                    finish();
+                }
+            }
+        });
+
     }
 
     public void commitAction(){

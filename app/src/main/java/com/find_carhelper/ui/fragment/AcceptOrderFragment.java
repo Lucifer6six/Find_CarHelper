@@ -140,8 +140,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
             });
             timeSelectedLayout.setOnClickListener(view -> {
-
-                    showTimePickView();
+                        showTimePickView();
 
             });
        // initAdapter();
@@ -424,6 +423,11 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     }
                     if (jsonObject.getString("success").equals("true")){
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        if (jsonObject1.getString("canOrder").equals("true")){
+                            Constants.canOrder = true;
+                        }else {
+                            Constants.canOrder = false;
+                        }
                         Message msg = new Message();
                                 msg.obj = jsonObject1.getJSONArray("provinceList").toString();
                                 msg.what = 4;
