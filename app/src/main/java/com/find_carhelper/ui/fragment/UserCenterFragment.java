@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     private ImageView auth_stutes;
     private UserBean userBean;
     private TextView auth_fail;
+    private LinearLayout countLayout;
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -133,6 +135,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     protected void initViews() {
         pswLayout = mRootView.findViewById(R.id.edit_psw);
         newsLayout = mRootView.findViewById(R.id.news_center);
+        countLayout = mRootView.findViewById(R.id.about_me);
         myTeamLayout = mRootView.findViewById(R.id.team);
         myTeamLayout.setOnClickListener(this);
         protocalLayout = mRootView.findViewById(R.id.protocal);
@@ -200,11 +203,13 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                     auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz1));
                 Constants.phoneNo = userBean.getPhoneNo();
                 if (userBean.getRole().equals("COMPANY")){
-                    myTeamLayout.setVisibility(View.VISIBLE);
-                    acountLayout.setVisibility(View.VISIBLE);
+                    //myTeamLayout.setVisibility(View.VISIBLE);
+                    //acountLayout.setVisibility(View.VISIBLE);
+                    countLayout.setVisibility(View.VISIBLE);
                 }else {
-                    myTeamLayout.setVisibility(View.GONE);
-                    acountLayout.setVisibility(View.GONE);
+                    countLayout.setVisibility(View.GONE);
+                    //myTeamLayout.setVisibility(View.GONE);
+                   // acountLayout.setVisibility(View.GONE);
                 }
 
         }
@@ -268,7 +273,6 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 Log.e("TAG",request.toString()+e.getMessage());
             }
         });
-
     }
 
 
@@ -317,8 +321,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                 }
 
                 break;
-        }
-        else
+        }else
          startIntent();
     }
     public void startLocaion(){

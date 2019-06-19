@@ -78,4 +78,5 @@ dependencies {
     api 'com.alibaba:fastjson:1.1.55.android'
     api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     api 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    api 'com.google.android:flexbox:1.0.0'
 }

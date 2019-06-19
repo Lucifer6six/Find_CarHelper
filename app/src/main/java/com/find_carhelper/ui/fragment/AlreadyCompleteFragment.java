@@ -45,7 +45,6 @@ import okhttp3.Request;
 public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemClickListeners {
     private RecyclerView recycleListView;
     private AlreadyCompleteAcceptAdapter mListOrderAcceptAdapter;
-    public LoadingDialog loadingDialog;
     public List<CarBean> carBeans;
     public RelativeLayout no_auth_layout;
     public static Fragment newInstance() {
@@ -98,7 +97,6 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
             startActivity(new Intent(getContext(), AuthActivity.class));
         });
         initLoading();
-       // initAdapter();
     }
     public void initLoading(){
 
@@ -108,8 +106,6 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
                 .setSuccess_text("加载成功");
         //设置延时5000ms才消失,可以不设置默认1000ms
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
-
-        loadingDialog = builder.create();
 
     }
     private void initAdapter(List<CarBean> list){
@@ -169,9 +165,7 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
                             carBeans =  JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), CarBean.class);
                             msg.what = 0;
                             mHandler.sendMessage(msg);
-                            loadingDialog.cancel();
                         }else{
-                            loadingDialog.cancel();
                             String msg = jsonObject.getString("message");
                             if (msg.contains("认证")){
                                 no_auth_layout.setVisibility(View.VISIBLE);
@@ -187,7 +181,6 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
             @Override
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
-                loadingDialog.cancel();
                 Log.e("TAG",request.toString()+e.getMessage());
             }
         });
@@ -206,7 +199,6 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    loadingDialog.cancel();
                     Log.e("!@#","size = "+carBeans.size());
                     if (carBeans!=null){
                         initAdapter(carBeans);

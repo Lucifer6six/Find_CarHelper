@@ -1,5 +1,7 @@
 package com.find_carhelper.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -26,6 +30,7 @@ import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
+import com.google.android.flexbox.FlexboxLayout;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
@@ -55,12 +60,18 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     private int position;
     ArrayList<TImage> images;
     private List<photoBean> photoes;
+    private List<photoBean> addPhotoes;
     private List<String> updateList;
     private String orderCode;
     private String vin;
     public Button save,update;
     public EditText memo;
     public CommonTitleBar mTitleBar;
+    public RelativeLayout add_photo;
+    public boolean addPhoto = false;
+    public ImageView photoView;
+    public View addview;
+    FlexboxLayout presentLayot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +102,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                     if (jsonObject.getString("success").equals("true")){
                         com.alibaba.fastjson.JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         photoes =  JSON.parseArray(jsonObject1.getJSONArray("photoTypeList").toJSONString(), photoBean.class);
+                        addPhotoes = JSON.parseArray(jsonObject1.getJSONArray("addedPhotoList").toJSONString(), photoBean.class);
                         Toast.makeText(getApplicationContext(),"size="+photoes.size(),Toast.LENGTH_SHORT).show();
                         mHandler.sendEmptyMessage(0);
                     }else{
@@ -116,6 +128,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                 case 0:
                    // initImages(photoes.size());
                     initAdapter();
+                    initAddView();
                     break;
             }
 
@@ -124,7 +137,12 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     private void initViews() {
         //initImages();
         mTitleBar = findViewById(R.id.title_bar);
+
+        photoView = findViewById(R.id.photoView);
+        presentLayot = findViewById(R.id.addPresent);
+        addview = LayoutInflater.from(this).inflate(R.layout.add_photo_item,null);
         commenView = LayoutInflater.from(this).inflate(R.layout.common_layout,null);
+        add_photo = addview.findViewById(R.id.add_photo);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         customHelper = CustomHelper.of(commenView);
         recycleListView = findViewById(R.id.img_list);
@@ -137,7 +155,10 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         update.setOnClickListener(v -> {
             commitAction("NO");
         });
-       // initAdapter();
+        add_photo.setOnClickListener(v -> {
+            addPhoto = true;
+            customHelper.onClick(takePhoto,getTakePhoto());
+        });
         mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
             @Override
             public void onClicked(View v, int action, String extra) {
@@ -147,7 +168,13 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
             }
         });
     }
-
+    public void initAddView(){
+        if (addPhotoes.size()>0){
+                for (int i = 0;i<addPhotoes.size();i++){
+                    presentLayot.addView(addview);
+                }
+            }
+    }
     public void commitAction(String type){
         String url = Constants.SAVE_LIBIARY;
         HashMap<String, String> params = new HashMap<>();
@@ -168,6 +195,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                     com.alibaba.fastjson.JSONObject jsonObject =  JSON.parseObject(result);
                     if (jsonObject.getString("success").equals("true")){
                         Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }
@@ -205,6 +233,15 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
 
+        if (addPhoto){
+            addPhoto = false;
+            Bitmap bitmap = BitmapFactory.decodeFile(result.getImage().getCompressPath());
+            if (bitmap!=null){
+                photoView.setImageBitmap(bitmap);
+                uploadImg(result.getImage().getCompressPath(),photoes.get(position).getCode());
+            }
+            return;
+        }
 
         if (photoes.size()>0){
             photoes.get(position).setPhotoUrl(result.getImage().getCompressPath());

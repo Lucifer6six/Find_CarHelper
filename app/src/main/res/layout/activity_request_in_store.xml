@@ -29,26 +29,25 @@
             titlebar:rightType="textView"
             titlebar:showBottomLine="false" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_bar"
-            android:layout_margin="@dimen/margin_15"
-            android:text="车辆照片"
-            android:textSize="@dimen/text_size_15"
-            android:textStyle="bold" />
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/title">
+            android:layout_below="@+id/title_bar">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title_bar"
+                    android:layout_margin="@dimen/margin_15"
+                    android:text="车辆照片"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/img_list"
                     android:layout_width="match_parent"
@@ -73,45 +72,15 @@
                         android:textStyle="bold"
                         android:layout_margin="@dimen/margin_15"
                         />
-                    <android.support.v7.widget.CardView
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/addPresent"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_10"
-                        app:cardCornerRadius="10dp"
                         android:layout_below="@+id/tv"
-                        android:background="@color/back_ground_gray"
-                        >
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingTop="@dimen/margin_40"
-                            android:paddingBottom="@dimen/margin_40"
-                            >
-                            <ImageView
-                                android:id="@+id/img"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@mipmap/dd_icon_photo"
-                                android:layout_centerInParent="true"
-                                />
-                            <TextView
-                                android:id="@+id/text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/img"
-                                android:layout_centerHorizontal="true"
-                                android:text="附加照片"
-                                android:layout_marginTop="@dimen/margin_15"
-                                />
-                            <ImageView
-                                android:id="@+id/photoView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:visibility="gone"
-                                android:scaleType="fitXY"
-                                />
-                        </RelativeLayout>
-                    </android.support.v7.widget.CardView>
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"

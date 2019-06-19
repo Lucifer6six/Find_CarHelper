@@ -221,6 +221,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                         }
                     }
                 }else{
+                    loadingDialog.cancel();
                     startIntent();
                 }
             }
@@ -360,6 +361,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
+                loadingDialog.cancel();
                 Log.e("getCarData",result.toString());
                 if (!result.equals("401")){
                 if (!TextUtils.isEmpty(result)){
@@ -375,13 +377,12 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                          carBeans =  JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(),CarBean.class);
                         msg.what = 5;
                         mHandler.sendMessage(msg);
-                        loadingDialog.cancel();
                     }else{
-                        loadingDialog.cancel();
                         Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }
                     }
                 }else{
+                    loadingDialog.cancel();
                     startIntent();
                 }
             }
@@ -412,6 +413,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
+                loadingDialog.cancel();
                 Log.e("AcceptOrder",result.toString());
                 if (!result.equals("401")){
                     JSONObject jsonObject = JSON.parseObject(result);

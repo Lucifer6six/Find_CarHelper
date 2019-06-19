@@ -96,7 +96,6 @@ public class CooperatingFragment extends MVPBaseFragment  implements OnItemClick
             startActivity(new Intent(getContext(),AuthActivity.class));
         });
         initLoading();
-        //initAdapter();
     }
     private void initAdapter(List<CarBean> list){
         mListOrderAcceptAdapter = new MyCooperationOrderAdapter(list,mContext);
