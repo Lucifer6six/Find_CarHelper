@@ -51,7 +51,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_below="@+id/smart_tablayout"
-        android:padding="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_10"
         android:background="@drawable/round_square_"
         android:layout_height="match_parent">
@@ -60,7 +59,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:layout_marginTop="@dimen/margin_15"
             />
     </RelativeLayout>
 

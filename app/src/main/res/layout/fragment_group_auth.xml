@@ -107,7 +107,10 @@
                 android:hint="请输入统一社会信用代码"
                 android:singleLine="true"
                 android:textSize="@dimen/text_size_14" />
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,7 +126,10 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_10"
                 android:src="@mipmap/btn_zz1" />
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:background="@color/back_ground_gray"/>
         </LinearLayout>
     </ScrollView>
     <Button

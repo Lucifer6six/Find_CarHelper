@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.find_carhelper.R;
+import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.activity.AuthActivity;
@@ -233,7 +234,10 @@ public class GroupAuthFragment extends TakePhotoFragment {
         //5.发送请求
         Response response = client.newCall(request).execute();
         String re = response.body().string();
-        Log.e("hhh",re);
+        String header = response.header("accessToken");
+        if (!TextUtils.isEmpty(header)){
+            SharedPreferencesUtil.putString(Application.getContext(),"token",header);
+        }
         if (response.code() == 200){
             upload = true;
         }
