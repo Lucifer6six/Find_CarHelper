@@ -193,7 +193,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     public void initDatas(){
             if (userBean!=null){
-
+                Constants.isLogin = true;
                 name.setText(userBean.getCompanyName());
                 nickName.setText(userBean.getNickname());
                 if (userBean.getStatus().equals("AUTH_SUCCESS")){

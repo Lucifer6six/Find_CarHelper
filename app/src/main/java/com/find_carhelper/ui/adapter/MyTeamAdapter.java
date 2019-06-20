@@ -51,8 +51,8 @@ public class MyTeamAdapter extends RecyclerView.Adapter<MyTeamAdapter.RepairView
 
             holder.nick_name.setText(list.get(position).getNickname());
             holder.realName.setText(list.get(position).getRealName()+"  "+list.get(position).getPhoneNo());
-            holder.inviteTime.setText(list.get(position).getInviteTime());
-            holder.joinTime.setText(list.get(position).getJoinTime());
+            holder.inviteTime.setText("邀请时间:"+list.get(position).getInviteTime());
+            holder.joinTime.setText("加入时间:"+list.get(position).getJoinTime());
 
             if (list.get(position).getStatus().equals("已邀请")){
                 holder.yi.setVisibility(View.VISIBLE);

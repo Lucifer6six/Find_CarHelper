@@ -123,15 +123,15 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_10"
                 android:src="@mipmap/btn_zz1" />
-            <Button
-                android:id="@+id/commit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:layout_marginTop="@dimen/margin_15"
-                android:text="提交"
-                android:textColor="@color/white" />
+
         </LinearLayout>
     </ScrollView>
-
+    <Button
+        android:id="@+id/commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:text="提交"
+        android:textColor="@color/white" />
 </RelativeLayout>

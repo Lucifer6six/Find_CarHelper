@@ -176,6 +176,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                             //codeEdit.setText(data);
                             if (data.has("accessToken")){
                                 SharedPreferencesUtil.putString(RegistActivity.this,"token",data.getString("accessToken"));
+                                Constants.isLogin = true;
                             }
                             Toast.makeText(RegistActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegistActivity.this,AuthActivity.class));
