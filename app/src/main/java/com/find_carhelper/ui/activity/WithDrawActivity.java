@@ -83,8 +83,8 @@ public class WithDrawActivity extends MVPBaseActivity {
                 if (!TextUtils.isEmpty(result)){
                     JSONObject jsonObject = JSON.parseObject(result);
                     if (jsonObject.getString("success").equals("true")){
-                        //Toast.makeText(MyCountActivity.this,"查询成功",Toast.LENGTH_SHORT).show();
                         Toast.makeText(WithDrawActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         Toast.makeText(WithDrawActivity.this,jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
                     }

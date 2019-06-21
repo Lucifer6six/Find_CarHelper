@@ -64,7 +64,7 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!canApply) {
+                if (canApply) {
                     Intent intent = new Intent(MyCountActivity.this,WithDrawActivity.class);
                     intent.putExtra("draw",totalDraw);
                     startActivity(intent);
@@ -96,13 +96,19 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
 
     @Override
     protected void initData() {
-        getData();
     }
 
     @Override
     protected void onEventComing(EventCenter eventCenter) {
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
     public void getData(){
         String url = Constants.GET_ACCOUNT_INFO;
         HashMap<String, String> params = new HashMap<>();

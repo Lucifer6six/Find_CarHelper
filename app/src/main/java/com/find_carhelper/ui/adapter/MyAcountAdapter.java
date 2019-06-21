@@ -63,8 +63,8 @@ public class MyAcountAdapter extends RecyclerView.Adapter<MyAcountAdapter.Repair
                    TextView money = listView.findViewById(R.id.money);
                    TextView status = listView.findViewById(R.id.status);
                    month.setText(lists.get(i).getMonth()+"月");
-                   time1.setText("申请时间"+lists.get(i).getApplyTime());
-                   time2.setText("到账时间"+lists.get(i).getPaymentTime());
+                   time1.setText("申请时间:"+lists.get(i).getApplyTime());
+                   time2.setText("到账时间:"+lists.get(i).getPaymentTime());
                    money.setText("￥"+lists.get(i).getAmount());
                    String str = lists.get(i).getStatus();
                    if (str.equals("提现中")){
