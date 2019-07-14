@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.ReasonBean;
+import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.adapter.ReUploadAdapter;
@@ -335,7 +336,10 @@ public class ReUploadImageActivity extends TakePhotoActivity {
         //5.发送请求
         Response response = client.newCall(request).execute();
         String re = response.toString();
-        Log.e("hhh",re);
+        String header = response.header("accessToken");
+        if (!TextUtils.isEmpty(header)){
+            SharedPreferencesUtil.putString(Application.getContext(),"token",header);
+        }
         return response.body().string();
     }
 }

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.find_carhelper.R;
+import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.activity.AuthActivity;
@@ -91,10 +92,8 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         }
     }
     public String uploadImage(File file) throws Exception{
-
         //2.创建RequestBody
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
-
         //3.构建MultipartBody
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -103,17 +102,17 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
                 .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getContext(),"token"))
                 .addFormDataPart("imgType", imageType)
                 .build();
-
         //4.构建请求
         Request request = new Request.Builder()
                 .url("http://39.100.119.162:9090/onstage/upload/person/idcard")
                 .post(requestBody)
                 .build();
-
         //5.发送请求
         Response response = client.newCall(request).execute();
-        String re = response.toString();
-        Log.e("hhh",re);
+        String header = response.header("accessToken");
+        if (!TextUtils.isEmpty(header)){
+            SharedPreferencesUtil.putString(Application.getContext(),"token",header);
+        }
         return response.body().string();
     }
 
@@ -231,9 +230,9 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         id.setEnabled(false);
         commitAction.setBackgroundColor(getResources().getColor(R.color.back_ground_gray));
         AuthActivity.IdentityAuth = true;
-        if (AuthActivity.GroupAuth&&AuthActivity.IdentityAuth){
+        //if (AuthActivity.GroupAuth&&AuthActivity.IdentityAuth){
             getActivity().finish();
-        }
+    //    }
     }
 
     @Override

@@ -277,6 +277,16 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         pvOptions.show();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("AcceptOrderFragemtn","destory");
+         queryCode = "";
+         queryCode1 = "";
+         minMoney = "";
+         maxMoney = "";
+    }
+
     private ArrayList<CardBean> cardItem = new ArrayList<>();
     private OptionsPickerView  pvCustomOptions;
     private void showTimePickView(){

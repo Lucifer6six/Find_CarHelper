@@ -303,7 +303,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="42dp"
-                    android:text="800" />
+                    android:text="1600"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -317,7 +317,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:minWidth="42dp"
-                    android:text="800" />
+                    android:text="1600"/>
 
                 <TextView
                     android:layout_width="wrap_content"

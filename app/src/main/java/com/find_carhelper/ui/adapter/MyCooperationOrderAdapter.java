@@ -91,6 +91,10 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
                         holder.time_layout.setVisibility(View.INVISIBLE);
                         holder.countdownView.setVisibility(View.VISIBLE);
                     }
+                    if (list.get(position).getOrderStatus().equals("DEFER_APPLY")){
+                        holder.time_layout.setVisibility(View.INVISIBLE);
+                        holder.countdownView.setVisibility(View.INVISIBLE);
+                    }
                     holder.time_layout.setTag(position);
                     holder.shenqingBtn.setTag(position);
             }

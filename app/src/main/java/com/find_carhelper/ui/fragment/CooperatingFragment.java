@@ -181,7 +181,7 @@ public class CooperatingFragment extends MVPBaseFragment  implements OnItemClick
                             loadingDialog.cancel();
                             String msg = jsonObject.getString("message");
                             if (msg.contains("认证")){
-                                no_auth_layout.setVisibility(View.VISIBLE);
+                                no_auth_layout.setVisibility(View.INVISIBLE);
                             }
                             Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
                         }

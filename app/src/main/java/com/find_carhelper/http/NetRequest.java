@@ -135,7 +135,6 @@ public class NetRequest {
                 String header = response.header("accessToken");
                 if (!TextUtils.isEmpty(header)){
                     SharedPreferencesUtil.putString(Application.getContext(),"token",header);
-                    Log.e("NetRequest","update the token"+header);
                 }
                     if(response.code() == 401){
                         result = "401";
@@ -199,7 +198,6 @@ public class NetRequest {
                     String header = response.header("accessToken");
                     if (!TextUtils.isEmpty(header)){
                         SharedPreferencesUtil.putString(Application.getContext(),"token",header);
-                        Log.e("NetRequest","update the token");
                     }
                     if(response.code() == 401){
                         result = "401";

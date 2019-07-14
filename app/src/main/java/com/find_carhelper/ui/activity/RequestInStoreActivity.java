@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.ItemBean;
 import com.find_carhelper.bean.photoBean;
+import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.adapter.MyImageUploadAdapter;
@@ -29,7 +30,6 @@ import com.find_carhelper.ui.adapter.MyImageUploadAdapter2;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
-import com.google.android.flexbox.FlexboxLayout;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
@@ -67,7 +67,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     public Button save, update;
     public EditText memo;
     public CommonTitleBar mTitleBar;
-    public RelativeLayout add_photo;
+    public RelativeLayout addLayout;
     public ImageView photoView;
     public boolean isAddPhoto = false;
     @Override
@@ -80,7 +80,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         initData();
     }
 
-    public void initData() {
+    public void initData(){
 
         String url = Constants.SERVICE_NAME+Constants.QUERY_PHOTOS;
         HashMap<String, String> params = new HashMap<>();
@@ -134,7 +134,6 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                     fotPostition( position);
                     break;
             }
-
         }
     };
     public void fotPostition(int position){
@@ -143,7 +142,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     private void initViews() {
         //initImages();
         mTitleBar = findViewById(R.id.title_bar);
-
+        addLayout = findViewById(R.id.addLayout);
         photoView = findViewById(R.id.photoView);
         commenView = LayoutInflater.from(this).inflate(R.layout.common_layout, null);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
@@ -224,6 +223,12 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     }
 
     public void initAdapter2() {
+        if(addPhotoes.size()>0){
+            addLayout.setVisibility(View.VISIBLE);
+        }else{
+            addLayout.setVisibility(View.GONE);
+        }
+
         mMyImageUploadAdapter2 = new MyImageUploadAdapter2(this, addPhotoes);
         mMyImageUploadAdapter2.setOnItemClickListeners(new OnItemClickListeners() {
             @Override
@@ -354,7 +359,10 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         //5.发送请求
         Response response = client.newCall(request).execute();
         String re = response.toString();
-        Log.e("hhh", re);
+        String header = response.header("accessToken");
+        if (!TextUtils.isEmpty(header)){
+            SharedPreferencesUtil.putString(Application.getContext(),"token",header);
+        }
         return response.body().string();
     }
 }

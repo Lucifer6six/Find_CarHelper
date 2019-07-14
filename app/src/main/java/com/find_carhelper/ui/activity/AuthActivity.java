@@ -13,18 +13,19 @@ import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.ui.fragment.GroupAuthFragment;
 import com.find_carhelper.ui.fragment.IdentityAuthFragment;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AuthActivity extends MVPBaseActivity {
-    private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private String[] titles;
     private List<Fragment> fragments;
     private FaultRepairPagerAdapter mainPagerAdapter;
     public static boolean GroupAuth = false;
     public static boolean IdentityAuth = false;
+    private SmartTabLayout mSmartTablayout;
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -37,7 +38,7 @@ public class AuthActivity extends MVPBaseActivity {
 
     @Override
     protected void initViews() {
-        mTabLayout = findViewById(R.id.tool_tab);
+        mSmartTablayout = findViewById(R.id.smart_tablayout);
         mViewPager = findViewById(R.id.view_pager);
         titles = getResources().getStringArray(R.array.auth_tab);
         GroupAuthFragment groupAuthFragment = new GroupAuthFragment();
@@ -48,7 +49,7 @@ public class AuthActivity extends MVPBaseActivity {
         mainPagerAdapter = new FaultRepairPagerAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(mainPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mSmartTablayout.setViewPager(mViewPager);
 
         registerLeftClickEvent(new View.OnClickListener() {
             @Override
