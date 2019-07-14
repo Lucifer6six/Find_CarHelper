@@ -104,7 +104,7 @@ public class MyCountActivity extends MVPBaseActivity implements OnItemClickListe
 
     }
     public void getData(){
-        String url = Constants.GET_ACCOUNT_INFO;
+        String url = Constants.SERVICE_NAME+Constants.GET_ACCOUNT_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())

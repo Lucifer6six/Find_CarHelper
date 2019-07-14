@@ -50,24 +50,28 @@ public class MainActivity extends MVPBaseActivity{
     protected void initViews() {
 
         mViewPager = findViewById(R.id.vp_mian);
-        mViewPager.setOffscreenPageLimit(0);
-        DrawerLayout  drawerlayout = findViewById(R.id.drawerlayout_container);
-        //NavigationView navigationView = findViewById(R.id.navigation_view);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        mViewPager.setCurrentItem(0);
+                        mViewPager.setCurrentItem(1);
                         setTitleBar("保全车辆");
-
                         return true;
                     case R.id.navigation_work:
-                        mViewPager.setCurrentItem(1);
+                        mViewPager.setCurrentItem(3);
                         setTitleBar("保全订单");
                         return true;
                     case R.id.navigation_plan:
+                        mViewPager.setCurrentItem(4);
+                        hideTitleBar();
+                        return true;
+                    case R.id.navigation_main:
+                        mViewPager.setCurrentItem(0);
+                        hideTitleBar();
+                        return true;
+                    case R.id.navigation_find:
                         mViewPager.setCurrentItem(2);
                         hideTitleBar();
                         return true;
@@ -81,9 +85,6 @@ public class MainActivity extends MVPBaseActivity{
         Utils.disableShiftMode(bottomNavigationView);
 
         initFragments();
-
-//        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view,
-//                FragmentFactory.getInstance().getNavigationViewFragmentt()).commit();
 
         //主页面右上角点击事件
         registerRightClickEvent(new View.OnClickListener() {
@@ -101,7 +102,7 @@ public class MainActivity extends MVPBaseActivity{
                 finish();
             }
         });
-       // Toast.makeText(MainActivity.this,"share = "+ SharedPreferencesUtil.getString(MainActivity.this,"ces"),Toast.LENGTH_SHORT).show();
+        bottomNavigationView.findViewById(R.id.navigation_main).performClick();
     }
 
     /**
@@ -109,9 +110,11 @@ public class MainActivity extends MVPBaseActivity{
      */
     private void initFragments() {
         ArrayList<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(FragmentFactory.getInstance().getMainPageFragment());
         fragmentList.add(FragmentFactory.getInstance().getHomeFragment());
+        fragmentList.add(FragmentFactory.getInstance().getFindCarFragment());
         fragmentList.add(FragmentFactory.getInstance().getFaultRepairMainPageFragment());
-        fragmentList.add(FragmentFactory.getInstance().getPlanRepairMainPageFragment());
+        fragmentList.add(FragmentFactory.getInstance().getUserCenterFragment());
         //初始化viewPager适配器
         MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager(), fragmentList);
         //注入适配器
@@ -135,32 +138,4 @@ public class MainActivity extends MVPBaseActivity{
         return null;
     }
 
-
-    public static String sHA1(Context context) {
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(), PackageManager.GET_SIGNATURES);
-            byte[] cert = info.signatures[0].toByteArray();
-            MessageDigest md = MessageDigest.getInstance("SHA1");
-            byte[] publicKey = md.digest(cert);
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < publicKey.length; i++) {
-                String appendString = Integer.toHexString(0xFF & publicKey[i])
-                        .toUpperCase(Locale.US);
-                if (appendString.length() == 1)
-                    hexString.append("0");
-                hexString.append(appendString);
-                hexString.append(":");
-            }
-            String result = hexString.toString();
-            //result即为获取的SHA1值,如果最后面有冒号的话就去掉
-            Log.i("abc", result.toString());
-            return result.substring(0, result.length() - 1);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

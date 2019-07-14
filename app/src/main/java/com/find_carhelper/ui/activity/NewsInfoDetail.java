@@ -90,7 +90,7 @@ public class NewsInfoDetail extends MVPBaseActivity {
         initDatas();
     }
     public void initDatas(){
-        String url = Constants.NEWS_DETAIL+id;
+        String url = Constants.SERVICE_NAME+Constants.NEWS_DETAIL+id;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//

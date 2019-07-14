@@ -107,7 +107,7 @@ public class InviteFriendsActivity extends MVPBaseActivity {
     }
     public void getData(){
 
-        String url = Constants.GET_INFO;
+        String url =Constants.SERVICE_NAME+ Constants.GET_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//
@@ -147,7 +147,7 @@ public class InviteFriendsActivity extends MVPBaseActivity {
 
     public void inviteAction(){
 
-        String url = Constants.GET_INFO;
+        String url = Constants.SERVICE_NAME+Constants.GET_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//

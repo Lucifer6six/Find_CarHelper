@@ -75,7 +75,7 @@ public class ReUploadImageActivity extends TakePhotoActivity {
 
     public void initData() {
 
-        String url = Constants.GET_RE_CONFIG;
+        String url = Constants.SERVICE_NAME+Constants.GET_RE_CONFIG;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//
@@ -156,7 +156,7 @@ public class ReUploadImageActivity extends TakePhotoActivity {
     }
 
     public void commitAction() {
-        String url = Constants.RE_COMMIT;
+        String url = Constants.SERVICE_NAME+Constants.RE_COMMIT;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//

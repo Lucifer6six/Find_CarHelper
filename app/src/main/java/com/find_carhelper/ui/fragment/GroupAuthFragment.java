@@ -100,7 +100,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
                 !TextUtils.isEmpty(groupFr)&&!TextUtils.isEmpty(frsfz)&&!TextUtils.isEmpty(groupDm)&&upload){
 
 
-            String url = Constants.REGISTER_GROUP;
+            String url = Constants.SERVICE_NAME+Constants.REGISTER_GROUP;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
             params.put("deviceId", Constants.ID);

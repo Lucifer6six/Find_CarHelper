@@ -194,7 +194,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     }
     public void acceptOrderAction(int position){
         Log.e("失败的","position == "+position);
-        String url = Constants.ACCEPT_ORDER;
+        String url = Constants.SERVICE_NAME+Constants.ACCEPT_ORDER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
@@ -344,7 +344,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     }
 
     public void getCarData(){
-        String url = Constants.GET_CARS;
+        String url = Constants.SERVICE_NAME+Constants.GET_CARS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
@@ -402,7 +402,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         }
     }
     public void getProvinceData(){
-        String url = Constants.GET_AREAA;
+        String url = Constants.SERVICE_NAME+Constants.GET_AREAA;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())

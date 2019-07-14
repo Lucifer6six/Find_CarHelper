@@ -88,13 +88,8 @@ public class GuideActivity extends MVPBaseActivity implements View.OnClickListen
         mMZBanner = findViewById(R.id.banner);
         initImages();
         initImageView();
-       // count();
-        //initCountDownView();
-       // SharedPreferencesUtil.putString(GuideActivity.this,"ces","123");
-       // PermissionChecker.getInstance().requestReadPhoneState(this);
         int checkCoarseFine = ContextCompat.checkSelfPermission(GuideActivity.this, Manifest.permission.READ_PHONE_STATE);
         if (checkCoarseFine == PackageManager.PERMISSION_GRANTED ) {
-            //Toast.makeText(GuideActivity.this,"already",Toast.LENGTH_SHORT).show();
             initDeviceID();
         } else {//没有权限
             ActivityCompat.requestPermissions(GuideActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION}, 1);//申请授权
@@ -151,81 +146,7 @@ public class GuideActivity extends MVPBaseActivity implements View.OnClickListen
             ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), 1);
         } else {}
     }
-    private void initCountDownView(){
-        // 基本属性设置
-        countdownView.setCountTime(3663) // 设置倒计时时间戳
-                .setHourTvTextColorHex("#f2692e")
-                .setHourTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
-                .setHourTvTextSize(21)
-                .setHourTvBackgroundColorHex("#FFFFFF")
-                .setHourColonTvSize(18, 0)
-                .setHourColonTvTextColorHex("#FFFFFF")
-                .setHourColonTvGravity(CountDownView.CountDownViewGravity.GRAVITY_CENTER)
-                .setHourColonTvTextSize(21)
 
-                .setMinuteTvTextColorHex("#f2692e")
-                .setMinuteTvTextSize(21)
-                .setMinuteTvBackgroundColorHex("#FFFFFF")
-                .setMinuteColonTvSize(18, 0)
-                .setMinuteColonTvTextColorHex("#FFFFFF")
-                .setMinuteColonTvTextSize(21)
-
-                .setSecondTvTextColorHex("#f2692e")
-                .setSecondTvBackgroundColorHex("#FFFFFF")
-                .setSecondTvTextSize(21)
-
-//      .setTimeTvWH(18, 40)
-//      .setColonTvSize(30)
-
-                // 开启倒计时
-                .startCountDown()
-
-                // 设置倒计时结束监听
-                .setCountDownEndListener(new CountDownView.CountDownEndListener() {
-                    @Override
-                    public void onCountDownEnd() {
-                        Toast.makeText(GuideActivity.this, "倒计时结束", Toast.LENGTH_SHORT).show();
-                    }
-                })
-        ;
-
-
-    }
-
-    private void count() {
-        mCountDownTextView
-                .setNormalText("获取验证码")
-                .setCountDownText("重新获取(", "s)")
-                .setCloseKeepCountDown(false)//关闭页面保持倒计时开关
-                .setCountDownClickable(false)//倒计时期间点击事件是否生效开关
-                .setShowFormatTime(false)//是否格式化时间
-                .setIntervalUnit(TimeUnit.SECONDS)
-                .setOnCountDownStartListener(new CountDownTextView.OnCountDownStartListener() {
-                    @Override
-                    public void onStart() {
-                        Toast.makeText(GuideActivity.this, "开始计时", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setOnCountDownTickListener(new CountDownTextView.OnCountDownTickListener() {
-                    @Override
-                    public void onTick(long untilFinished) {
-                        Log.e("------", "onTick: " + untilFinished);
-                    }
-                })
-                .setOnCountDownFinishListener(new CountDownTextView.OnCountDownFinishListener() {
-                    @Override
-                    public void onFinish() {
-                        Toast.makeText(GuideActivity.this, "倒计时完毕", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(GuideActivity.this, "短信已发送", Toast.LENGTH_SHORT).show();
-                        mCountDownTextView.startCountDown(100);
-                    }
-                });
-    }
     @Override
     protected void initData() {
 
@@ -251,32 +172,6 @@ public class GuideActivity extends MVPBaseActivity implements View.OnClickListen
             }
         });
     }
-//    private void initImageView(){
-//
-//        mMyImageLoader = new MyImageLoader();
-//        mBanner = findViewById(R.id.banner);
-//        //设置样式，里面有很多种样式可以自己都看看效果
-//        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
-//        //设置图片加载器
-//        mBanner.setImageLoader(mMyImageLoader);
-//        //设置轮播的动画效果,里面有很多种特效,可以都看看效果。
-//        mBanner.setBannerAnimation(Transformer.Default);
-//        //轮播图片的文字
-//        mBanner.setBannerTitles(imageTitle);
-//        //设置轮播间隔时间
-//        mBanner.setDelayTime(3000);
-//        //设置是否为自动轮播，默认是true
-//        mBanner.isAutoPlay(true);
-//        //设置指示器的位置，小点点，居中显示
-//        mBanner.setIndicatorGravity(BannerConfig.RIGHT);
-//        //设置图片加载地址
-//        mBanner.setImages(imagePath)
-//                //轮播图的监听
-//                .setOnBannerListener(this)
-//                //开始调用的方法，启动轮播图。
-//                .start();
-//
-//    }
     @Override
     protected void onEventComing(EventCenter eventCenter) {
 

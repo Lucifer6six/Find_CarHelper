@@ -118,7 +118,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
                 });
     }
     private void getCodeRequest(){
-        String url = Constants.GET_MSG_CODE;
+        String url =Constants.SERVICE_NAME+Constants.GET_MSG_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);
@@ -154,7 +154,7 @@ public class RegistActivity extends MVPBaseActivity implements View.OnClickListe
     private void regist(){
         String psw1 = psw.getText().toString();
         String psw2 = repsw.getText().toString();
-        String url = Constants.REGISTER;
+        String url = Constants.SERVICE_NAME+Constants.REGISTER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);

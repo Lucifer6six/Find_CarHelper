@@ -187,7 +187,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
         if (!TextUtils.isEmpty(realName)&&!TextUtils.isEmpty(sid)
                     &&!TextUtils.isEmpty(imageName1)&&!TextUtils.isEmpty(imageName2)
                         &&!TextUtils.isEmpty(imageName3)){
-            String url = Constants.REGISTER_Identity;
+            String url = Constants.SERVICE_NAME+Constants.REGISTER_Identity;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
             params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())

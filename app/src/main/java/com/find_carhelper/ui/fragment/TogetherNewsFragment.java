@@ -89,7 +89,7 @@ public class TogetherNewsFragment extends MVPBaseFragment implements OnItemClick
         getData();
     }
     public void getData(){
-        String url = Constants.GET_NEWS;
+        String url = Constants.SERVICE_NAME+Constants.GET_NEWS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//

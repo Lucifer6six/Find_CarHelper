@@ -82,7 +82,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
 
     public void initData() {
 
-        String url = Constants.QUERY_PHOTOS;
+        String url = Constants.SERVICE_NAME+Constants.QUERY_PHOTOS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//
@@ -170,7 +170,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     }
 
     public void commitAction(String type) {
-        String url = Constants.SAVE_LIBIARY;
+        String url = Constants.SERVICE_NAME+Constants.SAVE_LIBIARY;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//

@@ -75,7 +75,7 @@ public class RequestLaterActivity extends TakePhotoActivity {
         getConfigInfo();
     }
     public void getConfigInfo(){
-            String url = Constants.GET_CONFIG;
+            String url = Constants.SERVICE_NAME+Constants.GET_CONFIG;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
             params.put("deviceId",Constants.ID);//
@@ -140,7 +140,7 @@ public class RequestLaterActivity extends TakePhotoActivity {
     }
 
     public void commitAction(){
-        String url = Constants.REQUEST_LATER;
+        String url = Constants.SERVICE_NAME+Constants.REQUEST_LATER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId",Constants.ID);//

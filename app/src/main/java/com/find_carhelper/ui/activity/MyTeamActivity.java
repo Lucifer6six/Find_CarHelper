@@ -124,7 +124,7 @@ public class MyTeamActivity extends MVPBaseActivity implements OnItemClickListen
 
     public void getTeamData(){
 
-        String url = Constants.MY_TEAM;
+        String url = Constants.SERVICE_NAME+Constants.MY_TEAM;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//

@@ -17,7 +17,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/margin_80"
-            android:text="寻车宝"
+            android:text="千寻"
             android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"

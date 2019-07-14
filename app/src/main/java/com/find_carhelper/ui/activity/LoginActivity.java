@@ -85,7 +85,7 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
         }
     }
     private void loginAction(){
-        String url = Constants.LOGIN;
+        String url = Constants.SERVICE_NAME+Constants.LOGIN;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);

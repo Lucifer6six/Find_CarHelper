@@ -296,4 +296,26 @@
                 />
         </RelativeLayout>
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/quite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_square"
+        android:layout_below="@+id/other"
+        android:layout_marginTop="@dimen/margin_15"
+        android:padding="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="退出登录"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginLeft="@dimen/margin_20"
+            />
+
+    </RelativeLayout>
 </RelativeLayout>

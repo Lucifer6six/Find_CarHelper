@@ -228,7 +228,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     public void getData(){
         loadingDialog.loading();
-        String url = Constants.MY_INFO;
+        String url = Constants.SERVICE_NAME+Constants.MY_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())

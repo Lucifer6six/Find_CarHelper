@@ -74,7 +74,7 @@ public class EditPswActivity extends MVPBaseActivity {
     }
 
     public void changeRequest(String phone,String code,String psws,String repsws){
-        String url = Constants.CHANGE_PSW;
+        String url =Constants.SERVICE_NAME+ Constants.CHANGE_PSW;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);
@@ -157,7 +157,7 @@ public class EditPswActivity extends MVPBaseActivity {
     }
 
     private void getCodeRequest(){
-        String url = Constants.GET_CODE;
+        String url =Constants.SERVICE_NAME+ Constants.GET_CODE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);

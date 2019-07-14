@@ -136,7 +136,7 @@ public class AlreadyCompleteFragment extends MVPBaseFragment implements OnItemCl
 
     }
     public void getCarData(){
-        String url = Constants.GET_ORDER;
+        String url = Constants.SERVICE_NAME+Constants.GET_ORDER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())

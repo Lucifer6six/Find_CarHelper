@@ -7,6 +7,7 @@ import android.os.Message;
 
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
+import com.find_carhelper.http.Constants;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.MainActivity;
 import com.find_carhelper.ui.base.MVPBaseActivity;
@@ -44,7 +45,10 @@ public class SplashActivity extends MVPBaseActivity {
 
     @Override
     protected void initData() {
-
+        if (Constants.DEBUG){
+            Constants.SERVICE_NAME = Constants.DEBUG_SERVICE_NAME;
+        }else
+            Constants.SERVICE_NAME = Constants.REAL_SERVICE_NAME;
     }
 
     @Override

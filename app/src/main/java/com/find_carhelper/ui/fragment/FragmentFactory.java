@@ -28,18 +28,7 @@ public class FragmentFactory {
     private MyOrdersFragment mFaultRepairMainPageFragment;
     private UserCenterFragment mPlanRepairMainPageFragment;
     private NavigationViewFragment mNavigationViewFragment;
-
-    //侧边栏内容Fragment
-    public NavigationViewFragment getNavigationViewFragmentt() {
-        if (mNavigationViewFragment == null) {
-            synchronized (FragmentFactory.class) {
-                if (mNavigationViewFragment == null) {
-                    mNavigationViewFragment = new NavigationViewFragment();
-                }
-            }
-        }
-        return mNavigationViewFragment;
-    }
+    private MainPageFragment mainPageFragment;
 
     public AcceptOrderFragment getHomeFragment() {
         if (mHomeFragment == null) {
@@ -52,6 +41,26 @@ public class FragmentFactory {
         return mHomeFragment;
     }
 
+    public MainPageFragment getMainPageFragment() {
+        if (mainPageFragment == null) {
+            synchronized (FragmentFactory.class) {
+                if (mainPageFragment == null) {
+                    mainPageFragment = new MainPageFragment();
+                }
+            }
+        }
+        return mainPageFragment;
+    }
+    public MainPageFragment getFindCarFragment() {
+        if (mainPageFragment == null) {
+            synchronized (FragmentFactory.class) {
+                if (mainPageFragment == null) {
+                    mainPageFragment = new MainPageFragment();
+                }
+            }
+        }
+        return mainPageFragment;
+    }
     public MyOrdersFragment getFaultRepairMainPageFragment() {
         if (mFaultRepairMainPageFragment == null) {
             synchronized (FragmentFactory.class) {
@@ -63,7 +72,7 @@ public class FragmentFactory {
         return mFaultRepairMainPageFragment;
     }
 
-    public UserCenterFragment getPlanRepairMainPageFragment() {
+    public UserCenterFragment getUserCenterFragment() {
         if (mPlanRepairMainPageFragment == null) {
             synchronized (FragmentFactory.class) {
                 if (mPlanRepairMainPageFragment == null) {

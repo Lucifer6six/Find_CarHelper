@@ -68,7 +68,7 @@ public class WithDrawActivity extends MVPBaseActivity {
         registerLeftClickEvent(v -> finish());
     }
     public void drawAction(String amount){
-        String url = Constants.WITH_DRAW;
+        String url = Constants.SERVICE_NAME+Constants.WITH_DRAW;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
