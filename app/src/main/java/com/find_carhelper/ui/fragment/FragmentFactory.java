@@ -29,7 +29,7 @@ public class FragmentFactory {
     private UserCenterFragment mPlanRepairMainPageFragment;
     private NavigationViewFragment mNavigationViewFragment;
     private MainPageFragment mainPageFragment;
-
+    private FindCarFragment mFindCarFragment;
     public AcceptOrderFragment getHomeFragment() {
         if (mHomeFragment == null) {
             synchronized (FragmentFactory.class) {
@@ -51,15 +51,15 @@ public class FragmentFactory {
         }
         return mainPageFragment;
     }
-    public MainPageFragment getFindCarFragment() {
-        if (mainPageFragment == null) {
+    public FindCarFragment getFindCarFragment() {
+        if (mFindCarFragment == null) {
             synchronized (FragmentFactory.class) {
-                if (mainPageFragment == null) {
-                    mainPageFragment = new MainPageFragment();
+                if (mFindCarFragment == null) {
+                    mFindCarFragment = new FindCarFragment();
                 }
             }
         }
-        return mainPageFragment;
+        return mFindCarFragment;
     }
     public MyOrdersFragment getFaultRepairMainPageFragment() {
         if (mFaultRepairMainPageFragment == null) {
