@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:paddingBottom="@dimen/margin_10">
+        android:paddingBottom="@dimen/margin_30">
 
         <LinearLayout
             android:id="@+id/search_view"
@@ -24,10 +24,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:background="@drawable/round_square_for_edit"
-                android:hint="jhh"
                 android:padding="@dimen/margin_5" />
 
             <ImageView
+                android:id="@+id/find_car"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

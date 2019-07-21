@@ -3,13 +3,11 @@ package com.find_carhelper.ui.fragment;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -21,10 +19,10 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
-import com.find_carhelper.ui.activity.AuthActivity;
-import com.find_carhelper.ui.activity.FindCarOrdersActivity;
+import com.find_carhelper.ui.activity.OrdersInfoActivity;
 import com.find_carhelper.ui.activity.ReUploadImageActivity;
 import com.find_carhelper.ui.adapter.FindCarListAdapter;
+import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
@@ -38,19 +36,13 @@ import okhttp3.Request;
 
 
 /**
- * 寻车
+ * 寻车订单-合作中
  */
-public class FindCarFragment extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
+public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
     private RecyclerView recycleListView;
     private FindCarListAdapter mListOrderAcceptAdapter;
     public List<CarBean> carBeans;
     public RelativeLayout no_auth_layout;
-    public RelativeLayout takePhoto,scanPhoto,ImgPhoto;
-    public ImageView find_car;
-    public static Fragment newInstance() {
-        FindCarFragment fragment = new FindCarFragment();
-        return fragment;
-    }
 
 
     @Override
@@ -66,7 +58,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.fragment_find_car;
+        return R.layout.fragment_find_car_orders;
     }
 
     @Override
@@ -81,7 +73,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     protected void onUserVisible() {
-        getCarData();
+
     }
 
     @Override
@@ -89,29 +81,12 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     }
 
+
     @Override
     protected void initViews() {
         recycleListView = mRootView.findViewById(R.id.list_orders);
         no_auth_layout = mRootView.findViewById(R.id.no_auth_layout);
-        takePhoto = mRootView.findViewById(R.id.take_photo);
-        scanPhoto = mRootView.findViewById(R.id.scan);
-        ImgPhoto = mRootView.findViewById(R.id.image);
-        find_car = mRootView.findViewById(R.id.find_car);
-        find_car.setOnClickListener(view -> {
-
-            startActivity(new Intent(getActivity(), FindCarOrdersActivity.class));
-
-        });
-        takePhoto.setOnClickListener(this);
-        scanPhoto.setOnClickListener(this);
-        ImgPhoto.setOnClickListener(this);
-        mRootView.findViewById(R.id.auth_action).setOnClickListener(view -> {
-            startActivity(new Intent(getContext(), AuthActivity.class));
-        });
         initLoading();
-
-
-
     }
 
     public void initLoading() {
@@ -124,6 +99,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
         initAdapter(null);
     }
+
     private void initAdapter(List<CarBean> list) {
         mListOrderAcceptAdapter = new FindCarListAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
@@ -135,10 +111,16 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             @Override
             public void onItemClick(View v, FindCarListAdapter.ViewName viewName, int position) {
 
-                Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
-                intent.putExtra("vin", list.get(position).getVin());
-                intent.putExtra("no", list.get(position).getOrderCode());
-                startActivity(intent);
+                if (viewName.equals(FindCarListAdapter.ViewName.ITEM)){
+
+                    Intent intent = new Intent(getContext(), OrdersInfoActivity.class);
+                    // intent.putExtra("vin", list.get(position).getVin());
+                    // intent.putExtra("no", list.get(position).getOrderCode());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getContext(),"accepOrders",Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -231,6 +213,5 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(getContext(),"功能尚未开放，敬请期待",Toast.LENGTH_SHORT).show();
     }
 }

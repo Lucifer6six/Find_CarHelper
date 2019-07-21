@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerTextColor="@color/white"
+        app:rightTextColor="@color/white"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:centerText="申请结单"
+        titlebar:centerType="textView"
+        titlebar:fillStatusBar="true"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
+        titlebar:leftType="imageButton"
+        titlebar:rightText=""
+        titlebar:rightType="textView"
+        titlebar:showBottomLine="false"
+        titlebar:statusBarColor="@color/colorPrimary" />
+
+    <RelativeLayout
+        android:id="@+id/edit_psw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/accept_orders_time"
+        android:layout_marginTop="@dimen/margin_40"
+        android:padding="@dimen/margin_15">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/car_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_15"
+                    android:text="2018款CT6-铂金版"
+                    android:textSize="@dimen/text_size_18"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/car_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:layout_toRightOf="@+id/car_type"
+                    android:background="@mipmap/dd_cp1_bg"
+                    android:text="苏A3ZOKJ"
+                    android:textColor="@color/white" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15">
+
+                <TextView
+                    android:id="@+id/car_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车架号 GLSK1234568789798"
+                    android:textColor="@color/text_color_gray" />
+
+                <TextView
+                    android:id="@+id/address_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/car_no"
+                    android:text="江苏南京/汇通"
+                    android:textColor="@color/text_color_gray" />
+
+                <TextView
+                    android:id="@+id/money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:text="￥1000"
+                    android:textColor="@color/text_money_orange"
+                    android:textSize="@dimen/text_size_20"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/about_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_psw"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_15"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="定位PIN码"
+            android:textSize="@dimen/text_size_15"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/pin_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_15"
+            android:background="@drawable/round_square_gray"
+            android:gravity="center"
+            android:hint="请输入定位PIN码"
+            android:padding="@dimen/margin_10"
+            android:textSize="@dimen/text_size_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="车辆照片"
+            android:textSize="@dimen/text_size_15"
+            android:textStyle="bold" />
+
+
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="@drawable/round_square_gray">
+
+            <ImageView
+                android:id="@+id/car_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingTop="@dimen/padding_20"
+                android:paddingBottom="@dimen/padding_20"
+                android:src="@mipmap/dd_icon_photo" />
+
+            <TextView
+                android:id="@+id/car_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/car_img"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="车辆照片" />
+
+            <ImageView
+                android:id="@+id/photoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@drawable/round_square_gray">
+
+            <ImageView
+                android:id="@+id/car_id_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingTop="@dimen/padding_20"
+                android:paddingBottom="@dimen/padding_20"
+                android:src="@mipmap/dd_icon_photo" />
+
+            <TextView
+                android:id="@+id/car_id_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/car_id_img"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="车架号照片" />
+
+            <ImageView
+                android:id="@+id/photoView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/request_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="提交"
+        android:textColor="@color/white" />
+</RelativeLayout>

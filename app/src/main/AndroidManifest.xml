@@ -23,7 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.NewsInfoDetail"></activity>
+        <activity android:name=".ui.activity.RequesCompleteActivity"></activity>
+        <activity android:name=".ui.activity.OrdersInfoActivity" />
+        <activity android:name=".ui.activity.FindCarOrderActivity" />
+        <activity android:name=".ui.activity.NewsInfoDetail" />
         <activity android:name=".ui.activity.ReUploadImageActivity" />
         <activity android:name=".ui.activity.RequestLaterActivity" />
         <activity android:name=".ui.activity.WithDrawActivity" />
@@ -54,6 +57,7 @@
         <activity android:name=".ui.activity.InviteFriendsActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.RegistActivity" />
+        <activity android:name=".ui.activity.FindCarOrdersActivity" />
     </application>
 
 </manifest>

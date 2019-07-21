@@ -61,7 +61,8 @@ public class MainActivity extends MVPBaseActivity{
                         return true;
                     case R.id.navigation_work:
                         mViewPager.setCurrentItem(3);
-                        setTitleBar("保全订单");
+                        //setTitleBar("保全订单");
+                        hideTitleBar();
                         return true;
                     case R.id.navigation_plan:
                         mViewPager.setCurrentItem(4);

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.find_carhelper.R;
@@ -16,7 +17,7 @@ import java.util.List;
 
 
 /**
- *列表抢单
+ * 列表抢单
  */
 public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.RepairViewHolder> implements View.OnClickListener {
 
@@ -26,7 +27,7 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
 
     public FindCarListAdapter(Context context, List<CarBean> list) {
         this.mContext = context;
-        this.list  = list;
+        this.list = list;
     }
 
     public void setOnItemClickListeners(OnItemClickListeners onItemClickListeners) {
@@ -45,33 +46,22 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
         if (onItemClickListeners != null) {
             holder.itemView.setOnClickListener(v -> onItemClickListeners.onItemClick(holder, null, position));
         }
-        if (list!=null){
+        holder.itemView.setOnClickListener(FindCarListAdapter.this);
+        holder.acept_order.setTag(position);
+        holder.itemView.setTag(position);
+        if (list != null) {
 
-            if (list.size()>0){
+            if (list.size() > 0) {
 
                 holder.carType.setText(list.get(position).getVehicleModel());
-                holder.status.setText(list.get(position).getAssignTask());
                 holder.carId.setText(list.get(position).getLpn());
-                holder.carNo.setText("车架号  "+list.get(position).getVin());
-                holder.tips1.setText(list.get(position).getRegion()+
-                        "/"+list.get(position).getPositioningMethod()+
-                        "/"+list.get(position).getHasKey()+"/"+list.get(position).getPartya()
+                holder.carNo.setText("车架号  " + list.get(position).getVin());
+                holder.address_tips.setText(list.get(position).getRegion() +
+                        "/" + list.get(position).getPositioningMethod() +
+                        "/" + list.get(position).getHasKey() + "/" + list.get(position).getPartya()
                 );
-                holder.time.setVisibility(View.INVISIBLE);
                 holder.money.setText(list.get(position).getRewardAmount());
                 String text = list.get(position).getOrderStatusName();
-                if (text.equals("已完成")){
-                    holder.shenqingBtn.setTextColor(mContext.getResources().getColor(R.color.green));
-                }else if (text.equals("审核中")){
-                    holder.shenqingBtn.setTextColor(mContext.getResources().getColor(R.color.purpol));
-                }else if (text.equals("驳回")){
-                    holder.shenqingBtn.setTextColor(mContext.getResources().getColor(R.color.orange_red));
-                    holder.time.setVisibility(View.VISIBLE);
-                }else{
-                    holder.shenqingBtn.setTextColor(mContext.getResources().getColor(R.color.black));
-                }
-                holder.time.setTag(position);
-                holder.shenqingBtn.setText(text);
             }
 
         }
@@ -89,7 +79,7 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
         int position = (int) view.getTag(); //getTag()获取数据
         if (mOnItemClickListener != null) {
             switch (view.getId()) {
-                case R.id.time:
+                case R.id.acept_order:
                     mOnItemClickListener.onItemClick(view, ViewName.PRACTISE, position);
                     break;
                 default:
@@ -100,34 +90,32 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
     }
 
     public class RepairViewHolder extends RecyclerView.ViewHolder {
-        TextView shenqingBtn;
         TextView carType;
         TextView carId;
         TextView carNo;
-        TextView tips1;
+        TextView address_tips;
         TextView money;
-        TextView time;
-        TextView status;
+        Button acept_order;
 
         public RepairViewHolder(View itemView) {
             super(itemView);
-            shenqingBtn = itemView.findViewById(R.id.request_save);
             carType = itemView.findViewById(R.id.car_type);
             carId = itemView.findViewById(R.id.car_id);
             carNo = itemView.findViewById(R.id.car_no);
-            tips1 = itemView.findViewById(R.id.tips1);
+            address_tips = itemView.findViewById(R.id.address_tips);
             money = itemView.findViewById(R.id.money);
-            time = itemView.findViewById(R.id.time);
-            status = itemView.findViewById(R.id.status);
-            time.setOnClickListener(FindCarListAdapter.this);
+            acept_order = itemView.findViewById(R.id.acept_order);
+            acept_order.setOnClickListener(FindCarListAdapter.this);
         }
     }
+
     //item里面有多个控件可以点击
     public enum ViewName {
         ITEM,
         PRACTISE,
         ORDERS;
     }
+
     public interface OnItemClickListener {
         void onItemClick(View v, ViewName viewName, int position);
 

@@ -25,7 +25,7 @@ public class FragmentFactory {
     }
 
     private AcceptOrderFragment mHomeFragment;
-    private MyOrdersFragment mFaultRepairMainPageFragment;
+    private PaimaiFragment mFaultRepairMainPageFragment;
     private UserCenterFragment mPlanRepairMainPageFragment;
     private NavigationViewFragment mNavigationViewFragment;
     private MainPageFragment mainPageFragment;
@@ -61,11 +61,11 @@ public class FragmentFactory {
         }
         return mFindCarFragment;
     }
-    public MyOrdersFragment getFaultRepairMainPageFragment() {
+    public PaimaiFragment getFaultRepairMainPageFragment() {
         if (mFaultRepairMainPageFragment == null) {
             synchronized (FragmentFactory.class) {
                 if (mFaultRepairMainPageFragment == null) {
-                    mFaultRepairMainPageFragment = new MyOrdersFragment();
+                    mFaultRepairMainPageFragment = new PaimaiFragment();
                 }
             }
         }
