@@ -105,6 +105,7 @@ public class MainPageFragment extends MVPBaseFragment {
         mSmartTablayout = (SmartTabLayout)mRootView.findViewById(R.id.smart_tablayout);
         // mTabLayout = mRootView.findViewById(R.id.tool_tab);
         mViewPager = mRootView.findViewById(R.id.view_pager);
+        
         titles = getResources().getStringArray(R.array.list_tab);
         PaiHangBangFragment cooperatingFragment = new PaiHangBangFragment();
         PaiHangBangFragment alreadyCompleteFragment = new PaiHangBangFragment();
