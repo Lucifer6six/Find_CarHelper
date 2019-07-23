@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:background="@drawable/round_square_for_edit"
+                android:drawableEnd="@mipmap/icon_search"
                 android:padding="@dimen/margin_5" />
 
             <ImageView

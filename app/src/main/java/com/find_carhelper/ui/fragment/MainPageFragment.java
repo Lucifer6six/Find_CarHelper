@@ -1,49 +1,29 @@
 package com.find_carhelper.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.find_carhelper.R;
-import com.find_carhelper.bean.CarBean;
-import com.find_carhelper.bean.CardBean;
-import com.find_carhelper.bean.CityBean;
-import com.find_carhelper.bean.JsonBean;
+import com.find_carhelper.bean.NewsBean;
 import com.find_carhelper.entity.EventCenter;
-import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
-import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
-import com.find_carhelper.utils.GetJsonDataUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
-import com.find_carhelper.widgets.MarkerOrderPopWindow;
-import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
-import com.google.gson.Gson;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.sunfusheng.marqueeview.MarqueeView;
-import com.wega.library.loadingDialog.LoadingDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,8 +41,9 @@ public class MainPageFragment extends MVPBaseFragment {
     private SmartTabLayout mSmartTablayout;
     private SwipeRefreshLayout refreshLayout;
     private MarqueeView mMarqueeView;
+
     public static Fragment newInstance() {
-       MainPageFragment fragment = new MainPageFragment();
+        MainPageFragment fragment = new MainPageFragment();
         return fragment;
     }
 
@@ -104,7 +85,7 @@ public class MainPageFragment extends MVPBaseFragment {
 
     @Override
     protected void initViews() {
-        mSmartTablayout = (SmartTabLayout)mRootView.findViewById(R.id.smart_tablayout);
+        mSmartTablayout = (SmartTabLayout) mRootView.findViewById(R.id.smart_tablayout);
         // mTabLayout = mRootView.findViewById(R.id.tool_tab);
         mViewPager = mRootView.findViewById(R.id.view_pager);
         mMarqueeView = mRootView.findViewById(R.id.marqueeView);
@@ -131,9 +112,13 @@ public class MainPageFragment extends MVPBaseFragment {
 
             }
         });
+        initNews(null);
+
+    }
+
+    public void initNews(List<String> strings) {
+
         List<String> info = new ArrayList<>();
-        info.add("11111111111111");
-        info.add("22222222222222");
         info.add("33333333333333");
         info.add("44444444444444");
         info.add("55555555555555");
@@ -142,17 +127,17 @@ public class MainPageFragment extends MVPBaseFragment {
 
 // 在代码里设置自己的动画
         mMarqueeView.startWithList(info, R.anim.anim_bottom_in, R.anim.anim_top_out);
+
     }
 
-
-    public void initLoading(){
+    public void initLoading() {
 
     }
 
 
     @Override
     protected void initData() {
-
+        getData();
     }
 
     @Override
@@ -160,5 +145,64 @@ public class MainPageFragment extends MVPBaseFragment {
         super.onResume();
 
     }
+
+    public void getData() {
+        String url = Constants.SERVICE_NAME + Constants.MAIN_PAGE_DATE;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", Constants.ID);//
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
+        // ...
+        NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("TAG", result.toString() + url);
+                if (!TextUtils.isEmpty(result) && !result.equals("401")) {
+                    JSONObject jsonObject = JSON.parseObject(result);
+                    if (jsonObject.getString("status") != null)
+                        if (jsonObject.getString("status").equals("500") && jsonObject.getString("message").equals("W02000")) {
+                            startIntent();
+                            return;
+                        }
+                    if (jsonObject.getString("success").equals("true")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        JSONObject pageInfo = jsonObject1.getJSONObject("pageInfo");
+                        //list =  JSON.parseArray(pageInfo.getJSONArray("list").toJSONString(), NewsBean.class);
+                        mHandler.sendEmptyMessage(0);
+                    } else {
+                        Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (result.equals("401")) {
+                        startIntent();
+                    }
+                }
+
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                Log.e("TAG", request.toString() + e.getMessage());
+            }
+        });
+    }
+
+    public void startIntent() {
+        startActivity(new Intent(getContext(), LoginActivity.class));
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+
+                    break;
+            }
+        }
+    };
 
 }
