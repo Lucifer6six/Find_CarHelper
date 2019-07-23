@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:titlebar="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
 
     <com.wuhenzhizao.titlebar.widget.CommonTitleBar
@@ -15,7 +14,7 @@
         app:centerTextColor="@color/white"
         app:rightTextColor="@color/white"
         app:titleBarColor="@color/colorPrimary"
-        titlebar:centerText="申请结单"
+        titlebar:centerText="驳回原因"
         titlebar:centerType="textView"
         titlebar:fillStatusBar="true"
         titlebar:leftImageResource="@mipmap/login_icon_back"
@@ -45,6 +44,7 @@
                 android:paddingTop="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_10"
                 >
+
                 <TextView
                     android:id="@+id/car_type"
                     android:layout_width="wrap_content"
@@ -68,38 +68,16 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/reaseon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_15">
-
-                <TextView
-                    android:id="@+id/car_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="车架号 GLSK1234568789798"
-                    android:textColor="@color/text_color_gray" />
-
-                <TextView
-                    android:id="@+id/address_tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/car_no"
-                    android:text="江苏南京/汇通"
-                    android:textColor="@color/text_color_gray" />
-
-                <TextView
-                    android:id="@+id/money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:text="￥1000"
-                    android:textColor="@color/text_money_orange"
-                    android:textSize="@dimen/text_size_20"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                android:layout_margin="@dimen/margin_15"
+                android:paddingTop="@dimen/padding_5"
+                android:paddingBottom="@dimen/padding_5"
+                android:background="@drawable/round_square_gray"
+                android:text="驳回原因:"
+                />
         </LinearLayout>
     </RelativeLayout>
     <View

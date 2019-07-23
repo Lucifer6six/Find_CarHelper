@@ -9,6 +9,7 @@
         android:id="@+id/list_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
         />
 </RelativeLayout>

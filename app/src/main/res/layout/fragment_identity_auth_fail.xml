@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
+    >
+
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerTextColor="@color/white"
+        app:rightImageResource="@mipmap/jd_icon_mes"
+        app:rightType="imageButton"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:centerText="保全车辆"
+        titlebar:centerType="textView"
+        titlebar:fillStatusBar="true"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
+        titlebar:leftType="imageButton"
+        titlebar:showBottomLine="false"
+        titlebar:statusBarColor="@color/colorPrimary"
+        />
+
+    <RelativeLayout
+        android:id="@+id/auth_fail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_15">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_16"
+        android:textColor="@color/white"
+        android:text="个人认证"
+        />
+        <TextView
+            android:id="@+id/auth_fail_tips1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/white"
+            android:layout_below="@+id/title"
+            android:text="1.身份证照片不清晰。。。。。。。"
+            />
+        <TextView
+            android:id="@+id/auth_fail_tips2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_12"
+            android:layout_below="@+id/auth_fail_tips1"
+            android:textColor="@color/white"
+            android:text="1.身份证照片不清晰。。。。。。。"
+            />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/auth_fail_layout"
+        android:layout_marginTop="@dimen/margin_15"
+        android:background="@drawable/round_square"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_15"
+                android:text="个人基本资料信息"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_15"
+                android:background="@null"
+                android:hint="请输入您的真实姓名"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_16"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray"/>
+
+            <EditText
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_15"
+                android:background="@null"
+                android:hint="请输入身份证号"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_16"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_15"
+                android:text="上传身份证"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_15"
+                android:src="@mipmap/btn_sfz_a1"
+                />
+
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_15"
+                android:src="@mipmap/btn_sfz_b1"
+                />
+
+            <ImageView
+                android:id="@+id/img3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_15"
+                android:src="@mipmap/btn_sfz_c1"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:background="@color/back_ground_gray"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="提交"
+        android:textColor="@color/white"/>
+</RelativeLayout>

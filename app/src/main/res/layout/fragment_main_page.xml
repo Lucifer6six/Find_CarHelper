@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/back_ground_gray"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/back_ground_gray"
+              android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_id"
@@ -18,196 +18,188 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="160dp"
                 android:background="@drawable/main_page_head_bg">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:background="@mipmap/main_pic_bg">
-
-                    <TextView
-                        android:id="@+id/value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="111"
-                        android:textColor="@color/white"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/value"
-                        android:layout_centerHorizontal="true"
-                        android:drawableRight="@mipmap/icon_up"
-                        android:text="本月新增"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/value"
-                        android:text="发现线索"
-                        android:textColor="@color/white" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_10"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/finding_amount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="666"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_16" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/finding_amount"
-                            android:gravity="center"
-                            android:text="在寻车辆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_14" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/finded_amount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="666"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_16" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/finded_amount"
-                            android:gravity="center"
-                            android:text="在寻车辆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_14" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/awoing_amount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="666"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_16" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/awoing_amount"
-                            android:gravity="center"
-                            android:text="在收车辆"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_14" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/awoed_amount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="666"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_16" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/awoed_amount"
-                            android:gravity="center"
-                            android:text="累计已收"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_14" />
-                    </RelativeLayout>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_15">
-
                 <ImageView
-                    android:id="@+id/img"
+                    android:id="@+id/img_circle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_bt1" />
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/main_nb_bg"
+                    />
 
                 <TextView
-                    android:id="@+id/news_content"
+                    android:id="@+id/add_value_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_toRightOf="@+id/img"
-                    android:text="已回收车辆：苏A**123"
-                    android:textSize="@dimen/text_size_13" />
+                    android:layout_centerInParent="true"
+                    android:text="3268"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/value_title"
+                    android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/award_value"
-                    android:text="发放奖金："
-                    android:textSize="@dimen/text_size_13" />
+                    android:layout_below="@+id/add_value_tv"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:drawableRight="@mipmap/icon_up"
+                    android:text="本月新增 237"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_12"/>
 
                 <TextView
-                    android:id="@+id/award_value"
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_20"
-                    android:text="￥30000"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_13" />
+                    android:layout_above="@+id/add_value_tv"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="发现线索"
+                    android:textColor="@color/white"/>
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_15"
+                android:background="#2160d5"
+                android:paddingBottom="@dimen/margin_10"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/finding_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="666"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_16"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/finding_amount"
+                        android:gravity="center"
+                        android:text="在寻车辆"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/finded_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="666"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_16"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/finded_amount"
+                        android:gravity="center"
+                        android:text="在寻车辆"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/awoing_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="666"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_16"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/awoing_amount"
+                        android:gravity="center"
+                        android:text="在收车辆"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/awoed_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="666"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_16"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/awoed_amount"
+                        android:gravity="center"
+                        android:text="累计已收"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_bt1"/>
+
+                <com.sunfusheng.marqueeview.MarqueeView
+                    android:id="@+id/marqueeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="@dimen/margin_20"
+                    android:layout_toRightOf="@+id/img"
+                    app:mvAnimDuration="1000"
+                    app:mvDirection="bottom_to_top"
+                    app:mvInterval="3000"
+                    app:mvSingleLine="true"
+                    app:mvTextColor="@color/text_color_black"
+                    app:mvTextSize="14sp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
                 android:background="@drawable/round_square"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/margin_20">
+                android:paddingBottom="@dimen/margin_10">
 
                 <RelativeLayout
                     android:id="@+id/find_car_layout"
@@ -221,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_margin="@dimen/margin_10"
-                        android:src="@mipmap/main_icon_xc" />
+                        android:src="@mipmap/main_icon_xc"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -229,7 +221,7 @@
                         android:layout_below="@+id/img1"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/margin_10"
-                        android:text="寻车订单" />
+                        android:text="寻车订单"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -244,7 +236,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_margin="@dimen/margin_10"
-                        android:src="@mipmap/main_icon_bc" />
+                        android:src="@mipmap/main_icon_bc"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -252,7 +244,7 @@
                         android:layout_below="@+id/img2"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/margin_10"
-                        android:text="寻车订单" />
+                        android:text="寻车订单"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -267,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_margin="@dimen/margin_10"
-                        android:src="@mipmap/main_icon_xx" />
+                        android:src="@mipmap/main_icon_xx"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -275,31 +267,30 @@
                         android:layout_below="@+id/img3"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/margin_10"
-                        android:text="寻车订单" />
+                        android:text="寻车订单"/>
                 </RelativeLayout>
-
             </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_15"
-                android:src="@mipmap/icon_bt2" />
+                android:layout_margin="@dimen/margin_10"
+                android:src="@mipmap/icon_bt2"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
                 android:background="@drawable/round_square"
                 android:orientation="vertical">
 
                 <com.ogaclejapan.smarttablayout.SmartTabLayout
                     android:id="@+id/smart_tablayout"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_below="@+id/title_bar"
-                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:foregroundGravity="left"
                     app:stl_clickable="true"
                     app:stl_customTabTextLayoutId="@layout/view_tab_text"
@@ -318,7 +309,7 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>

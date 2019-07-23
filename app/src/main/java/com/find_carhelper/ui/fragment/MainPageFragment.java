@@ -42,6 +42,7 @@ import com.find_carhelper.widgets.MarkerOrderPopWindow;
 import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
 import com.google.gson.Gson;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.sunfusheng.marqueeview.MarqueeView;
 import com.wega.library.loadingDialog.LoadingDialog;
 
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class MainPageFragment extends MVPBaseFragment {
     private FaultRepairPagerAdapter mainPagerAdapter;
     private SmartTabLayout mSmartTablayout;
     private SwipeRefreshLayout refreshLayout;
+    private MarqueeView mMarqueeView;
     public static Fragment newInstance() {
        MainPageFragment fragment = new MainPageFragment();
         return fragment;
@@ -105,7 +107,7 @@ public class MainPageFragment extends MVPBaseFragment {
         mSmartTablayout = (SmartTabLayout)mRootView.findViewById(R.id.smart_tablayout);
         // mTabLayout = mRootView.findViewById(R.id.tool_tab);
         mViewPager = mRootView.findViewById(R.id.view_pager);
-        
+        mMarqueeView = mRootView.findViewById(R.id.marqueeView);
         titles = getResources().getStringArray(R.array.list_tab);
         PaiHangBangFragment cooperatingFragment = new PaiHangBangFragment();
         PaiHangBangFragment alreadyCompleteFragment = new PaiHangBangFragment();
@@ -129,7 +131,17 @@ public class MainPageFragment extends MVPBaseFragment {
 
             }
         });
+        List<String> info = new ArrayList<>();
+        info.add("11111111111111");
+        info.add("22222222222222");
+        info.add("33333333333333");
+        info.add("44444444444444");
+        info.add("55555555555555");
+        info.add("66666666666666");
+        mMarqueeView.startWithList(info);
 
+// 在代码里设置自己的动画
+        mMarqueeView.startWithList(info, R.anim.anim_bottom_in, R.anim.anim_top_out);
     }
 
 

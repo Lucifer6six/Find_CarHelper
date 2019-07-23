@@ -34,7 +34,7 @@ public class SplashActivity extends MVPBaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }
     };

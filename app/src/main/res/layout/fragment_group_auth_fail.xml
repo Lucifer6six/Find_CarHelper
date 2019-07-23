@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <com.wuhenzhizao.titlebar.widget.CommonTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerTextColor="@color/white"
+        app:rightImageResource="@mipmap/jd_icon_mes"
+        app:rightType="imageButton"
+        app:titleBarColor="@color/colorPrimary"
+        titlebar:centerText="保全车辆"
+        titlebar:centerType="textView"
+        titlebar:fillStatusBar="true"
+        titlebar:leftImageResource="@mipmap/login_icon_back"
+        titlebar:leftType="imageButton"
+        titlebar:showBottomLine="false"
+        titlebar:statusBarColor="@color/colorPrimary"
+        />
+
+    <RelativeLayout
+        android:id="@+id/auth_fail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_15">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/white"
+            android:text="个人认证"
+            />
+        <TextView
+            android:id="@+id/auth_fail_tips1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/white"
+            android:layout_below="@+id/title"
+            android:text="1.身份证照片不清晰。。。。。。。"
+            />
+        <TextView
+            android:id="@+id/auth_fail_tips2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_12"
+            android:layout_below="@+id/auth_fail_tips1"
+            android:textColor="@color/white"
+            android:text="1.身份证照片不清晰。。。。。。。"
+            />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/auth_fail_layout"
+        android:layout_marginTop="@dimen/margin_15"
+        android:background="@drawable/round_square"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_15"
+                android:text="企业基本资料信息"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:hint="请输入公司名称"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray" />
+
+            <EditText
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:hint="请输入公司简称"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:hint="请输入公司地址"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray" />
+
+            <EditText
+                android:id="@+id/faren"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:hint="请输入公司法定代表人姓名"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray" />
+
+            <EditText
+                android:id="@+id/faren_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:hint="请输入身份证号"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray" />
+
+            <EditText
+                android:id="@+id/tydm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:hint="请输入统一社会信用代码"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_14" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/back_ground_gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:text="营业执照"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_10"
+                android:src="@mipmap/btn_zz1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:background="@color/back_ground_gray"/>
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:text="提交"
+        android:textColor="@color/white" />
+</RelativeLayout>

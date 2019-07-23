@@ -80,4 +80,5 @@ dependencies {
     api 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     api 'com.google.android:flexbox:1.0.0'
     api 'com.android.support:multidex:1.0.2'
+    api 'com.sunfusheng:marqueeview:1.3.3'
 }
