@@ -39,4 +39,13 @@ public class Constants {
     public static String RE_COMMIT = "/vehicle/retireve/order/garage/apply/reject/submit";
     public static String NEWS_DETAIL = "/message/";
     public static String MAIN_PAGE_DATE = "/index/data";
+    public static String FIND_CAR = "/find/search";
+    public static String FIND_CAR_OWNERS = "/vehicle/find/detail";
+    public static String FIND_CAR_ORDERS = "/vehicle/find/order";
+    public static String FIND_CAR_COMPLETE = "/vehicle/find/order/finish/apply";
+    public static String FIND_CAR_FAILED = "/vehicle/find/order/finish/apply/reject";
+    public static String AUTH_FAILED = "/user/my/auth/failure";
+    public static String RE_AUTH_IDENTITY = "/user/my/auth/person";
+    public static String RE_AUTH_COMPANY = "/user/my/auth/company";
+
 }
