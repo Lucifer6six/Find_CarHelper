@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
+import com.find_carhelper.bean.MainPageDataBean;
 import com.find_carhelper.bean.NewsBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
@@ -42,8 +43,8 @@ public class MainPageFragment extends MVPBaseFragment {
     private SmartTabLayout mSmartTablayout;
     private SwipeRefreshLayout refreshLayout;
     private MarqueeView mMarqueeView;
-
-    private TextView findingCarTv,findedCarTv,arriveCarTv,arrivedCarTv,clueCarTv,mounthAdd;
+    private MainPageDataBean mainPageDataBean;
+    private TextView findingCarTv, findedCarTv, arriveCarTv, arrivedCarTv, clueCarTv, mounthAdd;
 
     public static Fragment newInstance() {
         MainPageFragment fragment = new MainPageFragment();
@@ -95,9 +96,9 @@ public class MainPageFragment extends MVPBaseFragment {
 
         findingCarTv = mRootView.findViewById(R.id.finding_amount);
         findedCarTv = mRootView.findViewById(R.id.finded_amount);
-        arriveCarTv= mRootView.findViewById(R.id.awoing_amount);
-        arrivedCarTv= mRootView.findViewById(R.id.awoed_amount);
-        clueCarTv= mRootView.findViewById(R.id.add_value_tv);
+        arriveCarTv = mRootView.findViewById(R.id.awoing_amount);
+        arrivedCarTv = mRootView.findViewById(R.id.awoed_amount);
+        clueCarTv = mRootView.findViewById(R.id.add_value_tv);
         mounthAdd = mRootView.findViewById(R.id.add);
 
         titles = getResources().getStringArray(R.array.list_tab);
@@ -130,13 +131,7 @@ public class MainPageFragment extends MVPBaseFragment {
     public void initNews(List<String> strings) {
 
         List<String> info = new ArrayList<>();
-        info.add("33333333333333");
-        info.add("44444444444444");
-        info.add("55555555555555");
-        info.add("66666666666666");
-        mMarqueeView.startWithList(info);
-
-// 在代码里设置自己的动画
+        mMarqueeView.startWithList(strings);
         mMarqueeView.startWithList(info, R.anim.anim_bottom_in, R.anim.anim_top_out);
 
     }
@@ -148,13 +143,13 @@ public class MainPageFragment extends MVPBaseFragment {
 
     @Override
     protected void initData() {
-        getData();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        getData();
     }
 
     public void getData() {
@@ -178,8 +173,7 @@ public class MainPageFragment extends MVPBaseFragment {
                         }
                     if (jsonObject.getString("success").equals("true")) {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        JSONObject pageInfo = jsonObject1.getJSONObject("pageInfo");
-                        //list =  JSON.parseArray(pageInfo.getJSONArray("list").toJSONString(), NewsBean.class);
+                        mainPageDataBean = JSON.parseObject(jsonObject1.toJSONString(), MainPageDataBean.class);
                         mHandler.sendEmptyMessage(0);
                     } else {
                         Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -210,10 +204,27 @@ public class MainPageFragment extends MVPBaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-
+                    if (mainPageDataBean != null) {
+                        setValue();
+                    }
                     break;
             }
         }
     };
+
+    public void setValue() {
+
+        findingCarTv.setText(mainPageDataBean.getFinding());
+        findedCarTv.setText(mainPageDataBean.getFound());
+        arriveCarTv.setText(mainPageDataBean.getRetrieving());
+        arrivedCarTv.setText(mainPageDataBean.getRetrieved());
+        clueCarTv.setText(mainPageDataBean.getTotal());
+        mounthAdd.setText("本日新增  "+mainPageDataBean.getToday());
+
+        if (mainPageDataBean.getNewsList().size() > 0) {
+            initNews(mainPageDataBean.getNewsList());
+        }
+
+    }
 
 }

@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
+import com.find_carhelper.bean.FindCarListBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
@@ -43,7 +44,7 @@ import okhttp3.Request;
 public class FindCarFragment extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
     private RecyclerView recycleListView;
     private FindCarListAdapter mListOrderAcceptAdapter;
-    public List<CarBean> carBeans;
+    public FindCarListBean carBeans;
     public RelativeLayout no_auth_layout;
     public RelativeLayout takePhoto,scanPhoto,ImgPhoto;
     public ImageView find_car;
@@ -122,9 +123,9 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                 .setSuccess_text("加载成功");
         //设置延时5000ms才消失,可以不设置默认1000ms
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
-        initAdapter(null);
+
     }
-    private void initAdapter(List<CarBean> list) {
+    private void initAdapter(List<FindCarListBean.data.carInfo> list) {
         mListOrderAcceptAdapter = new FindCarListAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -135,10 +136,10 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             @Override
             public void onItemClick(View v, FindCarListAdapter.ViewName viewName, int position) {
 
-                Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
-                intent.putExtra("vin", list.get(position).getVin());
-                intent.putExtra("no", list.get(position).getOrderCode());
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
+//                intent.putExtra("vin", list.get(position).getVin());
+//                intent.putExtra("no", list.get(position).getOrderCode());
+//                startActivity(intent);
             }
 
             @Override
@@ -154,12 +155,11 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
     }
 
     public void getCarData() {
-        String url = Constants.SERVICE_NAME + Constants.GET_ORDER;
+        String url = Constants.SERVICE_NAME + Constants.FIND_CAR_LIST;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
-        params.put("status", "COMPLETED");
         params.put("pageNum", "0");
         params.put("pageSize", "100");
         // ...
@@ -178,9 +178,8 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                                 return;
                             }
                         if (jsonObject.getString("success").equals("true")) {
-                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Message msg = new Message();
-                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), CarBean.class);
+                            carBeans = JSON.parseObject(jsonObject.toJSONString(), FindCarListBean.class);
                             msg.what = 0;
                             mHandler.sendMessage(msg);
                         } else {
@@ -219,9 +218,8 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    Log.e("!@#", "size = " + carBeans.size());
                     if (carBeans != null) {
-                        initAdapter(carBeans);
+                        initAdapter(carBeans.getData().getList());
                     }
                     break;
 

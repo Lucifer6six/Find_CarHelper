@@ -45,6 +45,7 @@ public class Constants {
     public static String NEWS_DETAIL = "/message/";
     public static String MAIN_PAGE_DATE = "/index/data";
     public static String FIND_CAR = "/find/search";
+    public static String FIND_CAR_LIST = "/vehicle/find/list";
     public static String FIND_CAR_OWNERS = "/vehicle/find/detail";
     public static String FIND_CAR_ORDERS = "/vehicle/find/order";
     public static String FIND_CAR_COMPLETE = "/vehicle/find/order/finish/apply";

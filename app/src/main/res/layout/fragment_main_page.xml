@@ -189,7 +189,7 @@
                     app:mvInterval="3000"
                     app:mvSingleLine="true"
                     app:mvTextColor="@color/text_color_black"
-                    app:mvTextSize="14sp"/>
+                    app:mvTextSize="12sp"/>
             </RelativeLayout>
 
             <LinearLayout

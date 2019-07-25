@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
+import com.find_carhelper.bean.FindCarListBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
@@ -41,7 +42,7 @@ import okhttp3.Request;
 public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
     private RecyclerView recycleListView;
     private FindCarListAdapter mListOrderAcceptAdapter;
-    public List<CarBean> carBeans;
+    public List<FindCarListBean.data.carInfo> carBeans;
     public RelativeLayout no_auth_layout;
 
 
@@ -100,7 +101,7 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
         initAdapter(null);
     }
 
-    private void initAdapter(List<CarBean> list) {
+    private void initAdapter(List<FindCarListBean.data.carInfo> list) {
         mListOrderAcceptAdapter = new FindCarListAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -162,7 +163,7 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
                         if (jsonObject.getString("success").equals("true")) {
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Message msg = new Message();
-                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), CarBean.class);
+                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), FindCarListBean.data.carInfo.class);
                             msg.what = 0;
                             mHandler.sendMessage(msg);
                         } else {

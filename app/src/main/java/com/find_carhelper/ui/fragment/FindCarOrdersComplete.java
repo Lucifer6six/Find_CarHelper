@@ -20,6 +20,7 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.ReUploadImageActivity;
+import com.find_carhelper.ui.adapter.FindCarCompleteListAdapter;
 import com.find_carhelper.ui.adapter.FindCarListAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
@@ -39,7 +40,7 @@ import okhttp3.Request;
  */
 public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
     private RecyclerView recycleListView;
-    private FindCarListAdapter mListOrderAcceptAdapter;
+    private FindCarCompleteListAdapter mListOrderAcceptAdapter;
     public List<CarBean> carBeans;
     public RelativeLayout no_auth_layout;
 
@@ -100,15 +101,15 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
     }
 
     private void initAdapter(List<CarBean> list) {
-        mListOrderAcceptAdapter = new FindCarListAdapter(mContext, list);
+        mListOrderAcceptAdapter = new FindCarCompleteListAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mListOrderAcceptAdapter);
 
-        mListOrderAcceptAdapter.setOnItemClickListener(new FindCarListAdapter.OnItemClickListener() {
+        mListOrderAcceptAdapter.setOnItemClickListener(new FindCarCompleteListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, FindCarListAdapter.ViewName viewName, int position) {
+            public void onItemClick(View v, FindCarCompleteListAdapter.ViewName viewName, int position) {
 
                 Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
                 intent.putExtra("vin", list.get(position).getVin());

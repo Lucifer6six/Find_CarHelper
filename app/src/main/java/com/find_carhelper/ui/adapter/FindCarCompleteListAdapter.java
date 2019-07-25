@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
-import com.find_carhelper.bean.FindCarListBean;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
 import java.util.List;
@@ -20,13 +19,13 @@ import java.util.List;
 /**
  * 列表抢单
  */
-public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.RepairViewHolder> implements View.OnClickListener {
+public class FindCarCompleteListAdapter extends RecyclerView.Adapter<FindCarCompleteListAdapter.RepairViewHolder> implements View.OnClickListener {
 
     private Context mContext;
     private OnItemClickListeners onItemClickListeners;
-    private List<FindCarListBean.data.carInfo> list;
+    private List<CarBean> list;
 
-    public FindCarListAdapter(Context context, List<FindCarListBean.data.carInfo> list) {
+    public FindCarCompleteListAdapter(Context context, List<CarBean> list) {
         this.mContext = context;
         this.list = list;
     }
@@ -37,31 +36,31 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
 
     @NonNull
     @Override
-    public FindCarListAdapter.RepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_find_car_list, parent, false);
-        return new FindCarListAdapter.RepairViewHolder(view);
+    public FindCarCompleteListAdapter.RepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_find_car_already_order_list, parent, false);
+        return new FindCarCompleteListAdapter.RepairViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FindCarListAdapter.RepairViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final FindCarCompleteListAdapter.RepairViewHolder holder, final int position) {
         if (onItemClickListeners != null) {
             holder.itemView.setOnClickListener(v -> onItemClickListeners.onItemClick(holder, null, position));
         }
-        holder.itemView.setOnClickListener(FindCarListAdapter.this);
-        holder.acept_order.setTag(position);
+        holder.itemView.setOnClickListener(FindCarCompleteListAdapter.this);
         holder.itemView.setTag(position);
         if (list != null) {
 
             if (list.size() > 0) {
 
-                holder.carType.setText(list.get(position).getVehicleModel());
-                holder.carId.setText(list.get(position).getLpn());
-                holder.carNo.setText("车架号  " + list.get(position).getVin());
-                holder.address_tips.setText(list.get(position).getRegion()
-                        + "/" + list.get(position).getPartya()
-                );
-                holder.money.setText(list.get(position).getRewardAmount());
-               // String text = list.get(position).getOrderStatusName();
+//                holder.carType.setText(list.get(position).getVehicleModel());
+//                holder.carId.setText(list.get(position).getLpn());
+//                holder.carNo.setText("车架号  " + list.get(position).getVin());
+//                holder.address_tips.setText(list.get(position).getRegion() +
+//                        "/" + list.get(position).getPositioningMethod() +
+//                        "/" + list.get(position).getHasKey() + "/" + list.get(position).getPartya()
+//                );
+   //             holder.money.setText(list.get(position).getRewardAmount());
+     //            String text = list.get(position).getOrderStatusName();
             }
 
         }
@@ -70,7 +69,7 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return 3;
     }
 
     @Override
@@ -104,8 +103,8 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
             carNo = itemView.findViewById(R.id.car_no);
             address_tips = itemView.findViewById(R.id.address_tips);
             money = itemView.findViewById(R.id.money);
-            acept_order = itemView.findViewById(R.id.acept_order);
-            acept_order.setOnClickListener(FindCarListAdapter.this);
+           // acept_order = itemView.findViewById(R.id.acept_order);
+           // acept_order.setOnClickListener(FindCarCompleteListAdapter.this);
         }
     }
 
