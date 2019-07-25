@@ -1,5 +1,10 @@
 package com.find_carhelper.http;
 
+/**
+ * 测试账号
+ * 企业用户：15150535368  Hy123456
+ * 个人用户：13372022775  Hy123456
+ */
 public class Constants {
     public static String name = "";
     public static String nickName = "";

@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/finded_amount"
                         android:gravity="center"
-                        android:text="在寻车辆"
+                        android:text="累计已寻"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14"/>
                 </RelativeLayout>

@@ -49,22 +49,22 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
         holder.itemView.setOnClickListener(FindCarListAdapter.this);
         holder.acept_order.setTag(position);
         holder.itemView.setTag(position);
-        if (list != null) {
-
-            if (list.size() > 0) {
-
-                holder.carType.setText(list.get(position).getVehicleModel());
-                holder.carId.setText(list.get(position).getLpn());
-                holder.carNo.setText("车架号  " + list.get(position).getVin());
-                holder.address_tips.setText(list.get(position).getRegion() +
-                        "/" + list.get(position).getPositioningMethod() +
-                        "/" + list.get(position).getHasKey() + "/" + list.get(position).getPartya()
-                );
-                holder.money.setText(list.get(position).getRewardAmount());
-                String text = list.get(position).getOrderStatusName();
-            }
-
-        }
+//        if (list != null) {
+//
+//            if (list.size() > 0) {
+//
+//                holder.carType.setText(list.get(position).getVehicleModel());
+//                holder.carId.setText(list.get(position).getLpn());
+//                holder.carNo.setText("车架号  " + list.get(position).getVin());
+//                holder.address_tips.setText(list.get(position).getRegion() +
+//                        "/" + list.get(position).getPositioningMethod() +
+//                        "/" + list.get(position).getHasKey() + "/" + list.get(position).getPartya()
+//                );
+//                holder.money.setText(list.get(position).getRewardAmount());
+//                String text = list.get(position).getOrderStatusName();
+//            }
+//
+//        }
     }
 
 

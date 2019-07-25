@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -41,6 +42,8 @@ public class MainPageFragment extends MVPBaseFragment {
     private SmartTabLayout mSmartTablayout;
     private SwipeRefreshLayout refreshLayout;
     private MarqueeView mMarqueeView;
+
+    private TextView findingCarTv,findedCarTv,arriveCarTv,arrivedCarTv,clueCarTv,mounthAdd;
 
     public static Fragment newInstance() {
         MainPageFragment fragment = new MainPageFragment();
@@ -89,6 +92,14 @@ public class MainPageFragment extends MVPBaseFragment {
         // mTabLayout = mRootView.findViewById(R.id.tool_tab);
         mViewPager = mRootView.findViewById(R.id.view_pager);
         mMarqueeView = mRootView.findViewById(R.id.marqueeView);
+
+        findingCarTv = mRootView.findViewById(R.id.finding_amount);
+        findedCarTv = mRootView.findViewById(R.id.finded_amount);
+        arriveCarTv= mRootView.findViewById(R.id.awoing_amount);
+        arrivedCarTv= mRootView.findViewById(R.id.awoed_amount);
+        clueCarTv= mRootView.findViewById(R.id.add_value_tv);
+        mounthAdd = mRootView.findViewById(R.id.add);
+
         titles = getResources().getStringArray(R.array.list_tab);
         PaiHangBangFragment cooperatingFragment = new PaiHangBangFragment();
         PaiHangBangFragment alreadyCompleteFragment = new PaiHangBangFragment();
