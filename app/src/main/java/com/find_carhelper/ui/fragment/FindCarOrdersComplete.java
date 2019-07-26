@@ -9,20 +9,23 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
+import com.find_carhelper.bean.FindCarCooperatingBean;
+import com.find_carhelper.bean.FindCarInfo;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.OrdersInfoActivity;
 import com.find_carhelper.ui.activity.ReUploadImageActivity;
 import com.find_carhelper.ui.adapter.FindCarCompleteListAdapter;
-import com.find_carhelper.ui.adapter.FindCarListAdapter;
-import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.ui.adapter.FindCarCompletingOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
@@ -41,9 +44,9 @@ import okhttp3.Request;
 public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
     private RecyclerView recycleListView;
     private FindCarCompleteListAdapter mListOrderAcceptAdapter;
-    public List<CarBean> carBeans;
+    public List<FindCarInfo> carBeans;
     public RelativeLayout no_auth_layout;
-
+    public TextView no_data_tv;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -86,6 +89,7 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
     protected void initViews() {
         recycleListView = mRootView.findViewById(R.id.list_orders);
         no_auth_layout = mRootView.findViewById(R.id.no_auth_layout);
+        no_data_tv = mRootView.findViewById(R.id.no_data_tv);
         initLoading();
     }
 
@@ -97,10 +101,9 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
                 .setSuccess_text("加载成功");
         //设置延时5000ms才消失,可以不设置默认1000ms
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
-        initAdapter(null);
     }
 
-    private void initAdapter(List<CarBean> list) {
+    private void initAdapter(List<FindCarInfo> list) {
         mListOrderAcceptAdapter = new FindCarCompleteListAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -111,10 +114,32 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
             @Override
             public void onItemClick(View v, FindCarCompleteListAdapter.ViewName viewName, int position) {
 
-                Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
+//                Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
+//                intent.putExtra("vin", list.get(position).getVin());
+//                intent.putExtra("no", list.get(position).getOrderCode());
+//                startActivity(intent);
+                switch (viewName){
+
+                    case ITEM:
+                Intent intent = new Intent(getContext(), OrdersInfoActivity.class);
                 intent.putExtra("vin", list.get(position).getVin());
                 intent.putExtra("no", list.get(position).getOrderCode());
                 startActivity(intent);
+
+                        break;
+
+                    case ORDERS:
+
+                        break;
+
+                    case PRACTISE:
+
+                        break;
+
+
+                }
+
+
             }
 
             @Override
@@ -130,7 +155,7 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
     }
 
     public void getCarData() {
-        String url = Constants.SERVICE_NAME + Constants.GET_ORDER;
+        String url = Constants.SERVICE_NAME + Constants.FIND_CAR_ORDERS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
@@ -156,8 +181,12 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
                         if (jsonObject.getString("success").equals("true")) {
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Message msg = new Message();
-                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), CarBean.class);
-                            msg.what = 0;
+                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), FindCarInfo.class);
+                            if (carBeans.size()>0){
+                                msg.what = 0;
+                            }else{
+                                msg.what = 1;
+                            }
                             mHandler.sendMessage(msg);
                         } else {
                             String msg = jsonObject.getString("message");
@@ -195,12 +224,14 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    Log.e("!@#", "size = " + carBeans.size());
                     if (carBeans != null) {
                         initAdapter(carBeans);
                     }
                     break;
-
+                case 1:
+                    no_data_tv.setVisibility(View.VISIBLE);
+                    no_data_tv.setText("没有已完成的寻车订单~");
+                    break;
             }
         }
     };

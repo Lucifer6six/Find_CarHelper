@@ -110,9 +110,6 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             startActivity(new Intent(getContext(), AuthActivity.class));
         });
         initLoading();
-
-
-
     }
 
     public void initLoading() {

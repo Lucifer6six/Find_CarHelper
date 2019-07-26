@@ -32,7 +32,20 @@
                     android:text="2018款CT6-铂金版"
                     android:layout_margin="@dimen/margin_15"
                     />
-
+                <TextView
+                    android:id="@+id/money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥1000"
+                    android:textSize="@dimen/text_size_20"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_money_orange"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    />
                 <TextView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
@@ -46,6 +59,7 @@
                     android:gravity="center"
                     android:text="自接单"
                     android:textColor="@color/colorPrimary"
+                    android:visibility="gone"
                     android:textSize="@dimen/text_size_12"
                     android:textStyle="bold" />
 
@@ -66,7 +80,16 @@
                     android:text="苏A3ZOKJ"
                     android:background="@mipmap/dd_cp1_bg"
                     />
-
+                <TextView
+                    android:id="@+id/tips1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_gray"
+                    android:layout_marginLeft="5dp"
+                    android:text="江苏南京/GPS定位/有钥匙/汇通"
+                    android:padding="@dimen/padding_2"
+                    android:layout_toRightOf="@+id/car_id"
+                    />
                 <TextView
                     android:id="@+id/car_no"
                     android:layout_width="wrap_content"
@@ -77,24 +100,7 @@
                     android:textColor="@color/text_color_gray"
                     />
             </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_15"
-                >
 
-                <TextView
-                    android:id="@+id/tips1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_gray"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:text="江苏南京/GPS定位/有钥匙/汇通"
-                    android:padding="@dimen/padding_2"
-                    />
-
-            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,15 +108,6 @@
                 android:layout_marginRight="@dimen/margin_15"
                 android:paddingBottom="@dimen/margin_15"
                 >
-                <TextView
-                    android:id="@+id/money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥1000"
-                    android:textSize="@dimen/text_size_20"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_money_orange"
-                    />
                 <TextView
                     android:id="@+id/request_save"
                     android:layout_width="wrap_content"
@@ -132,6 +129,7 @@
                     android:layout_toLeftOf="@+id/request_save"
                     android:gravity="center"
                     android:text="查看原因"
+                    android:visibility="gone"
                     android:layout_marginRight="@dimen/margin_15"
 
                     />

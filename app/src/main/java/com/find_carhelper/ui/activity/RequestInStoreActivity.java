@@ -1,7 +1,5 @@
 package com.find_carhelper.ui.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +27,10 @@ import com.find_carhelper.ui.adapter.MyImageUploadAdapter;
 import com.find_carhelper.ui.adapter.MyImageUploadAdapter2;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.widgets.MarkerOrderPopWindow;
+import com.find_carhelper.widgets.MyDialog;
 import com.find_carhelper.widgets.OnItemClickListeners;
+import com.find_carhelper.widgets.TakePhotoSelectPopWindow;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
@@ -57,11 +58,10 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     private CustomHelper customHelper;
     private View commenView;
     private Button takePhoto;
+    private Button selectPhoto;
     public int position;
-    ArrayList<TImage> images;
     private List<photoBean> photoes;
     private List<photoBean> addPhotoes;
-    private List<String> updateList;
     private String orderCode;
     private String vin;
     public Button save, update;
@@ -101,7 +101,6 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                         com.alibaba.fastjson.JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         photoes = JSON.parseArray(jsonObject1.getJSONArray("photoTypeList").toJSONString(), photoBean.class);
                         addPhotoes = JSON.parseArray(jsonObject1.getJSONArray("addedPhotoList").toJSONString(), photoBean.class);
-//                        Toast.makeText(getApplicationContext(), "size=" + photoes.size(), Toast.LENGTH_SHORT).show();
                         mHandler.sendEmptyMessage(0);
                     } else {
                         Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -146,6 +145,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         photoView = findViewById(R.id.photoView);
         commenView = LayoutInflater.from(this).inflate(R.layout.common_layout, null);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
+        selectPhoto = commenView.findViewById(R.id.btnPickBySelect);
         customHelper = CustomHelper.of(commenView);
         recycleListView = findViewById(R.id.img_list);
         recycleListView2 = findViewById(R.id.img_list2);
@@ -238,14 +238,32 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                 msg.what = 2;
                 mHandler.sendMessage(msg);
                 isAddPhoto = true;
-                customHelper.onClick(takePhoto, getTakePhoto());
+                showSelectDialog();
             }
         });
         recycleListView2.setLayoutManager(new GridLayoutManager(this, 2));
         recycleListView2.setHasFixedSize(true);
         recycleListView2.setAdapter(mMyImageUploadAdapter2);
     }
+    public void showSelectDialog(){
+        MyDialog dialogHistory = new MyDialog(RequestInStoreActivity.this, R.style.dialog_theme_pick);
+        dialogHistory.setTextTitle("确定清除历史搜索缓存");
+        dialogHistory.setOnDialogClickListener(new MyDialog.onDialogListener() {
 
+            @Override
+            public void onquxiao() {
+                //拍照
+                customHelper.onClick(takePhoto, getTakePhoto());
+            }
+
+            @Override
+            public void onqueding() {
+                // 从相册选择
+                customHelper.onClick(selectPhoto, getTakePhoto());
+            }
+        });
+        dialogHistory.show();
+    }
 
     @Override
     public void takeSuccess(TResult result) {
@@ -277,7 +295,8 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
         //takePhoto.performClick();
         this.position = position;
         isAddPhoto = false;
-        customHelper.onClick(takePhoto, getTakePhoto());
+        //customHelper.onClick(takePhoto, getTakePhoto());
+        showSelectDialog();
     }
 
     private UpImgAsyncTask mbuttonAsyncTask;

@@ -10,12 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.find_carhelper.R;
-import com.find_carhelper.bean.CarBean;
 import com.find_carhelper.bean.FindCarCooperatingBean;
-import com.find_carhelper.bean.FindCarInfo;
 import com.find_carhelper.widgets.OnItemClickListeners;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,13 +19,13 @@ import java.util.List;
 /**
  * 列表抢单
  */
-public class FindCarCompleteListAdapter extends RecyclerView.Adapter<FindCarCompleteListAdapter.RepairViewHolder> implements View.OnClickListener {
+public class FindCarCompletingOrderAdapter extends RecyclerView.Adapter<FindCarCompletingOrderAdapter.RepairViewHolder> implements View.OnClickListener {
 
     private Context mContext;
     private OnItemClickListeners onItemClickListeners;
-    private List<FindCarInfo> list;
+    private List<FindCarCooperatingBean.data.carInfo> list;
 
-    public FindCarCompleteListAdapter(Context context, List<FindCarInfo> list) {
+    public FindCarCompletingOrderAdapter(Context context, List<FindCarCooperatingBean.data.carInfo> list) {
         this.mContext = context;
         this.list = list;
     }
@@ -40,22 +36,23 @@ public class FindCarCompleteListAdapter extends RecyclerView.Adapter<FindCarComp
 
     @NonNull
     @Override
-    public FindCarCompleteListAdapter.RepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_find_car_already_order_list, parent, false);
-        return new FindCarCompleteListAdapter.RepairViewHolder(view);
+    public FindCarCompletingOrderAdapter.RepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_find_car_list, parent, false);
+        return new FindCarCompletingOrderAdapter.RepairViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FindCarCompleteListAdapter.RepairViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final FindCarCompletingOrderAdapter.RepairViewHolder holder, final int position) {
         if (onItemClickListeners != null) {
             holder.itemView.setOnClickListener(v -> onItemClickListeners.onItemClick(holder, null, position));
         }
+        holder.itemView.setOnClickListener(FindCarCompletingOrderAdapter.this);
+        holder.acept_order.setTag(position);
         holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(FindCarCompleteListAdapter.this);
-
         if (list != null) {
+
             if (list.size() > 0) {
-                holder.reason.setVisibility(View.GONE);
+
                 holder.carType.setText(list.get(position).getVehicleModel());
                 holder.carId.setText(list.get(position).getLpn());
                 holder.carNo.setText("车架号  " + list.get(position).getVin());
@@ -63,19 +60,7 @@ public class FindCarCompleteListAdapter extends RecyclerView.Adapter<FindCarComp
                         + "/" + list.get(position).getPartya()
                 );
                 holder.money.setText(list.get(position).getRewardAmount());
-                String text = list.get(position).getOrderStatusName();
-                if (text.equals("已完成")){
-                    holder.request_save.setTextColor(mContext.getResources().getColor(R.color.green));
-                }else if (text.equals("审核中")){
-                    holder.request_save.setTextColor(mContext.getResources().getColor(R.color.purpol));
-                }else if (text.equals("驳回")){
-                    holder.reason.setVisibility(View.VISIBLE);
-                    holder.request_save.setTextColor(mContext.getResources().getColor(R.color.orange_red));
-                }else{
-                    holder.request_save.setTextColor(mContext.getResources().getColor(R.color.black));
-                }
-                holder.request_save.setText(text);
-                holder.reason.setTag(position);
+               // String text = list.get(position).getOrderStatusName();
             }
 
         }
@@ -89,14 +74,12 @@ public class FindCarCompleteListAdapter extends RecyclerView.Adapter<FindCarComp
 
     @Override
     public void onClick(View view) {
+
         int position = (int) view.getTag(); //getTag()获取数据
         if (mOnItemClickListener != null) {
             switch (view.getId()) {
                 case R.id.acept_order:
                     mOnItemClickListener.onItemClick(view, ViewName.PRACTISE, position);
-                    break;
-                case R.id.time:
-                    mOnItemClickListener.onItemClick(view, ViewName.ORDERS, position);
                     break;
                 default:
                     mOnItemClickListener.onItemClick(view, ViewName.ITEM, position);
@@ -111,19 +94,17 @@ public class FindCarCompleteListAdapter extends RecyclerView.Adapter<FindCarComp
         TextView carNo;
         TextView address_tips;
         TextView money;
-        TextView reason;
-        TextView request_save;
+        Button acept_order;
+
         public RepairViewHolder(View itemView) {
             super(itemView);
             carType = itemView.findViewById(R.id.car_type);
             carId = itemView.findViewById(R.id.car_id);
             carNo = itemView.findViewById(R.id.car_no);
-            address_tips = itemView.findViewById(R.id.tips1);
+            address_tips = itemView.findViewById(R.id.address_tips);
             money = itemView.findViewById(R.id.money);
-            request_save = itemView.findViewById(R.id.request_save);
-            reason = itemView.findViewById(R.id.time);
-           // acept_order = itemView.findViewById(R.id.acept_order);
-            reason.setOnClickListener(FindCarCompleteListAdapter.this);
+            acept_order = itemView.findViewById(R.id.acept_order);
+            acept_order.setOnClickListener(FindCarCompletingOrderAdapter.this);
         }
     }
 

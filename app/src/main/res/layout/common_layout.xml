@@ -372,13 +372,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:checked="true"
                             android:text="是" />
 
                         <RadioButton
                             android:id="@+id/rbPickWithOther"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:checked="true"
                             android:text="否" />
                     </RadioGroup>
                 </LinearLayout>
@@ -412,7 +412,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:minWidth="30dp"
-                            android:text="5" />
+                            android:text="1"/>
 
                         <TextView
                             android:layout_width="wrap_content"

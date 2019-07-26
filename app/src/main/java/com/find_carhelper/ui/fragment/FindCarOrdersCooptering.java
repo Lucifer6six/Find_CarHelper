@@ -9,25 +9,25 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
-import com.find_carhelper.bean.CarBean;
-import com.find_carhelper.bean.FindCarListBean;
+import com.find_carhelper.bean.FindCarCooperatingBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.OrdersInfoActivity;
-import com.find_carhelper.ui.activity.ReUploadImageActivity;
-import com.find_carhelper.ui.adapter.FindCarListAdapter;
-import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.ui.adapter.FindCarCompletingOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.wega.library.loadingDialog.LoadingDialog;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -41,10 +41,10 @@ import okhttp3.Request;
  */
 public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
     private RecyclerView recycleListView;
-    private FindCarListAdapter mListOrderAcceptAdapter;
-    public List<FindCarListBean.data.carInfo> carBeans;
+    private FindCarCompletingOrderAdapter mListOrderAcceptAdapter;
+    public List<FindCarCooperatingBean.data.carInfo> carBeans;
     public RelativeLayout no_auth_layout;
-
+    public TextView no_data_tv;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -87,6 +87,7 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
     protected void initViews() {
         recycleListView = mRootView.findViewById(R.id.list_orders);
         no_auth_layout = mRootView.findViewById(R.id.no_auth_layout);
+        no_data_tv = mRootView.findViewById(R.id.no_data_tv);
         initLoading();
     }
 
@@ -98,21 +99,20 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
                 .setSuccess_text("加载成功");
         //设置延时5000ms才消失,可以不设置默认1000ms
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
-        initAdapter(null);
     }
 
-    private void initAdapter(List<FindCarListBean.data.carInfo> list) {
-        mListOrderAcceptAdapter = new FindCarListAdapter(mContext, list);
+    private void initAdapter(List<FindCarCooperatingBean.data.carInfo> list) {
+        mListOrderAcceptAdapter = new FindCarCompletingOrderAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mListOrderAcceptAdapter);
 
-        mListOrderAcceptAdapter.setOnItemClickListener(new FindCarListAdapter.OnItemClickListener() {
+        mListOrderAcceptAdapter.setOnItemClickListener(new FindCarCompletingOrderAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, FindCarListAdapter.ViewName viewName, int position) {
+            public void onItemClick(View v, FindCarCompletingOrderAdapter.ViewName viewName, int position) {
 
-                if (viewName.equals(FindCarListAdapter.ViewName.ITEM)){
+                if (viewName.equals(FindCarCompletingOrderAdapter.ViewName.ITEM)){
 
                     Intent intent = new Intent(getContext(), OrdersInfoActivity.class);
                     // intent.putExtra("vin", list.get(position).getVin());
@@ -137,12 +137,12 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
     }
 
     public void getCarData() {
-        String url = Constants.SERVICE_NAME + Constants.GET_ORDER;
+        String url = Constants.SERVICE_NAME + Constants.FIND_CAR_ORDERS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
-        params.put("status", "COMPLETED");
+        params.put("status", "COOPERATING");
         params.put("pageNum", "0");
         params.put("pageSize", "100");
         // ...
@@ -163,8 +163,12 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
                         if (jsonObject.getString("success").equals("true")) {
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Message msg = new Message();
-                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), FindCarListBean.data.carInfo.class);
-                            msg.what = 0;
+                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), FindCarCooperatingBean.data.carInfo.class);
+                            if (carBeans.size()>0){
+                                msg.what = 0;
+                            }else{
+                                msg.what = 1;
+                            }
                             mHandler.sendMessage(msg);
                         } else {
                             String msg = jsonObject.getString("message");
@@ -202,12 +206,16 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
+                    no_data_tv.setVisibility(View.GONE);
                     Log.e("!@#", "size = " + carBeans.size());
                     if (carBeans != null) {
                         initAdapter(carBeans);
                     }
                     break;
-
+                case 1:
+                    no_data_tv.setVisibility(View.VISIBLE);
+                    no_data_tv.setText("没有合作中的寻车订单~");
+                    break;
             }
         }
     };

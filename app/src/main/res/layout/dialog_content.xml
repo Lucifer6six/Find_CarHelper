@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_corners_layout"
+    android:minHeight="100dp"
+    android:minWidth="200dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="100dp"
+        android:padding="12dp"
+        android:lineSpacingExtra="8dp"
+        android:text="请选择"
+        android:textSize="@dimen/text_size_17" />
+	<RelativeLayout 
+	    android:id="@+id/dont_show_container"
+	    android:layout_marginTop="10dp"
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_text"
+        android:layout_marginBottom="5dp"
+        android:visibility="gone"
+        >
+	<CheckBox 
+	    android:id="@+id/dont_show"
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/dont_show"
+        android:text="不再提示"
+        android:layout_centerVertical="true"
+        />
+    </RelativeLayout>
+    <LinearLayout       
+        android:layout_width="fill_parent"
+        android:layout_height="36dp"
+        android:layout_below="@+id/dont_show_container" >
+
+        <TextView
+            android:id="@+id/quxiao"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="拍照"
+            android:textSize="@dimen/text_size_17"
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            />
+
+        <TextView
+            android:id="@+id/queding"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="从相册选择"
+            android:textSize="@dimen/text_size_17">
+        </TextView>
+    </LinearLayout>
+
+</RelativeLayout>
