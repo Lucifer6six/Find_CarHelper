@@ -15,17 +15,13 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
-import com.find_carhelper.bean.CarBean;
-import com.find_carhelper.bean.FindCarCooperatingBean;
 import com.find_carhelper.bean.FindCarInfo;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
-import com.find_carhelper.ui.activity.OrdersInfoActivity;
-import com.find_carhelper.ui.activity.ReUploadImageActivity;
+import com.find_carhelper.ui.activity.RequestCompleteFailActivity;
 import com.find_carhelper.ui.adapter.FindCarCompleteListAdapter;
-import com.find_carhelper.ui.adapter.FindCarCompletingOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
@@ -118,18 +114,21 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
 //                intent.putExtra("vin", list.get(position).getVin());
 //                intent.putExtra("no", list.get(position).getOrderCode());
 //                startActivity(intent);
-                switch (viewName){
+                switch (viewName) {
 
                     case ITEM:
-                Intent intent = new Intent(getContext(), OrdersInfoActivity.class);
-                intent.putExtra("vin", list.get(position).getVin());
-                intent.putExtra("no", list.get(position).getOrderCode());
-                startActivity(intent);
+//                        Intent intent = new Intent(getContext(), OrdersInfoActivity.class);
+//                        intent.putExtra("vin", list.get(position).getVin());
+//                        intent.putExtra("no", list.get(position).getOrderCode());
+//                        startActivity(intent);
 
                         break;
 
                     case ORDERS:
-
+                        Intent intent1 = new Intent(getContext(), RequestCompleteFailActivity.class);
+                        intent1.putExtra("vin", list.get(position).getVin());
+                        intent1.putExtra("no", list.get(position).getOrderCode());
+                        startActivity(intent1);
                         break;
 
                     case PRACTISE:
@@ -162,13 +161,13 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
         params.put("status", "COMPLETED");
         params.put("pageNum", "0");
-        params.put("pageSize", "100");
+        params.put("pageSize", "10");
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG", result.toString());
+                Log.e("TAG  url = "+url, result.toString());
                 no_auth_layout.setVisibility(View.INVISIBLE);
                 if (!result.equals("401")) {
                     if (!TextUtils.isEmpty(result)) {
@@ -182,9 +181,9 @@ public class FindCarOrdersComplete extends MVPBaseFragment implements OnItemClic
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Message msg = new Message();
                             carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), FindCarInfo.class);
-                            if (carBeans.size()>0){
+                            if (carBeans.size() > 0) {
                                 msg.what = 0;
-                            }else{
+                            } else {
                                 msg.what = 1;
                             }
                             mHandler.sendMessage(msg);

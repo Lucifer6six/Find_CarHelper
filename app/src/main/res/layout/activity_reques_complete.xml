@@ -43,15 +43,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_15"
                 android:paddingTop="@dimen/margin_10"
-                android:paddingBottom="@dimen/margin_10"
-                >
+                android:paddingBottom="@dimen/margin_10">
+
                 <TextView
                     android:id="@+id/car_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2018款CT6-铂金版"
-                    android:layout_marginLeft="@dimen/margin_15"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="2018款CT6-铂金版"
                     android:textSize="@dimen/text_size_18"
                     android:textStyle="bold" />
 
@@ -59,9 +59,9 @@
                     android:id="@+id/car_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/car_type"
-                    android:layout_marginLeft="@dimen/margin_10"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/car_type"
                     android:background="@mipmap/dd_cp1_bg"
                     android:text="苏A3ZOKJ"
                     android:textColor="@color/white" />
@@ -102,127 +102,140 @@
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="@color/back_ground_gray"
         android:layout_below="@+id/edit_psw"
-        />
+        android:background="@color/back_ground_gray" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/edit_psw"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_15"
-        >
-    <LinearLayout
-        android:id="@+id/about_me"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginRight="@dimen/margin_15">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:text="定位PIN码"
-            android:textSize="@dimen/text_size_15"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/pin_edit"
+        <LinearLayout
+            android:id="@+id/about_me"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_15"
-            android:background="@drawable/round_square_gray"
-            android:gravity="center"
-            android:hint="请输入定位PIN码"
-            android:padding="@dimen/margin_10"
-            android:textSize="@dimen/text_size_18" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_10"
-            android:text="车辆照片"
-            android:textSize="@dimen/text_size_15"
-            android:textStyle="bold" />
-
-
-        <RelativeLayout
-            android:id="@+id/car_img_layout"
-            android:layout_width="200dp"
-            android:layout_height="160dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/round_square_gray">
-
-            <ImageView
-                android:id="@+id/car_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:paddingTop="@dimen/padding_20"
-                android:paddingBottom="@dimen/padding_20"
-                android:src="@mipmap/dd_icon_photo" />
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/car_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/car_img"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="车辆照片" />
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_10"
+                android:text="定位PIN码"
+                android:textSize="@dimen/text_size_15"
+                android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/photoView"
+            <EditText
+                android:id="@+id/pin_edit"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/car_id_layout"
-            android:layout_width="200dp"
-            android:layout_height="160dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_15"
-            android:background="@drawable/round_square_gray">
-
-            <ImageView
-                android:id="@+id/car_id_img"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:paddingTop="@dimen/padding_20"
-                android:paddingBottom="@dimen/padding_20"
-                android:src="@mipmap/dd_icon_photo" />
+                android:layout_margin="@dimen/margin_15"
+                android:background="@drawable/round_square_gray"
+                android:gravity="center"
+                android:hint="请输入定位PIN码"
+                android:padding="@dimen/margin_10"
+                android:textSize="@dimen/text_size_18" />
 
             <TextView
-                android:id="@+id/car_id_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/car_id_img"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="车架号照片" />
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_10"
+                android:text="车辆照片"
+                android:textSize="@dimen/text_size_15"
+                android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/photoView2"
+            <android.support.v7.widget.CardView
+                android:id="@+id/btnPickByTake"
+                android:layout_width="300dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_10"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:id="@+id/car_img_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/car_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingTop="@dimen/padding_20"
+                        android:paddingBottom="@dimen/padding_20"
+                        android:src="@mipmap/dd_icon_photo" />
+
+                    <TextView
+                        android:id="@+id/car_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/car_img"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="车辆照片" />
+
+                    <ImageView
+                        android:id="@+id/photoView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/btnPickByTake2"
+                android:layout_width="300dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_10"
+                app:cardCornerRadius="10dp">
+
+                <RelativeLayout
+                    android:id="@+id/car_id_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/car_id_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingTop="@dimen/padding_20"
+                        android:paddingBottom="@dimen/padding_20"
+                        android:src="@mipmap/dd_icon_photo" />
+
+                    <TextView
+                        android:id="@+id/car_id_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/car_id_img"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="车架号照片" />
+
+                    <ImageView
+                        android:id="@+id/photoView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:visibility="gone" />
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"/>
-    </LinearLayout>
+                android:layout_height="@dimen/dp_50" />
+        </LinearLayout>
     </ScrollView>
 
     <Button
@@ -230,7 +243,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
+        android:background="@color/text_color_gray"
         android:text="提交"
         android:textColor="@color/white" />
 </RelativeLayout>

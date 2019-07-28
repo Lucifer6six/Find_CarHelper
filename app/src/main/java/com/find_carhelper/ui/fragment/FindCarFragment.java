@@ -26,7 +26,9 @@ import com.find_carhelper.ui.activity.AuthActivity;
 import com.find_carhelper.ui.activity.FindCarOrdersActivity;
 import com.find_carhelper.ui.activity.ReUploadImageActivity;
 import com.find_carhelper.ui.adapter.FindCarListAdapter;
+import com.find_carhelper.ui.adapter.LoadMoreWrapper;
 import com.find_carhelper.ui.base.MVPBaseFragment;
+import com.find_carhelper.ui.listener.EndlessRecyclerOnScrollListener;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.wega.library.loadingDialog.LoadingDialog;
@@ -45,9 +47,14 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
     private RecyclerView recycleListView;
     private FindCarListAdapter mListOrderAcceptAdapter;
     public FindCarListBean carBeans;
+    public FindCarListBean carListBean;
     public RelativeLayout no_auth_layout;
-    public RelativeLayout takePhoto,scanPhoto,ImgPhoto;
+    public RelativeLayout takePhoto, scanPhoto, ImgPhoto;
+    LoadMoreWrapper loadMoreWrapper;
     public ImageView find_car;
+    public boolean loadMoreFlag = true;
+    public int pageNum = 1;
+
     public static Fragment newInstance() {
         FindCarFragment fragment = new FindCarFragment();
         return fragment;
@@ -82,7 +89,6 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     protected void onUserVisible() {
-        getCarData();
     }
 
     @Override
@@ -92,6 +98,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     protected void initViews() {
+        carListBean = new FindCarListBean();
         recycleListView = mRootView.findViewById(R.id.list_orders);
         no_auth_layout = mRootView.findViewById(R.id.no_auth_layout);
         takePhoto = mRootView.findViewById(R.id.take_photo);
@@ -122,13 +129,21 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
 
     }
+
     private void initAdapter(List<FindCarListBean.data.carInfo> list) {
         mListOrderAcceptAdapter = new FindCarListAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
+        loadMoreWrapper = new LoadMoreWrapper(mListOrderAcceptAdapter);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
-        recycleListView.setAdapter(mListOrderAcceptAdapter);
-
+        recycleListView.setAdapter(loadMoreWrapper);
+        recycleListView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                pageNum++;
+                getCarData();
+            }
+        });
         mListOrderAcceptAdapter.setOnItemClickListener(new FindCarListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, FindCarListAdapter.ViewName viewName, int position) {
@@ -157,14 +172,14 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
-        params.put("pageNum", "0");
-        params.put("pageSize", "100");
+        params.put("pageNum", "" + pageNum);
+        params.put("pageSize", "10");
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG", result.toString());
+                Log.e("TAG + page == " + pageNum, result.toString());
                 no_auth_layout.setVisibility(View.INVISIBLE);
                 if (!result.equals("401")) {
                     if (!TextUtils.isEmpty(result)) {
@@ -177,7 +192,11 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                         if (jsonObject.getString("success").equals("true")) {
                             Message msg = new Message();
                             carBeans = JSON.parseObject(jsonObject.toJSONString(), FindCarListBean.class);
-                            msg.what = 0;
+                            if (pageNum > 1) {
+                                msg.what = 1;
+                            } else
+                                msg.what = 0;
+
                             mHandler.sendMessage(msg);
                         } else {
                             String msg = jsonObject.getString("message");
@@ -216,16 +235,30 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             switch (msg.what) {
                 case 0:
                     if (carBeans != null) {
-                        initAdapter(carBeans.getData().getList());
+                        carListBean = carBeans;
+                        initAdapter(carListBean.getData().getList());
                     }
                     break;
-
+                case 1:
+                    if (carBeans != null) {
+                        if (carBeans.getData().getList().size() > 0 && loadMoreFlag){
+                            for (int i = 0; i < carBeans.getData().getList().size(); i++) {
+                                carListBean.getData().getList().add(carBeans.getData().getList().get(i));
+                            }
+                            loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
+                            if (carBeans.getData().isLastPage.equals("true")){
+                                loadMoreFlag = false;
+                            }
+                        }else
+                            loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
+                    }
+                    break;
             }
         }
     };
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(getContext(),"功能尚未开放，敬请期待",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "功能尚未开放，敬请期待", Toast.LENGTH_SHORT).show();
     }
 }

@@ -31,7 +31,9 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
+import com.find_carhelper.ui.adapter.LoadMoreWrapper;
 import com.find_carhelper.ui.base.MVPBaseFragment;
+import com.find_carhelper.ui.listener.EndlessRecyclerOnScrollListener;
 import com.find_carhelper.utils.GetJsonDataUtil;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
@@ -55,8 +57,8 @@ import okhttp3.Request;
 
 public class AcceptOrderFragment extends MVPBaseFragment {
 
-    private RelativeLayout areaSelectedLayout,timeSelectedLayout;
-    private TextView areaSelectedTv,timeSelectedTv;
+    private RelativeLayout areaSelectedLayout, timeSelectedLayout;
+    private TextView areaSelectedTv, timeSelectedTv;
 
     private List<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<CityBean>> options2Items = new ArrayList<>();
@@ -77,8 +79,14 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     private static boolean isLoaded = false;
     public LoadingDialog loadingDialog;
     public List<CarBean> carBeans;
+    public List<CarBean> carBeanList;
+    LoadMoreWrapper loadMoreWrapper;
+    public boolean loadMoreFlag = true;
+    public int pageNum = 1;
+    public String isLasePage;
+
     public static Fragment newInstance() {
-       AcceptOrderFragment fragment = new AcceptOrderFragment();
+        AcceptOrderFragment fragment = new AcceptOrderFragment();
         return fragment;
     }
 
@@ -122,32 +130,33 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
     @Override
     protected void initViews() {
-            mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-            areaSelectedLayout = mRootView.findViewById(R.id.area_layout);
-            timeSelectedLayout = mRootView.findViewById(R.id.time_layout);
-            recycleListView = mRootView.findViewById(R.id.list_orders);
-            areaSelectedTv = mRootView.findViewById(R.id.areaTv);
-            timeSelectedTv = mRootView.findViewById(R.id.timeTv);
+        carBeanList = new ArrayList<CarBean>();
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        areaSelectedLayout = mRootView.findViewById(R.id.area_layout);
+        timeSelectedLayout = mRootView.findViewById(R.id.time_layout);
+        recycleListView = mRootView.findViewById(R.id.list_orders);
+        areaSelectedTv = mRootView.findViewById(R.id.areaTv);
+        timeSelectedTv = mRootView.findViewById(R.id.timeTv);
 
 
-            areaSelectedLayout.setOnClickListener(view -> {
-                if (isLoaded) {
-                    showAreaPickView();
-                } else {
-                    Toast.makeText(getContext(), "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
-                }
+        areaSelectedLayout.setOnClickListener(view -> {
+            if (isLoaded) {
+                showAreaPickView();
+            } else {
+                Toast.makeText(getContext(), "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
+            }
 
 
-            });
-            timeSelectedLayout.setOnClickListener(view -> {
-                        showTimePickView();
+        });
+        timeSelectedLayout.setOnClickListener(view -> {
+            showTimePickView();
 
-            });
-       // initAdapter();
+        });
+        // initAdapter();
         initLoading();
     }
 
-    public void initLoading(){
+    public void initLoading() {
 
         LoadingDialog.Builder builder = new LoadingDialog.Builder(getContext());
         builder.setLoading_text("加载中...")
@@ -159,30 +168,38 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         loadingDialog = builder.create();
 
     }
-    private void initAdapter(List<CarBean> list){
-        for (int i = 0;i<list.size();i++){
+
+    private void initAdapter(List<CarBean> list) {
+        for (int i = 0; i < list.size(); i++) {
             list.get(i).setId(i);
         }
-        mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext,list);
+        mListOrderAcceptAdapter = new ListOrderAcceptAdapter(mContext, list);
+        loadMoreWrapper = new LoadMoreWrapper(mListOrderAcceptAdapter);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
-        recycleListView.setAdapter(mListOrderAcceptAdapter);
-
+        recycleListView.setAdapter(loadMoreWrapper);
+        recycleListView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                pageNum++;
+                getCarData();
+            }
+        });
         mListOrderAcceptAdapter.setOnItemClickListener(new ListOrderAcceptAdapter.OnItemClickListener() {
 
             @Override
             public void onItemClick(View v, ListOrderAcceptAdapter.ViewName viewName, int position) {
-                  //  Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
 
                 if (v.getId() == R.id.acept_order)
-                new ToolDateSelectorPopWindow(getContext(), new MarkerOrderPopWindow.getdata() {
-                    @Override
-                    public void getdatas(String str) {
-                        if (str.equals("1")){
-                            acceptOrderAction(position);
+                    new ToolDateSelectorPopWindow(getContext(), new MarkerOrderPopWindow.getdata() {
+                        @Override
+                        public void getdatas(String str) {
+                            if (str.equals("1")) {
+                                acceptOrderAction(position);
+                            }
                         }
-                    }
-                }).showPopupWindow();
+                    }).showPopupWindow();
             }
 
             @Override
@@ -192,34 +209,35 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         });
 
     }
-    public void acceptOrderAction(int position){
-        Log.e("失败的","position == "+position);
-        String url = Constants.SERVICE_NAME+Constants.ACCEPT_ORDER;
+
+    public void acceptOrderAction(int position) {
+        Log.e("失败的", "position == " + position);
+        String url = Constants.SERVICE_NAME + Constants.ACCEPT_ORDER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
         params.put("vin", carBeans.get(position).getVin());
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("acceptOrderAction",result.toString());
-                if (!result.equals("401")){
-                    if (!TextUtils.isEmpty(result)){
-                        JSONObject jsonObject =  JSON.parseObject(result);
-                        if (jsonObject.getString("success").equals("true")){
+                Log.e("acceptOrderAction", result.toString());
+                if (!result.equals("401")) {
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject = JSON.parseObject(result);
+                        if (jsonObject.getString("success").equals("true")) {
                             String countDown = jsonObject.getString("data");
                             carBeans.get(position).setCountdown(countDown);
                             mListOrderAcceptAdapter.notifyItemChanged(position);
                             loadingDialog.cancel();
-                        }else{
+                        } else {
                             loadingDialog.cancel();
-                            Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
                     }
-                }else{
+                } else {
                     loadingDialog.cancel();
                     startIntent();
                 }
@@ -229,47 +247,48 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
                 loadingDialog.cancel();
-                Log.e("TAG",request.toString()+e.getMessage());
+                Log.e("TAG", request.toString() + e.getMessage());
             }
         });
     }
-    private void showAreaPickView(){
+
+    private void showAreaPickView() {
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
-        @Override
-        public void onOptionsSelect(int options1, int options2, int options3, View v) {
-            //返回的分别是三个级别的选中位置
-            String opt1tx = options1Items.size() > 0 ?
-                    options1Items.get(options1).getPickerViewText() : "";
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String opt1tx = options1Items.size() > 0 ?
+                        options1Items.get(options1).getPickerViewText() : "";
 
-            String opt2tx = options2Items.size() > 0
-                    && options2Items.get(options1).size() > 0 ?
-                    options2Items.get(options1).get(options2).getName() : "";
+                String opt2tx = options2Items.size() > 0
+                        && options2Items.get(options1).size() > 0 ?
+                        options2Items.get(options1).get(options2).getName() : "";
 
-            String opt3tx = options2Items.size() > 0
-                    && options3Items.get(options1).size() > 0
-                    && options3Items.get(options1).get(options2).size() > 0 ?
-                    options3Items.get(options1).get(options2).get(options3).getName() : "";
+                String opt3tx = options2Items.size() > 0
+                        && options3Items.get(options1).size() > 0
+                        && options3Items.get(options1).get(options2).size() > 0 ?
+                        options3Items.get(options1).get(options2).get(options3).getName() : "";
 
-            String tx = opt1tx+"-"+ opt2tx;
-            if(!opt2tx.equals("全部")) {
-                if (!TextUtils.isEmpty(opt2tx)) {
-                    queryCode = options2Items.get(options1).get(options2).getCode();
+                String tx = opt1tx + "-" + opt2tx;
+                if (!opt2tx.equals("全部")) {
+                    if (!TextUtils.isEmpty(opt2tx)) {
+                        queryCode = options2Items.get(options1).get(options2).getCode();
+                    }
+                } else {
+                    queryCode1 = options1Items.get(options1).getCode();
                 }
-            }else{
-                queryCode1 = options1Items.get(options1).getCode();
+                //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
+                getCarData();
+                areaSelectedTv.setText(tx);
             }
-            //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
-            getCarData();
-            areaSelectedTv.setText(tx);
-        }
-    })
+        })
 
-            .setTitleText("城市选择")
-            .setDividerColor(Color.BLACK)
-            .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-            .setContentTextSize(20)
-            .build();
+                .setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
 
         /*pvOptions.setPicker(options1Items);//一级选择器
         pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
@@ -280,17 +299,17 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("AcceptOrderFragemtn","destory");
-         queryCode = "";
-         queryCode1 = "";
-         minMoney = "";
-         maxMoney = "";
+        Log.e("AcceptOrderFragemtn", "destory");
+        queryCode = "";
+        queryCode1 = "";
+        minMoney = "";
+        maxMoney = "";
     }
 
     private ArrayList<CardBean> cardItem = new ArrayList<>();
-    private OptionsPickerView  pvCustomOptions;
-    private void showTimePickView(){
+    private OptionsPickerView pvCustomOptions;
 
+    private void showTimePickView() {
 
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
@@ -305,12 +324,12 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                         options2Items_.get(options1).get(options2) : "";
 
 
-                String tx = opt1tx +" ~ "+ opt2tx;
+                String tx = opt1tx + " ~ " + opt2tx;
                 //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
                 timeSelectedTv.setText(tx);
                 minMoney = opt1tx;
                 maxMoney = opt2tx;
-                if (minMoney.equals("全部赏金")){
+                if (minMoney.equals("全部赏金")) {
                     minMoney = "";
                     maxMoney = "";
 
@@ -341,29 +360,29 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     public void onResume() {
         super.onResume();
 
-        String token = SharedPreferencesUtil.getString(getContext(),"token");
-        if (!TextUtils.isEmpty(token)){
+        String token = SharedPreferencesUtil.getString(getContext(), "token");
+        if (!TextUtils.isEmpty(token)) {
             loadingDialog.loading();
             getProvinceData();
             getCarData();
-        }else{
-            Toast.makeText(getContext(),"请重新登录",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "请重新登录", Toast.LENGTH_SHORT).show();
             startIntent();
         }
 
     }
 
-    public void getCarData(){
-        String url = Constants.SERVICE_NAME+Constants.GET_CARS;
+    public void getCarData() {
+        String url = Constants.SERVICE_NAME + Constants.GET_CARS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-        params.put("accessToken", SharedPreferencesUtil.getString(Application.getContext(),"token"));
-        params.put("provinceCode",queryCode1);
-        params.put("cityCode",queryCode);
-        params.put("minAmount",minMoney);
-        params.put("maxAmount",maxMoney);
-        params.put("pageNum", "0");
+        params.put("accessToken", SharedPreferencesUtil.getString(Application.getContext(), "token"));
+        params.put("provinceCode", queryCode1);
+        params.put("cityCode", queryCode);
+        params.put("minAmount", minMoney);
+        params.put("maxAmount", maxMoney);
+        params.put("pageNum", "" + pageNum);
         params.put("pageSize", "10");
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
@@ -371,26 +390,34 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
                 loadingDialog.cancel();
-                Log.e("getCarData",result.toString());
-                if (!result.equals("401")){
-                if (!TextUtils.isEmpty(result)){
-                    JSONObject jsonObject =  JSON.parseObject(result);
-                    if (jsonObject.getString("status")!=null)
-                    if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
-                        startIntent();
-                        return;
+                Log.e("getCarData", result.toString());
+                if (!result.equals("401")) {
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject = JSON.parseObject(result);
+                        if (jsonObject.getString("status") != null)
+                            if (jsonObject.getString("status").equals("500") && jsonObject.getString("message").equals("W02000")) {
+                                startIntent();
+                                return;
+                            }
+                        if (jsonObject.getString("success").equals("true")) {
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                            Message msg = new Message();
+                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), CarBean.class);
+
+                            if (jsonObject1.getString("isLastPage").equals("true")) {
+                                loadMoreFlag = false;
+                            }
+
+                            if (pageNum > 1) {
+                                msg.what = 6;
+                            } else
+                                msg.what = 5;
+                            mHandler.sendMessage(msg);
+                        } else {
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    if (jsonObject.getString("success").equals("true")){
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        Message msg = new Message();
-                         carBeans =  JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(),CarBean.class);
-                        msg.what = 5;
-                        mHandler.sendMessage(msg);
-                    }else{
-                        Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
-                    }
-                    }
-                }else{
+                } else {
                     loadingDialog.cancel();
                     startIntent();
                 }
@@ -400,52 +427,55 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
                 loadingDialog.cancel();
-                Log.e("TAG",request.toString()+e.getMessage());
+                Log.e("TAG", request.toString() + e.getMessage());
             }
         });
     }
+
     boolean flag = false;
-    public void startIntent(){
-        if (!flag){
+
+    public void startIntent() {
+        if (!flag) {
             startActivity(new Intent(getContext(), LoginActivity.class));
             flag = true;
         }
     }
-    public void getProvinceData(){
-        String url = Constants.SERVICE_NAME+Constants.GET_AREAA;
+
+    public void getProvinceData() {
+        String url = Constants.SERVICE_NAME + Constants.GET_AREAA;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-        params.put("accessToken", SharedPreferencesUtil.getString(Application.getContext(),"token"));
+        params.put("accessToken", SharedPreferencesUtil.getString(Application.getContext(), "token"));
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
                 loadingDialog.cancel();
-                Log.e("AcceptOrder",result.toString());
-                if (!result.equals("401")){
+                Log.e("AcceptOrder", result.toString());
+                if (!result.equals("401")) {
                     JSONObject jsonObject = JSON.parseObject(result);
-                    if (jsonObject.getString("status")!=null)
-                    if (jsonObject.getString("status").equals("500")&&jsonObject.getString("message").equals("W02000")){
-                        startIntent();
-                        return;
-                    }
-                    if (jsonObject.getString("success").equals("true")){
+                    if (jsonObject.getString("status") != null)
+                        if (jsonObject.getString("status").equals("500") && jsonObject.getString("message").equals("W02000")) {
+                            startIntent();
+                            return;
+                        }
+                    if (jsonObject.getString("success").equals("true")) {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        if (jsonObject1.getString("canOrder").equals("true")){
+                        if (jsonObject1.getString("canOrder").equals("true")) {
                             Constants.canOrder = true;
-                        }else {
+                        } else {
                             Constants.canOrder = false;
                         }
                         Message msg = new Message();
-                                msg.obj = jsonObject1.getJSONArray("provinceList").toString();
-                                msg.what = 4;
+                        msg.obj = jsonObject1.getJSONArray("provinceList").toString();
+                        msg.what = 4;
                         mHandler.sendMessage(msg);
-                    }else{
-                        Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                     }
-                    }else{
+                } else {
                     startIntent();
                 }
             }
@@ -453,17 +483,18 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             @Override
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
-                Log.e("AcceptOrderFrament失败的",request.toString()+e.getMessage());
+                Log.e("AcceptOrderFrament失败的", request.toString() + e.getMessage());
             }
         });
     }
+
     private void initJsonData(String result) {//解析数据
 
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          * */
-       // String JsonData = new GetJsonDataUtil().getJson(result);//获取assets目录下的json文件数据
+        // String JsonData = new GetJsonDataUtil().getJson(result);//获取assets目录下的json文件数据
         String JsonDatas = new GetJsonDataUtil().getJson(getContext(), "money.json");//获取assets目录下的json文件数据
 
         ArrayList<JsonBean> jsonBean = parseData(result);//用Gson 转成实体
@@ -487,7 +518,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 cityBean.setCode(jsonBean.get(i).getCityList().get(c).getCode());
                 cityList.add(cityBean);//添加城市
 
-              //  ArrayList<CityBean> city_AreaList = new ArrayList<>();//该城市的所有地区列表
+                //  ArrayList<CityBean> city_AreaList = new ArrayList<>();//该城市的所有地区列表
 
                 //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
                 /*if (jsonBean.get(i).getCityList().get(c).getArea() == null
@@ -496,8 +527,8 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 } else {
                     city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
                 }*/
-               // city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
-              //  province_AreaList.add(city_AreaList);//添加该省所有地区数据
+                // city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
+                //  province_AreaList.add(city_AreaList);//添加该省所有地区数据
             }
 
             /**
@@ -516,21 +547,21 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         for (int i = 0; i < jsonBeans.size(); i++) {//遍历省份
             ArrayList<String> cityList_ = new ArrayList<>();//该省的城市列表（第二级）
             ArrayList<ArrayList<String>> province_AreaList_ = new ArrayList<>();//该省的所有地区列表（第三极）
-            if (jsonBeans.get(i).getCityList()!=null)
-            for (int c = 0; c < jsonBeans.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
-                String cityName = jsonBeans.get(i).getCityList().get(c).getName();
-                cityList_.add(cityName);//添加城市
-  //              ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
+            if (jsonBeans.get(i).getCityList() != null)
+                for (int c = 0; c < jsonBeans.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
+                    String cityName = jsonBeans.get(i).getCityList().get(c).getName();
+                    cityList_.add(cityName);//添加城市
+                    //              ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
 
 //                city_AreaList.addAll(jsonBeans.get(i).getCityList().get(c).getArea());
 //                province_AreaList_.add(city_AreaList);//添加该省所有地区数据
-            }
+                }
 
             /**
              * 添加城市数据
              */
             options2Items_.add(cityList_);
-          //  options3Items_.add(province_AreaList_);
+            //  options3Items_.add(province_AreaList_);
 
         }
         mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
@@ -562,21 +593,32 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     Toast.makeText(getContext(), "Parse Failed", Toast.LENGTH_SHORT).show();
                     break;
                 case 4:
-                    String result =(String) msg.obj;
+                    String result = (String) msg.obj;
                     initJsonData(result);
                     break;
                 case 5:
                     loadingDialog.cancel();
-                    Log.e("!@#","size = "+carBeans.size());
-                    if (carBeans.size() == 0){
-                        Toast.makeText(getContext(),"没有查询到该条件下的车辆",Toast.LENGTH_SHORT).show();
-                       // return;
+                    Log.e("!@#", "size = " + carBeans.size());
+                    if (carBeans.size() == 0) {
+                        Toast.makeText(getContext(), "没有查询到该条件下的车辆", Toast.LENGTH_SHORT).show();
                     }
-                    if (carBeans!=null){
-                        initAdapter(carBeans);
+                    if (carBeans != null) {
+                        carBeanList = carBeans;
+                        initAdapter(carBeanList);
                     }
                     break;
+                case 6:
+                    if (carBeans != null) {
+                        if (carBeans.size() > 0 && loadMoreFlag) {
+                            for (int i = 0; i < carBeans.size(); i++) {
+                                carBeanList.add(carBeans.get(i));
+                            }
+                            loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
 
+                        } else
+                            loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
+                    }
+                    break;
             }
         }
     };
@@ -596,7 +638,6 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         }
         return detail;
     }
-
 
 
 }

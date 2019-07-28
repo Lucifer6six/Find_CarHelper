@@ -105,7 +105,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_10"
                     android:background="@mipmap/jd_btn_pre_bg"
-                    android:text="立即接单"
+                    android:text="申请结单"
                     android:textColor="@color/white" />
             </RelativeLayout>
 

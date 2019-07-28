@@ -61,6 +61,11 @@ public class LoginActivity extends MVPBaseActivity implements View.OnClickListen
         mCountDownTextView.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(),EditPswActivity.class));
         });
+
+        if(Constants.DEBUG){
+            name.setText("15150535368");
+            psw.setText("Hy123456");
+        }
         registerLeftClickEvent(view -> finish());
     }
     @Override

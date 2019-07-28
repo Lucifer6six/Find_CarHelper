@@ -1,13 +1,19 @@
 package com.find_carhelper.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -20,9 +26,13 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.Request;
 
@@ -30,6 +40,12 @@ public class OrdersInfoActivity extends MVPBaseActivity {
     public Button request_complete;
     public String vin;
     public String orderCode;
+    public LinearLayout imgLayout;
+    public List<String> list;
+    DisplayImageOptions mOptions;
+    FindCarInfo findCarInfo;
+    public TextView accept_orders_time, car_type, car_id, car_no, address_tips, money;
+
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -42,19 +58,48 @@ public class OrdersInfoActivity extends MVPBaseActivity {
 
     @Override
     protected void initViews() {
+        imgLayout = findViewById(R.id.imgLayout);
+        accept_orders_time = findViewById(R.id.accept_orders_time);
+        car_type = findViewById(R.id.car_type);
+        car_id = findViewById(R.id.car_id);
+        car_no = findViewById(R.id.car_no);
+        address_tips = findViewById(R.id.address_tips);
+        money = findViewById(R.id.money);
+
 
         request_complete = findViewById(R.id.request_complete);
-        request_complete.setOnClickListener(view -> startActivity(new Intent(OrdersInfoActivity.this, RequesCompleteActivity.class)));
+        request_complete.setOnClickListener(view -> {
+
+            if (findCarInfo != null) {
+                Intent intent = new Intent(OrdersInfoActivity.this, RequesCompleteActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("obj", findCarInfo);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        vin = getIntent().getStringExtra("vin");
-        orderCode = getIntent().getStringExtra("no");
-        getData();
+        findCarInfo = getIntent().getParcelableExtra("obj");
+        if (findCarInfo != null) {
+            vin = findCarInfo.getVin();
+            orderCode = findCarInfo.getOrderCode();
+            getData();
+
+            car_type.setText(findCarInfo.getVehicleModel());
+            car_id.setText(findCarInfo.getLpn());
+            address_tips.setText(findCarInfo.getRegion() + "/" + findCarInfo.getPartya());
+            money.setText(findCarInfo.getRewardAmount());
+            car_no.setText("车架号:  " + findCarInfo.getVin());
+            accept_orders_time.setText("接单时间:   " + findCarInfo.getOrderTime());
+        }
+
+
     }
 
-    public void getData(){
+    public void getData() {
         String url = Constants.SERVICE_NAME + Constants.FIND_CAR_OWNERS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
@@ -77,7 +122,8 @@ public class OrdersInfoActivity extends MVPBaseActivity {
                                 return;
                             }
                         if (jsonObject.getString("success").equals("true")) {
-
+                            list = JSON.parseArray(jsonObject.getJSONArray("data").toJSONString(), String.class);
+                            handler.sendEmptyMessage(0);
                         } else {
 
                         }
@@ -94,6 +140,59 @@ public class OrdersInfoActivity extends MVPBaseActivity {
             }
         });
     }
+
+
+    public Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+
+                case 0:
+
+                    if (list != null) {
+
+                        setValue();
+
+                    }
+
+                    break;
+
+            }
+
+        }
+    };
+
+    public void setValue() {
+
+
+        if (list.size() > 0) {
+            ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(OrdersInfoActivity.this).writeDebugLogs().build();
+            ImageLoader.getInstance().init(configuration);
+            mOptions = new DisplayImageOptions.Builder()
+                    .cacheInMemory(false).cacheOnDisc(false)
+                    .bitmapConfig(Bitmap.Config.RGB_565).build();
+
+            for (int i = 0; i < list.size(); i++) {
+                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_find_order_detial_img, null);
+
+                ImageView imageView = view.findViewById(R.id.photoView);
+                //imageView.setBackground(getResources().getDrawable(R.color.colorPrimary));
+                imageView.setScaleType(ImageView.ScaleType.CENTER);
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.displayImage(list.get(i), imageView);
+                imgLayout.addView(view);
+
+            }
+
+
+        }
+
+
+    }
+
     @Override
     protected void onEventComing(EventCenter eventCenter) {
 

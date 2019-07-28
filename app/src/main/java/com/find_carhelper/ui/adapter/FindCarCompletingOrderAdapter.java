@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.find_carhelper.R;
 import com.find_carhelper.bean.FindCarCooperatingBean;
+import com.find_carhelper.bean.FindCarInfo;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
 import java.util.List;
@@ -23,9 +24,9 @@ public class FindCarCompletingOrderAdapter extends RecyclerView.Adapter<FindCarC
 
     private Context mContext;
     private OnItemClickListeners onItemClickListeners;
-    private List<FindCarCooperatingBean.data.carInfo> list;
+    private List<FindCarInfo> list;
 
-    public FindCarCompletingOrderAdapter(Context context, List<FindCarCooperatingBean.data.carInfo> list) {
+    public FindCarCompletingOrderAdapter(Context context, List<FindCarInfo> list) {
         this.mContext = context;
         this.list = list;
     }
@@ -37,7 +38,7 @@ public class FindCarCompletingOrderAdapter extends RecyclerView.Adapter<FindCarC
     @NonNull
     @Override
     public FindCarCompletingOrderAdapter.RepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_find_car_list, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_find_car_coptering_list, parent, false);
         return new FindCarCompletingOrderAdapter.RepairViewHolder(view);
     }
 

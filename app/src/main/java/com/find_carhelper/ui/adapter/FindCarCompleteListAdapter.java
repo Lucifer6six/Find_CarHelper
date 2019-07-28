@@ -124,6 +124,7 @@ public class FindCarCompleteListAdapter extends RecyclerView.Adapter<FindCarComp
             reason = itemView.findViewById(R.id.time);
            // acept_order = itemView.findViewById(R.id.acept_order);
             reason.setOnClickListener(FindCarCompleteListAdapter.this);
+
         }
     }
 

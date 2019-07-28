@@ -121,7 +121,7 @@ public class MainPageFragment extends MVPBaseFragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                getData();
             }
         });
         initNews(null);
@@ -207,6 +207,7 @@ public class MainPageFragment extends MVPBaseFragment {
                     if (mainPageDataBean != null) {
                         setValue();
                     }
+                    refreshLayout.setRefreshing(false);
                     break;
             }
         }

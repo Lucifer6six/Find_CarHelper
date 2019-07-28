@@ -1,6 +1,7 @@
 package com.find_carhelper.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.FindCarCooperatingBean;
+import com.find_carhelper.bean.FindCarInfo;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
@@ -42,7 +44,7 @@ import okhttp3.Request;
 public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemClickListeners, View.OnClickListener {
     private RecyclerView recycleListView;
     private FindCarCompletingOrderAdapter mListOrderAcceptAdapter;
-    public List<FindCarCooperatingBean.data.carInfo> carBeans;
+    public List<FindCarInfo> carBeans;
     public RelativeLayout no_auth_layout;
     public TextView no_data_tv;
 
@@ -101,7 +103,7 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
     }
 
-    private void initAdapter(List<FindCarCooperatingBean.data.carInfo> list) {
+    private void initAdapter(List<FindCarInfo> list) {
         mListOrderAcceptAdapter = new FindCarCompletingOrderAdapter(mContext, list);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -112,14 +114,15 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
             @Override
             public void onItemClick(View v, FindCarCompletingOrderAdapter.ViewName viewName, int position) {
 
-                if (viewName.equals(FindCarCompletingOrderAdapter.ViewName.ITEM)){
+                if (viewName.equals(FindCarCompletingOrderAdapter.ViewName.ITEM)) {
 
                     Intent intent = new Intent(getContext(), OrdersInfoActivity.class);
-                    // intent.putExtra("vin", list.get(position).getVin());
-                    // intent.putExtra("no", list.get(position).getOrderCode());
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("obj", list.get(position));
+                    intent.putExtras(bundle);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getContext(),"accepOrders",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "accepOrders", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -144,7 +147,7 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
         params.put("status", "COOPERATING");
         params.put("pageNum", "0");
-        params.put("pageSize", "100");
+        params.put("pageSize", "10");
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -163,10 +166,10 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
                         if (jsonObject.getString("success").equals("true")) {
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Message msg = new Message();
-                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), FindCarCooperatingBean.data.carInfo.class);
-                            if (carBeans.size()>0){
+                            carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), FindCarInfo.class);
+                            if (carBeans.size() > 0) {
                                 msg.what = 0;
-                            }else{
+                            } else {
                                 msg.what = 1;
                             }
                             mHandler.sendMessage(msg);
