@@ -244,7 +244,7 @@
                         android:layout_below="@+id/img2"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/margin_10"
-                        android:text="寻车订单"/>
+                        android:text="保全订单" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -267,7 +267,7 @@
                         android:layout_below="@+id/img3"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/margin_10"
-                        android:text="寻车订单"/>
+                        android:text="消息中心" />
                 </RelativeLayout>
             </LinearLayout>
 

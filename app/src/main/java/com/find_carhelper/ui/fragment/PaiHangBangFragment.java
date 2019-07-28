@@ -1,51 +1,41 @@
 package com.find_carhelper.ui.fragment;
 
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
+import com.find_carhelper.bean.ListBean;
+import com.find_carhelper.bean.MainPageDataBean;
 import com.find_carhelper.entity.EventCenter;
-import com.find_carhelper.http.Constants;
-import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
-import com.find_carhelper.ui.activity.AuthActivity;
-import com.find_carhelper.ui.activity.RequestInStoreActivity;
-import com.find_carhelper.ui.activity.RequestLaterActivity;
-import com.find_carhelper.ui.adapter.MyCooperationOrderAdapter;
 import com.find_carhelper.ui.adapter.MyPhbAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
-import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.wega.library.loadingDialog.LoadingDialog;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-
-import okhttp3.Request;
 
 
 /**
  * 合作中
  */
-public class PaiHangBangFragment extends MVPBaseFragment  implements OnItemClickListeners {
+public class PaiHangBangFragment extends MVPBaseFragment implements OnItemClickListeners {
     private RecyclerView recycleListView;
     private MyPhbAdapter mListOrderAcceptAdapter;
     public LoadingDialog loadingDialog;
-    public static Fragment newInstance() {
-       PaiHangBangFragment fragment = new PaiHangBangFragment();
+    public List<MainPageDataBean.ListBean> listBeans;
+    public int type = 0;
+
+    public static Fragment newInstance(int type) {
+        PaiHangBangFragment fragment = new PaiHangBangFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", type);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -87,18 +77,36 @@ public class PaiHangBangFragment extends MVPBaseFragment  implements OnItemClick
 
     @Override
     protected void initViews() {
+        type = getArguments().getInt("type");
         recycleListView = mRootView.findViewById(R.id.list_orders);
-        initAdapter(null);
-       // initLoading();
+        initAdapter(type);
     }
-    private void initAdapter(List<CarBean> list){
-        mListOrderAcceptAdapter = new MyPhbAdapter(list,mContext);
+
+    private void initAdapter(int type) {
+
+        switch (type) {
+
+            case 1:
+                listBeans = MainPageFragment.verListt;
+                break;
+            case 2:
+                listBeans = MainPageFragment.findList;
+                break;
+            case 3:
+                listBeans = MainPageFragment.timeList;
+                break;
+
+
+        }
+
+        mListOrderAcceptAdapter = new MyPhbAdapter(listBeans, mContext,type);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mListOrderAcceptAdapter);
     }
-    public void initLoading(){
+
+    public void initLoading() {
 
         LoadingDialog.Builder builder = new LoadingDialog.Builder(getContext());
         builder.setLoading_text("加载中...")
@@ -110,6 +118,7 @@ public class PaiHangBangFragment extends MVPBaseFragment  implements OnItemClick
         loadingDialog = builder.create();
 
     }
+
     @Override
     protected void initData() {
 

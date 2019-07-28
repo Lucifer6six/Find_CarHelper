@@ -34,8 +34,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends MVPBaseActivity{
+public class MainActivity extends MVPBaseActivity {
     private NoCacheViewPager mViewPager;
+    BottomNavigationView bottomNavigationView;
+
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -50,7 +52,7 @@ public class MainActivity extends MVPBaseActivity{
     protected void initViews() {
 
         mViewPager = findViewById(R.id.vp_mian);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -124,6 +126,21 @@ public class MainActivity extends MVPBaseActivity{
         mViewPager.setOffscreenPageLimit(0);
     }
 
+    private long mBackTime;
+
+    @Override
+    public void onBackPressed() {
+
+        long time = SystemClock.elapsedRealtime();
+        if (time - mBackTime > 2000) {
+            ToastUtil.showLongToast(getApplicationContext(), "再按一次返回退出");
+            mBackTime = time;
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
     @Override
     protected void initData() {
 
@@ -139,4 +156,18 @@ public class MainActivity extends MVPBaseActivity{
         return null;
     }
 
+    public void changePage(int index) {
+
+        switch (index) {
+
+            case 1:
+                bottomNavigationView.findViewById(R.id.navigation_home).performClick();
+                break;
+            case 2:
+                bottomNavigationView.findViewById(R.id.navigation_find).performClick();
+                break;
+
+        }
+
+    }
 }

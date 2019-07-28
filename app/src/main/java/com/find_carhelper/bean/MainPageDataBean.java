@@ -15,10 +15,35 @@ public class MainPageDataBean {
     public String retrieving;//在收
     public String today;//今日
     public String total;//总
-    public List<String> timeList;
+    
     public List<String> newsList;
-    public List<String> findList;
-    public List<String> retrieveList;
+    public List<ListBean> findList;
+    public List<ListBean> timeList;
+    public List<ListBean> retrieveList;
+
+    public List<ListBean> getFindList() {
+        return findList;
+    }
+
+    public void setFindList(List<ListBean> findList) {
+        this.findList = findList;
+    }
+
+    public List<ListBean> getTimeList() {
+        return timeList;
+    }
+
+    public void setTimeList(List<ListBean> timeList) {
+        this.timeList = timeList;
+    }
+
+    public List<ListBean> getRetrieveList() {
+        return retrieveList;
+    }
+
+    public void setRetrieveList(List<ListBean> retrieveList) {
+        this.retrieveList = retrieveList;
+    }
 
     public String getFinding() {
         return finding;
@@ -68,13 +93,6 @@ public class MainPageDataBean {
         this.total = total;
     }
 
-    public List<String> getTimeList() {
-        return timeList;
-    }
-
-    public void setTimeList(List<String> timeList) {
-        this.timeList = timeList;
-    }
 
     public List<String> getNewsList() {
         return newsList;
@@ -84,19 +102,27 @@ public class MainPageDataBean {
         this.newsList = newsList;
     }
 
-    public List<String> getFindList() {
-        return findList;
+
+    public class ListBean {
+        private String left;
+        private String right;
+
+        public String getLeft() {
+            return left;
+        }
+
+        public void setLeft(String left) {
+            this.left = left;
+        }
+
+        public String getRight() {
+            return right;
+        }
+
+        public void setRight(String right) {
+            this.right = right;
+        }
     }
 
-    public void setFindList(List<String> findList) {
-        this.findList = findList;
-    }
 
-    public List<String> getRetrieveList() {
-        return retrieveList;
-    }
-
-    public void setRetrieveList(List<String> retrieveList) {
-        this.retrieveList = retrieveList;
-    }
 }

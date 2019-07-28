@@ -29,6 +29,7 @@ import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.widgets.MyDialog;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TResult;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.json.JSONObject;
 
@@ -61,7 +62,7 @@ public class RequesCompleteActivity extends TakePhotoActivity implements View.On
     public String imageName1, imageName2;
     public Button request_complete;
     public EditText pin_edit;
-
+    public CommonTitleBar mTitleBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +72,7 @@ public class RequesCompleteActivity extends TakePhotoActivity implements View.On
 
 
     public void initViews() {
+        mTitleBar = findViewById(R.id.title_bar);
         commenView = LayoutInflater.from(this).inflate(R.layout.common_layout, null);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         selectPhoto = commenView.findViewById(R.id.btnPickBySelect);
@@ -89,6 +91,14 @@ public class RequesCompleteActivity extends TakePhotoActivity implements View.On
         carImagLayout.setOnClickListener(this);
         carIdImgLayout.setOnClickListener(this);
         request_complete.setOnClickListener(this);
+        mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
+            @Override
+            public void onClicked(View v, int action, String extra) {
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
+                    finish();
+                }
+            }
+        });
         pin_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

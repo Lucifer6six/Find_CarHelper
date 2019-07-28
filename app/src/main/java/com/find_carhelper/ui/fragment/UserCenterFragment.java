@@ -36,6 +36,9 @@ import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.widgets.MarkerOrderPopWindow;
+import com.find_carhelper.widgets.SelectPopWindow;
+import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
 import com.google.gson.Gson;
 import com.wega.library.loadingDialog.LoadingDialog;
 
@@ -48,10 +51,10 @@ import okhttp3.Request;
 
 public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener, LocationSource {
     private AMapLocationClient mLocationClient;
-    private RelativeLayout pswLayout,newsLayout,myTeamLayout,protocalLayout,acountLayout,updateLayout;
+    private RelativeLayout pswLayout, newsLayout, myTeamLayout, protocalLayout, acountLayout, updateLayout, quite;
     private AMapLocationClientOption mLocationOption;
     private String TAG = "UserCenterFragment";
-    private TextView name,nickName,status;
+    private TextView name, nickName, status;
     private ImageView auth_stutes;
     private UserBean userBean;
     private TextView auth_fail;
@@ -71,7 +74,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                     Log.i(TAG, "地址-----------------" + amapLocation.getAddress());//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
                     Log.i(TAG, "国家信息-------------" + amapLocation.getCountry());//国家信息
                     Log.i(TAG, "省信息---------------" + amapLocation.getProvince());//省信息
-                    Toast.makeText(getContext(), amapLocation.getProvince()+ amapLocation.getCity(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), amapLocation.getProvince() + amapLocation.getCity(), Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "城市信息-------------" + amapLocation.getCity());//城市信息
                     Log.i(TAG, "城区信息-------------" + amapLocation.getDistrict());//城区信息
                     Log.i(TAG, "街道信息-------------" + amapLocation.getStreet());//街道信息
@@ -91,7 +94,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
 
     public static Fragment newInstance() {
-       UserCenterFragment fragment = new UserCenterFragment();
+        UserCenterFragment fragment = new UserCenterFragment();
         return fragment;
     }
 
@@ -124,7 +127,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
 
     @Override
     protected void onUserVisible() {
-        if (!fistLoad){
+        if (!fistLoad) {
             getData();
             fistLoad = false;
         }
@@ -145,6 +148,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         protocalLayout = mRootView.findViewById(R.id.protocal);
         acountLayout = mRootView.findViewById(R.id.acount);
         updateLayout = mRootView.findViewById(R.id.update);
+        quite = mRootView.findViewById(R.id.quite);
         name = mRootView.findViewById(R.id.nick_name);
         nickName = mRootView.findViewById(R.id.little_nick_name);
         nickName.setOnClickListener(this);
@@ -156,34 +160,39 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         newsLayout.setOnClickListener(this);
         protocalLayout.setOnClickListener(this);
         acountLayout.setOnClickListener(this);
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){//未开启定位权限
+        quite.setOnClickListener(this);
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
             //开启定位权限,200是标识码
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},200);
-        }else{
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        } else {
             startLocaion();//开始定位
-           // Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
+            // Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
         }
         auth_stutes.setOnClickListener(this);
         initLoading();
     }
+
     LoadingDialog loadingDialog;
-    public void initLoading(){
+
+    public void initLoading() {
 
         LoadingDialog.Builder builder = new LoadingDialog.Builder(getActivity());
         builder.setLoading_text("加载中...")
                 .setFail_text("加载失败")
                 .setSuccess_text("加载成功");
-                //设置延时5000ms才消失,可以不设置默认1000ms
-                //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
+        //设置延时5000ms才消失,可以不设置默认1000ms
+        //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
 
-         loadingDialog = builder.create();
+        loadingDialog = builder.create();
 
     }
+
     @Override
     protected void initData() {
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -191,30 +200,30 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         }
     };
 
-    public void initDatas(){
-            if (userBean!=null){
-                Constants.isLogin = true;
-                name.setText(userBean.getCompanyName());
-                nickName.setText(userBean.getNickname());
-                if (userBean.getStatus().equals("AUTH_SUCCESS")){
-                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz2));
-                }else if (userBean.getStatus().equals("AUTH_FAILURE")){
-                    auth_fail.setVisibility(View.INVISIBLE);
-                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
-                }else if (userBean.getStatus().equals("IN_AUTH")){
-                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
-                }else
-                    auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz1));
-                Constants.phoneNo = userBean.getPhoneNo();
-                if (userBean.getRole().equals("COMPANY")){
-                    //myTeamLayout.setVisibility(View.VISIBLE);
-                    //acountLayout.setVisibility(View.VISIBLE);
-                    countLayout.setVisibility(View.VISIBLE);
-                }else {
-                    countLayout.setVisibility(View.GONE);
-                    //myTeamLayout.setVisibility(View.GONE);
-                   // acountLayout.setVisibility(View.GONE);
-                }
+    public void initDatas() {
+        if (userBean != null) {
+            Constants.isLogin = true;
+            name.setText(userBean.getCompanyName());
+            nickName.setText(userBean.getNickname());
+            if (userBean.getStatus().equals("AUTH_SUCCESS")) {
+                auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz2));
+            } else if (userBean.getStatus().equals("AUTH_FAILURE")) {
+                auth_fail.setVisibility(View.INVISIBLE);
+                auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
+            } else if (userBean.getStatus().equals("IN_AUTH")) {
+                auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
+            } else
+                auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz1));
+            Constants.phoneNo = userBean.getPhoneNo();
+            if (userBean.getRole().equals("COMPANY")) {
+                //myTeamLayout.setVisibility(View.VISIBLE);
+                //acountLayout.setVisibility(View.VISIBLE);
+                countLayout.setVisibility(View.VISIBLE);
+            } else {
+                countLayout.setVisibility(View.GONE);
+                //myTeamLayout.setVisibility(View.GONE);
+                // acountLayout.setVisibility(View.GONE);
+            }
 
         }
 
@@ -226,13 +235,13 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         getData();
     }
 
-    public void getData(){
+    public void getData() {
         loadingDialog.loading();
-        String url = Constants.SERVICE_NAME+Constants.MY_INFO;
+        String url = Constants.SERVICE_NAME + Constants.MY_INFO;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-        params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));//MobileInfoUtil.getIMEI(getContext())
 
         // ...
         NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
@@ -240,16 +249,16 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
                 loadingDialog.cancel();
-                Log.e("TAG",result.toString());
-                if (!TextUtils.isEmpty(result)){
+                Log.e("TAG", result.toString());
+                if (!TextUtils.isEmpty(result)) {
                     JSONObject jsonObject = new JSONObject(result);
                     String status = "";
-                    if (jsonObject.has("status")){
+                    if (jsonObject.has("status")) {
                         status = jsonObject.getString("status");
                     }
-                    if (status.equals("200")||jsonObject.getString("code").equals("I00000")) {
+                    if (status.equals("200") || jsonObject.getString("code").equals("I00000")) {
                         if (jsonObject.getString("success").equals("true")) {
-                           // Toast.makeText(getContext(), "查询成功", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(getContext(), "查询成功", Toast.LENGTH_SHORT).show();
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Gson gson = new Gson();
                             userBean = gson.fromJson(jsonObject1.getJSONObject("user").toString(), UserBean.class);
@@ -258,11 +267,11 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                             //startIntent();
                             Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        if (status.equals("401")||status.equals("500")){
+                    } else {
+                        if (status.equals("401") || status.equals("500")) {
                             Toast.makeText(getContext(), "请重新登录", Toast.LENGTH_SHORT).show();
                             startIntent();
-                        }else{
+                        } else {
                             Toast.makeText(getContext(), "系统错误", Toast.LENGTH_SHORT).show();
                         }
 
@@ -274,62 +283,86 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             public void requestFailure(Request request, IOException e) {
                 // 请求失败的回调
                 loadingDialog.cancel();
-                Log.e("TAG",request.toString()+e.getMessage());
+                Log.e("TAG", request.toString() + e.getMessage());
             }
         });
     }
 
 
-    public void startIntent(){
+    public void startIntent() {
 
-        startActivity(new Intent(getContext(),LoginActivity.class));
+        startActivity(new Intent(getContext(), LoginActivity.class));
 
     }
 
     @Override
     public void onClick(View view) {
         if (Constants.isLogin)
-        switch (view.getId()){
+            switch (view.getId()) {
 
-            case R.id.edit_psw:
+                case R.id.edit_psw:
 
-                startActivity(new Intent(getContext(), EditPswActivity.class));
+                    startActivity(new Intent(getContext(), EditPswActivity.class));
 
-                break;
+                    break;
 
-            case R.id.news_center:
-                startActivity(new Intent(getContext(), NewsActvity.class));
-                break;
+                case R.id.news_center:
+                    startActivity(new Intent(getContext(), NewsActvity.class));
+                    break;
 
-            case R.id.team:
-                startActivity(new Intent(getContext(), MyTeamActivity.class));
-                break;
+                case R.id.team:
+                    startActivity(new Intent(getContext(), MyTeamActivity.class));
+                    break;
 
-            case R.id.protocal:
-                //startActivity(new Intent(getContext(), RequestLaterActivity.class));
-                break;
-            case R.id.acount:
-                startActivity(new Intent(getContext(), MyCountActivity.class));
-                break;
-            case R.id.update:
-               // startActivity(new Intent(getContext(), RequestInStoreActivity.class));
-                break;
-            case R.id.auth_stutes:
+                case R.id.protocal:
+                    //startActivity(new Intent(getContext(), RequestLaterActivity.class));
+                    break;
+                case R.id.acount:
+                    startActivity(new Intent(getContext(), MyCountActivity.class));
+                    break;
+                case R.id.update:
+                    // startActivity(new Intent(getContext(), RequestInStoreActivity.class));
+                    break;
+                case R.id.auth_stutes:
 
-                if (userBean!=null){
-                    if (userBean.getStatus().equals("AUTH_SUCCESS")||userBean.getStatus().equals("IN_AUTH")){
+                    if (userBean != null) {
+                        if (userBean.getStatus().equals("AUTH_SUCCESS") || userBean.getStatus().equals("IN_AUTH")) {
 
-                    }else{
-                        startActivity(new Intent(getContext(), AuthActivity.class));
+                        } else {
+                            startActivity(new Intent(getContext(), AuthActivity.class));
+                        }
                     }
-                }
 
-                break;
-        }else
-         startIntent();
+                    break;
+                case R.id.quite:
+
+                    new SelectPopWindow(getContext(), new MarkerOrderPopWindow.getdata() {
+                        @Override
+                        public void getdatas(String str) {
+                            if (str.equals("1")) {
+                                quite();
+                            }
+                        }
+                    }).showPopupWindow();
+
+                    break;
+            }
+        else
+            startIntent();
     }
-    public void startLocaion(){
-        Log.e(TAG,"开始定位");
+
+    /**
+     * 退出
+     */
+    public void quite() {
+
+        SharedPreferencesUtil.putString(getContext(), "token", "");
+
+        startActivity(new Intent(getContext(), LoginActivity.class));
+    }
+
+    public void startLocaion() {
+        Log.e(TAG, "开始定位");
         mLocationClient = new AMapLocationClient(getContext());
         mLocationClient.setLocationListener(mLocationListener);
         mLocationOption = new AMapLocationClientOption();

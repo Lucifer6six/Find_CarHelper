@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,17 +17,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.MainPageDataBean;
-import com.find_carhelper.bean.NewsBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.MainActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
+import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.sunfusheng.marqueeview.MarqueeView;
+import com.wega.library.loadingDialog.LoadingDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ import java.util.List;
 import okhttp3.Request;
 
 
-public class MainPageFragment extends MVPBaseFragment {
+public class MainPageFragment extends MVPBaseFragment implements View.OnClickListener {
     private ViewPager mViewPager;
     private String[] titles;
     private List<Fragment> fragments;
@@ -45,7 +49,11 @@ public class MainPageFragment extends MVPBaseFragment {
     private MarqueeView mMarqueeView;
     private MainPageDataBean mainPageDataBean;
     private TextView findingCarTv, findedCarTv, arriveCarTv, arrivedCarTv, clueCarTv, mounthAdd;
-
+    private RelativeLayout find_car_layout, baoquan_layout, news_layout;
+    private MainActivity mainActivity;
+    public static List<MainPageDataBean.ListBean> findList;
+    public static List<MainPageDataBean.ListBean> verListt;
+    public static List<MainPageDataBean.ListBean> timeList;
     public static Fragment newInstance() {
         MainPageFragment fragment = new MainPageFragment();
         return fragment;
@@ -89,11 +97,17 @@ public class MainPageFragment extends MVPBaseFragment {
 
     @Override
     protected void initViews() {
+        mainActivity = (MainActivity) getActivity();
         mSmartTablayout = (SmartTabLayout) mRootView.findViewById(R.id.smart_tablayout);
         // mTabLayout = mRootView.findViewById(R.id.tool_tab);
         mViewPager = mRootView.findViewById(R.id.view_pager);
         mMarqueeView = mRootView.findViewById(R.id.marqueeView);
-
+        find_car_layout = mRootView.findViewById(R.id.find_car_layout);
+        find_car_layout.setOnClickListener(this);
+        baoquan_layout = mRootView.findViewById(R.id.baoquan_layout);
+        baoquan_layout.setOnClickListener(this);
+        news_layout = mRootView.findViewById(R.id.news_layout);
+        news_layout.setOnClickListener(this);
         findingCarTv = mRootView.findViewById(R.id.finding_amount);
         findedCarTv = mRootView.findViewById(R.id.finded_amount);
         arriveCarTv = mRootView.findViewById(R.id.awoing_amount);
@@ -101,18 +115,7 @@ public class MainPageFragment extends MVPBaseFragment {
         clueCarTv = mRootView.findViewById(R.id.add_value_tv);
         mounthAdd = mRootView.findViewById(R.id.add);
 
-        titles = getResources().getStringArray(R.array.list_tab);
-        PaiHangBangFragment cooperatingFragment = new PaiHangBangFragment();
-        PaiHangBangFragment alreadyCompleteFragment = new PaiHangBangFragment();
-        PaiHangBangFragment paiHangBangFragment = new PaiHangBangFragment();
-        fragments = new ArrayList<>();
-        fragments.add(cooperatingFragment);
-        fragments.add(alreadyCompleteFragment);
-        fragments.add(paiHangBangFragment);
-        mainPagerAdapter = new FaultRepairPagerAdapter(getChildFragmentManager(), fragments, titles);
-        mViewPager.setAdapter(mainPagerAdapter);
-        mViewPager.setOffscreenPageLimit(2);
-        mSmartTablayout.setViewPager(mViewPager);
+
         refreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipe_id);
         refreshLayout.setColorSchemeResources(
                 android.R.color.holo_blue_bright, android.R.color.holo_green_light,
@@ -121,6 +124,7 @@ public class MainPageFragment extends MVPBaseFragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                loadingDialog.loading();
                 getData();
             }
         });
@@ -133,11 +137,7 @@ public class MainPageFragment extends MVPBaseFragment {
         List<String> info = new ArrayList<>();
         mMarqueeView.startWithList(strings);
         mMarqueeView.startWithList(info, R.anim.anim_bottom_in, R.anim.anim_top_out);
-
-    }
-
-    public void initLoading() {
-
+        initLoading();
     }
 
 
@@ -153,6 +153,7 @@ public class MainPageFragment extends MVPBaseFragment {
     }
 
     public void getData() {
+
         String url = Constants.SERVICE_NAME + Constants.MAIN_PAGE_DATE;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
@@ -163,6 +164,7 @@ public class MainPageFragment extends MVPBaseFragment {
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
+                loadingDialog.cancel();
                 Log.e("TAG", result.toString() + url);
                 if (!TextUtils.isEmpty(result) && !result.equals("401")) {
                     JSONObject jsonObject = JSON.parseObject(result);
@@ -206,12 +208,45 @@ public class MainPageFragment extends MVPBaseFragment {
                 case 0:
                     if (mainPageDataBean != null) {
                         setValue();
+                        initList();
                     }
                     refreshLayout.setRefreshing(false);
+
                     break;
             }
         }
     };
+    LoadingDialog loadingDialog;
+    public void initLoading() {
+
+        LoadingDialog.Builder builder = new LoadingDialog.Builder(getActivity());
+        builder.setLoading_text("加载中...")
+                .setFail_text("加载失败")
+                .setSuccess_text("加载成功");
+        //设置延时5000ms才消失,可以不设置默认1000ms
+        //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
+
+        loadingDialog = builder.create();
+
+    }
+    public void initList() {
+        MainPageFragment.findList = mainPageDataBean.getFindList();
+        MainPageFragment.timeList = mainPageDataBean.getTimeList();
+        MainPageFragment.verListt = mainPageDataBean.getRetrieveList();
+        titles = getResources().getStringArray(R.array.list_tab);
+        Fragment cooperatingFragment = PaiHangBangFragment.newInstance(1);
+        Fragment alreadyCompleteFragment = PaiHangBangFragment.newInstance(2);
+        Fragment paiHangBangFragment = PaiHangBangFragment.newInstance(3);
+        fragments = new ArrayList<>();
+        fragments.add(cooperatingFragment);
+        fragments.add(alreadyCompleteFragment);
+        fragments.add(paiHangBangFragment);
+        mainPagerAdapter = new FaultRepairPagerAdapter(getChildFragmentManager(), fragments, titles);
+        mViewPager.setAdapter(mainPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
+        mSmartTablayout.setViewPager(mViewPager);
+
+    }
 
     public void setValue() {
 
@@ -220,7 +255,7 @@ public class MainPageFragment extends MVPBaseFragment {
         arriveCarTv.setText(mainPageDataBean.getRetrieving());
         arrivedCarTv.setText(mainPageDataBean.getRetrieved());
         clueCarTv.setText(mainPageDataBean.getTotal());
-        mounthAdd.setText("本日新增  "+mainPageDataBean.getToday());
+        mounthAdd.setText("本日新增  " + mainPageDataBean.getToday());
 
         if (mainPageDataBean.getNewsList().size() > 0) {
             initNews(mainPageDataBean.getNewsList());
@@ -228,4 +263,22 @@ public class MainPageFragment extends MVPBaseFragment {
 
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.news_layout:
+
+                startActivity(new Intent(getContext(), NewsActvity.class));
+
+                break;
+            case R.id.find_car_layout:
+                mainActivity.changePage(2);
+                break;
+            case R.id.baoquan_layout:
+                mainActivity.changePage(1);
+                break;
+
+        }
+    }
 }

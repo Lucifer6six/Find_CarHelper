@@ -33,6 +33,7 @@ import com.jph.takephoto.model.TResult;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class RequestCompleteFailActivity extends TakePhotoActivity implements Vi
     private CustomHelper customHelper;
     private int imgFlag = 1;
     DisplayImageOptions mOptions;
-
+    private CommonTitleBar title_bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +80,7 @@ public class RequestCompleteFailActivity extends TakePhotoActivity implements Vi
 
     public void initViews() {
         commenView = LayoutInflater.from(this).inflate(R.layout.common_layout, null);
+        title_bar = findViewById(R.id.title_bar);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         selectPhoto = commenView.findViewById(R.id.btnPickBySelect);
         carIdImgLayout = findViewById(R.id.car_id_layout);//photoview2 id照片
@@ -92,6 +94,14 @@ public class RequestCompleteFailActivity extends TakePhotoActivity implements Vi
         customHelper = CustomHelper.of(commenView);
         carImagLayout.setOnClickListener(this);
         carIdImgLayout.setOnClickListener(this);
+        title_bar.setListener(new CommonTitleBar.OnTitleBarListener() {
+            @Override
+            public void onClicked(View v, int action, String extra) {
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
+                    finish();
+                }
+            }
+        });
     }
 
     public void setValue() {

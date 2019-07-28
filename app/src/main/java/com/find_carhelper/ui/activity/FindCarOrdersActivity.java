@@ -2,15 +2,12 @@ package com.find_carhelper.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
-import com.find_carhelper.ui.fragment.AlreadyCompleteFragment;
-import com.find_carhelper.ui.fragment.CooperatingFragment;
 import com.find_carhelper.ui.fragment.FindCarOrdersComplete;
 import com.find_carhelper.ui.fragment.FindCarOrdersCooptering;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -66,6 +63,7 @@ public class FindCarOrdersActivity extends MVPBaseActivity {
         mViewPager.setAdapter(mainPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mSmartTablayout.setViewPager(mViewPager);
+        registerLeftClickEvent(view -> finish());
     }
 
 

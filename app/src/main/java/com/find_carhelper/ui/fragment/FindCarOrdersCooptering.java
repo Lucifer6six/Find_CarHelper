@@ -23,6 +23,7 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.OrdersInfoActivity;
+import com.find_carhelper.ui.activity.RequesCompleteActivity;
 import com.find_carhelper.ui.adapter.FindCarCompletingOrderAdapter;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
@@ -91,6 +92,7 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
         no_auth_layout = mRootView.findViewById(R.id.no_auth_layout);
         no_data_tv = mRootView.findViewById(R.id.no_data_tv);
         initLoading();
+
     }
 
     public void initLoading() {
@@ -121,8 +123,14 @@ public class FindCarOrdersCooptering extends MVPBaseFragment implements OnItemCl
                     bundle.putParcelable("obj", list.get(position));
                     intent.putExtras(bundle);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(getContext(), "accepOrders", Toast.LENGTH_SHORT).show();
+                } else if (viewName.equals(FindCarCompletingOrderAdapter.ViewName.PRACTISE)){
+
+                    Intent intent = new Intent(getContext(), RequesCompleteActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("obj", list.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
                 }
 
             }

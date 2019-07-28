@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
+import com.find_carhelper.bean.MainPageDataBean;
 import com.find_carhelper.widgets.OnItemClickListeners;
 
 import java.util.List;
@@ -22,19 +23,22 @@ import cc.ibooker.zcountdownviewlib.CountDownView;
 
 
 /**
- *列表抢单
+ * 列表抢单
  */
 public class MyPhbAdapter extends RecyclerView.Adapter<MyPhbAdapter.RepairViewHolder> {
 
     private Context mContext;
     private OnItemClickListeners onItemClickListeners;
-    private List<CarBean> list;
+    private List<MainPageDataBean.ListBean> list;
     private int location = 0;
     private Long startTime;
-    public MyPhbAdapter(List<CarBean> list, Context context) {
+    private int type;
+
+    public MyPhbAdapter(List<MainPageDataBean.ListBean> list, Context context, int type) {
         this.mContext = context;
         this.list = list;
         startTime = System.currentTimeMillis();
+        this.type = type;
     }
 
     public void setOnItemClickListeners(OnItemClickListeners onItemClickListeners) {
@@ -55,20 +59,52 @@ public class MyPhbAdapter extends RecyclerView.Adapter<MyPhbAdapter.RepairViewHo
             holder.itemView.setOnClickListener(v -> onItemClickListeners.onItemClick(holder, null, position));
         }
 
-        if (position == 0){
+        if (position == 0) {
 
             holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_top1));
+            holder.icon.setVisibility(View.VISIBLE);
+            holder.no.setVisibility(View.INVISIBLE);
 
-        }else if (position == 1){
+        } else if (position == 1) {
 
             holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_top2));
+            holder.icon.setVisibility(View.VISIBLE);
+            holder.no.setVisibility(View.INVISIBLE);
 
-        }else
+        } else if (position == 2) {
+
             holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_top3));
+            holder.icon.setVisibility(View.VISIBLE);
+            holder.no.setVisibility(View.INVISIBLE);
 
+        } else {
 
-        if (list!=null){
-            if (list.size()>0){
+            holder.icon.setVisibility(View.INVISIBLE);
+            holder.no.setVisibility(View.VISIBLE);
+
+        }
+        switch (type) {
+
+            case 1:
+                holder.start.setText("已回收");
+                holder.end.setText("辆");
+                break;
+            case 2:
+                holder.start.setText("已寻得");
+                holder.end.setText("辆");
+                break;
+            case 3:
+                holder.start.setText("用时");
+                holder.end.setText("");
+                break;
+
+        }
+        if (list != null) {
+            if (list.size() > 0) {
+
+                holder.company.setText(list.get(position).getLeft());
+                holder.value.setText(list.get(position).getRight());
+                holder.no.setText("" + (position + 1));
 
 
             }
@@ -78,7 +114,7 @@ public class MyPhbAdapter extends RecyclerView.Adapter<MyPhbAdapter.RepairViewHo
 
     @Override
     public int getItemCount() {
-        return 3;
+        return list.size();
     }
 
 
@@ -87,12 +123,18 @@ public class MyPhbAdapter extends RecyclerView.Adapter<MyPhbAdapter.RepairViewHo
         ImageView icon;
         TextView company;
         TextView value;
+        TextView no;
+        TextView start;
+        TextView end;
 
         public RepairViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.icon);
             company = itemView.findViewById(R.id.company);
             value = itemView.findViewById(R.id.value);
+            no = itemView.findViewById(R.id.no);
+            start = itemView.findViewById(R.id.text_start);
+            end = itemView.findViewById(R.id.text_end);
         }
     }
 }

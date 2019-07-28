@@ -78,6 +78,7 @@ public class OrdersInfoActivity extends MVPBaseActivity {
                 startActivity(intent);
             }
         });
+        registerLeftClickEvent(view -> finish());
     }
 
     @Override
