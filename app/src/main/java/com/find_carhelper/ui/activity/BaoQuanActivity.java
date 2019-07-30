@@ -1,16 +1,15 @@
 package com.find_carhelper.ui.activity;
 
-import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
+import com.find_carhelper.ui.fragment.MyOrdersFragment;
 
-public class OrderDetailActivity extends MVPBaseActivity implements View.OnClickListener {
-    public Button request_in_store;
+public class BaoQuanActivity extends MVPBaseActivity {
 
     @Override
     protected boolean isBindEventBusHere() {
@@ -19,13 +18,19 @@ public class OrderDetailActivity extends MVPBaseActivity implements View.OnClick
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.activity_order_detail;
+        return R.layout.activity_bao_quan;
     }
 
     @Override
     protected void initViews() {
-        request_in_store = findViewById(R.id.request_in_store);
-        request_in_store.setOnClickListener(this);
+        getSupportFragmentManager()    //
+                .beginTransaction()
+                .add(R.id.content, new MyOrdersFragment())   // 此处的R.id.fragment_container是要盛放fragment的父容器
+                .commit();
+
+        registerLeftClickEvent(view -> finish());
+
+
     }
 
     @Override
@@ -38,14 +43,8 @@ public class OrderDetailActivity extends MVPBaseActivity implements View.OnClick
 
     }
 
-
     @Override
     protected BasePresenter createPresenter() {
         return null;
-    }
-
-    @Override
-    public void onClick(View view) {
-        startActivity(new Intent(OrderDetailActivity.this, RequestInStoreActivity.class));
     }
 }

@@ -27,7 +27,7 @@
             titlebar:showBottomLine="false"
             app:centerTextColor="@color/white"
             app:rightType="imageButton"
-            app:rightImageResource="@mipmap/jd_icon_mes"
+            app:rightImageResource="@mipmap/icon_order2"
             />
         <com.find_carhelper.widgets.NoCacheViewPager
             android:id="@+id/vp_mian"

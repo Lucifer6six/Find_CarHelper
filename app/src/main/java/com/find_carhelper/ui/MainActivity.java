@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.BaoQuanActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.adapter.MainFragmentAdapter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
@@ -94,7 +95,7 @@ public class MainActivity extends MVPBaseActivity {
             @Override
             public void onClick(View view) {
                 //FragmentFactory.getInstance().getHomeFragment().pageChange();
-                startActivity(new Intent(MainActivity.this, NewsActvity.class));
+                startActivity(new Intent(MainActivity.this, BaoQuanActivity.class));
             }
         });
         //主页面左上角点击事件

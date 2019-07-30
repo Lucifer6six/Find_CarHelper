@@ -2,6 +2,7 @@ package com.find_carhelper.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.CarDetailActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
 import com.find_carhelper.ui.adapter.LoadMoreWrapper;
@@ -191,7 +193,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             public void onItemClick(View v, ListOrderAcceptAdapter.ViewName viewName, int position) {
                 //  Toast.makeText(getContext(),"position ="+position,Toast.LENGTH_SHORT).show();
 
-                if (v.getId() == R.id.acept_order)
+                if (viewName == ListOrderAcceptAdapter.ViewName.ORDERS) {
                     new ToolDateSelectorPopWindow(getContext(), new MarkerOrderPopWindow.getdata() {
                         @Override
                         public void getdatas(String str) {
@@ -200,6 +202,13 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                             }
                         }
                     }).showPopupWindow();
+                } else if (viewName == ListOrderAcceptAdapter.ViewName.ITEM) {
+                    Intent intent = new Intent(getContext(), CarDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("obj", list.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
 
             @Override

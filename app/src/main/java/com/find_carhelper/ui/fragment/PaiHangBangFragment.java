@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.find_carhelper.R;
@@ -28,6 +30,7 @@ public class PaiHangBangFragment extends MVPBaseFragment implements OnItemClickL
     private RecyclerView recycleListView;
     private MyPhbAdapter mListOrderAcceptAdapter;
     public LoadingDialog loadingDialog;
+    public RelativeLayout no_data_layout;
     public List<MainPageDataBean.ListBean> listBeans;
     public int type = 0;
 
@@ -53,7 +56,7 @@ public class PaiHangBangFragment extends MVPBaseFragment implements OnItemClickL
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.fragment_cooperating;
+        return R.layout.fragment_paihang;
     }
 
     @Override
@@ -79,11 +82,18 @@ public class PaiHangBangFragment extends MVPBaseFragment implements OnItemClickL
     protected void initViews() {
         type = getArguments().getInt("type");
         recycleListView = mRootView.findViewById(R.id.list_orders);
-        initAdapter(type);
+        no_data_layout = mRootView.findViewById(R.id.no_data_layout);
+        listBeans = getListBeans(type);
+        if (listBeans != null) {
+            initAdapter();
+            no_data_layout.setVisibility(View.GONE);
+        } else {
+            no_data_layout.setVisibility(View.VISIBLE);
+        }
+
     }
 
-    private void initAdapter(int type) {
-
+    public List<MainPageDataBean.ListBean> getListBeans(int type) {
         switch (type) {
 
             case 1:
@@ -98,8 +108,13 @@ public class PaiHangBangFragment extends MVPBaseFragment implements OnItemClickL
 
 
         }
+        return listBeans;
+    }
 
-        mListOrderAcceptAdapter = new MyPhbAdapter(listBeans, mContext,type);
+    private void initAdapter() {
+
+
+        mListOrderAcceptAdapter = new MyPhbAdapter(listBeans, mContext, type);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);

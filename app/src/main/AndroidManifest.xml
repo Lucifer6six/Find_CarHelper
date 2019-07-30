@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.find_carhelper">
+    package="com.find_carhelper">
     <!-- 用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/> <!-- 用于访问网络，网络定位需要上网 -->
-    <uses-permission android:name="android.permission.INTERNET"/> <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/> <!-- 用于写入缓存数据到扩展存储卡 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 用于申请调用A-GPS模块 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/> <!-- 获取照相权限 -->
-    <uses-permission android:name="android.permission.CAMERA"/> <!-- 用于申请获取蓝牙信息进行室内定位 -->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 获取照相权限 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:name=".http.Application"
@@ -23,47 +23,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.RequestCompleteFailActivity">
-        </activity>
-        <activity android:name=".ui.activity.OrderDetailActivity">
-        </activity>
-        <activity android:name=".ui.activity.AuthFailActivity">
-        </activity>
-        <activity android:name=".ui.activity.RequesCompleteActivity"/>
-        <activity android:name=".ui.activity.OrdersInfoActivity"/>
-        <activity android:name=".ui.activity.FindCarOrderActivity"/>
-        <activity android:name=".ui.activity.NewsInfoDetail"/>
-        <activity android:name=".ui.activity.ReUploadImageActivity"/>
-        <activity android:name=".ui.activity.RequestLaterActivity"/>
-        <activity android:name=".ui.activity.WithDrawActivity"/>
-        <activity android:name=".ui.activity.AuthActivity"/>
-        <activity android:name=".ui.activity.RequestInStoreActivity"/>
-        <activity android:name=".ui.activity.MyCountActivity"/>
-        <activity android:name=".ui.activity.MyTeamActivity"/>
-        <activity android:name=".ui.activity.EditPswActivity"/>
-        <activity android:name=".ui.activity.GuideActivity"/>
-        <activity android:name=".ui.activity.NewsActvity"/>
+        <activity android:name=".ui.activity.BaoQuanActivity"></activity>
+        <activity android:name=".ui.activity.RequestCompleteFailActivity"></activity>
+        <activity android:name=".ui.activity.OrderDetailActivity"></activity>
+        <activity android:name=".ui.activity.CarDetailActivity"></activity>
+        <activity android:name=".ui.activity.AuthFailActivity"></activity>
+        <activity android:name=".ui.activity.RequesCompleteActivity" />
+        <activity android:name=".ui.activity.OrdersInfoActivity" />
+        <activity android:name=".ui.activity.FindCarOrderActivity" />
+        <activity android:name=".ui.activity.NewsInfoDetail" />
+        <activity android:name=".ui.activity.ReUploadImageActivity" />
+        <activity android:name=".ui.activity.RequestLaterActivity" />
+        <activity android:name=".ui.activity.WithDrawActivity" />
+        <activity android:name=".ui.activity.AuthActivity" />
+        <activity android:name=".ui.activity.RequestInStoreActivity" />
+        <activity android:name=".ui.activity.MyCountActivity" />
+        <activity android:name=".ui.activity.MyTeamActivity" />
+        <activity android:name=".ui.activity.EditPswActivity" />
+        <activity android:name=".ui.activity.GuideActivity" />
+        <activity android:name=".ui.activity.NewsActvity" />
         <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.TestActivity"/>
-        <activity android:name=".ui.MainActivity"/>
+        <activity android:name=".ui.activity.TestActivity" />
+        <activity android:name=".ui.MainActivity" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="28a36e12606202effc262d48d6d70dda"/>
+            android:value="28a36e12606202effc262d48d6d70dda" />
 
-        <service android:name="com.amap.api.location.APSService"/>
+        <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".ui.activity.InviteFriendsActivity"/>
-        <activity android:name=".ui.activity.LoginActivity"/>
-        <activity android:name=".ui.activity.RegistActivity"/>
-        <activity android:name=".ui.activity.FindCarOrdersActivity"/>
+        <activity android:name=".ui.activity.InviteFriendsActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.RegistActivity" />
+        <activity android:name=".ui.activity.FindCarOrdersActivity" />
     </application>
 
 </manifest>

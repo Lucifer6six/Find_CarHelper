@@ -115,7 +115,6 @@ public class MainPageFragment extends MVPBaseFragment implements View.OnClickLis
         clueCarTv = mRootView.findViewById(R.id.add_value_tv);
         mounthAdd = mRootView.findViewById(R.id.add);
 
-
         refreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipe_id);
         refreshLayout.setColorSchemeResources(
                 android.R.color.holo_blue_bright, android.R.color.holo_green_light,
@@ -129,7 +128,6 @@ public class MainPageFragment extends MVPBaseFragment implements View.OnClickLis
             }
         });
         initNews(null);
-
     }
 
     public void initNews(List<String> strings) {
