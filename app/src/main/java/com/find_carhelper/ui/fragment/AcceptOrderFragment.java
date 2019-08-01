@@ -39,6 +39,7 @@ import com.find_carhelper.ui.listener.EndlessRecyclerOnScrollListener;
 import com.find_carhelper.utils.GetJsonDataUtil;
 import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.utils.ToastUtil;
 import com.find_carhelper.widgets.MarkerOrderPopWindow;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
@@ -198,16 +199,23 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                         @Override
                         public void getdatas(String str) {
                             if (str.equals("1")) {
-                                acceptOrderAction(position);
+                                if (!list.get(position).getStatus().equals("已被抢"))
+                                    acceptOrderAction(position);
+                                else
+                                    ToastUtil.makeShortText("该订单已被抢", getContext());
+
                             }
                         }
                     }).showPopupWindow();
                 } else if (viewName == ListOrderAcceptAdapter.ViewName.ITEM) {
-                    Intent intent = new Intent(getContext(), CarDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("obj", list.get(position));
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+
+                    if (Constants.canOrder) {
+                        Intent intent = new Intent(getContext(), CarDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("obj", list.get(position));
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
                 }
             }
 

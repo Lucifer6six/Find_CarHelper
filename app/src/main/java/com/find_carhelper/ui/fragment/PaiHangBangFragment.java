@@ -84,7 +84,7 @@ public class PaiHangBangFragment extends MVPBaseFragment implements OnItemClickL
         recycleListView = mRootView.findViewById(R.id.list_orders);
         no_data_layout = mRootView.findViewById(R.id.no_data_layout);
         listBeans = getListBeans(type);
-        if (listBeans != null) {
+        if (listBeans != null && listBeans.size() > 0) {
             initAdapter();
             no_data_layout.setVisibility(View.GONE);
         } else {

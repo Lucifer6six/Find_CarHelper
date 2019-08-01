@@ -49,7 +49,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
     public FindCarListBean carBeans;
     public FindCarListBean carListBean;
     public RelativeLayout no_auth_layout;
-    public RelativeLayout takePhoto, scanPhoto, ImgPhoto;
+    public RelativeLayout takePhoto, scanPhoto,ImgPhoto;
     LoadMoreWrapper loadMoreWrapper;
     public ImageView find_car;
     public boolean loadMoreFlag = true;

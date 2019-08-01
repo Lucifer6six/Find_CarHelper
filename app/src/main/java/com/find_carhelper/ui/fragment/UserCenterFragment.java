@@ -28,8 +28,11 @@ import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.MainActivity;
 import com.find_carhelper.ui.activity.AuthActivity;
+import com.find_carhelper.ui.activity.BaoQuanActivity;
 import com.find_carhelper.ui.activity.EditPswActivity;
+import com.find_carhelper.ui.activity.FindCarOrdersActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.activity.MyCountActivity;
 import com.find_carhelper.ui.activity.MyTeamActivity;
@@ -51,7 +54,7 @@ import okhttp3.Request;
 
 public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener, LocationSource {
     private AMapLocationClient mLocationClient;
-    private RelativeLayout pswLayout, newsLayout, myTeamLayout, protocalLayout, acountLayout, updateLayout, quite;
+    private RelativeLayout pswLayout, newsLayout, myTeamLayout, protocalLayout, acountLayout, updateLayout, quite,baoquanLayout,findCarLayout;
     private AMapLocationClientOption mLocationOption;
     private String TAG = "UserCenterFragment";
     private TextView name, nickName, status;
@@ -148,6 +151,8 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         protocalLayout = mRootView.findViewById(R.id.protocal);
         acountLayout = mRootView.findViewById(R.id.acount);
         updateLayout = mRootView.findViewById(R.id.update);
+        baoquanLayout = mRootView.findViewById(R.id.baoquan_layout);
+        findCarLayout = mRootView.findViewById(R.id.xunche_layout);
         quite = mRootView.findViewById(R.id.quite);
         name = mRootView.findViewById(R.id.nick_name);
         nickName = mRootView.findViewById(R.id.little_nick_name);
@@ -161,6 +166,8 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         protocalLayout.setOnClickListener(this);
         acountLayout.setOnClickListener(this);
         quite.setOnClickListener(this);
+        baoquanLayout.setOnClickListener(this);
+        findCarLayout.setOnClickListener(this);
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
             //开启定位权限,200是标识码
@@ -345,6 +352,12 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                         }
                     }).showPopupWindow();
 
+                    break;
+                case R.id.baoquan_layout:
+                    startActivity(new Intent(getContext(), BaoQuanActivity.class));
+                    break;
+                case R.id.xunche_layout:
+                    startActivity(new Intent(getActivity(), FindCarOrdersActivity.class));
                     break;
             }
         else

@@ -206,8 +206,8 @@ public class MainPageFragment extends MVPBaseFragment implements View.OnClickLis
                 case 0:
                     if (mainPageDataBean != null) {
                         setValue();
-                        initList();
                     }
+                    initList();
                     refreshLayout.setRefreshing(false);
 
                     break;
