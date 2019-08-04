@@ -12,6 +12,7 @@ import com.find_carhelper.ui.fragment.IdentityAuthFailFragment;
 import com.find_carhelper.ui.fragment.IdentityAuthFragment;
 
 public class AuthFailActivity extends MVPBaseActivity {
+    public String failType;
 
     @Override
     protected boolean isBindEventBusHere() {
@@ -25,9 +26,13 @@ public class AuthFailActivity extends MVPBaseActivity {
 
     @Override
     protected void initViews() {
+        failType = getIntent().getStringExtra("type");
         IdentityAuthFailFragment identityAuthFailFragment = new IdentityAuthFailFragment();
         GroupAuthFailFragment groupAuthFailFragment = new GroupAuthFailFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.container,identityAuthFailFragment).commit();
+        if (failType.equals("company"))
+            getSupportFragmentManager().beginTransaction().add(R.id.container, groupAuthFailFragment).commit();
+        else
+            getSupportFragmentManager().beginTransaction().add(R.id.container, identityAuthFailFragment).commit();
     }
 
     @Override

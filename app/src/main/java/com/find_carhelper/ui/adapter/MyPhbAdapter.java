@@ -94,7 +94,7 @@ public class MyPhbAdapter extends RecyclerView.Adapter<MyPhbAdapter.RepairViewHo
                 holder.end.setText("辆");
                 break;
             case 3:
-                holder.start.setText("用时");
+                holder.start.setText("");
                 holder.end.setText("");
                 break;
 

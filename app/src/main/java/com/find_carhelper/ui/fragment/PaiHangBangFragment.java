@@ -113,12 +113,12 @@ public class PaiHangBangFragment extends MVPBaseFragment implements OnItemClickL
 
     private void initAdapter() {
 
-
         mListOrderAcceptAdapter = new MyPhbAdapter(listBeans, mContext, type);
         mListOrderAcceptAdapter.setOnItemClickListeners(this);
         recycleListView.setLayoutManager(new LinearLayoutManager(mContext));
         recycleListView.setHasFixedSize(true);
         recycleListView.setAdapter(mListOrderAcceptAdapter);
+
     }
 
     public void initLoading() {

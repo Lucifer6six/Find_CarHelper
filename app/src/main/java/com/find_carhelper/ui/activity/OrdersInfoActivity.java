@@ -36,7 +36,7 @@ import java.util.List;
 
 import okhttp3.Request;
 
-public class OrdersInfoActivity extends MVPBaseActivity {
+public class OrdersInfoActivity extends MVPBaseActivity implements View.OnClickListener {
     public Button request_complete;
     public String vin;
     public String orderCode;
@@ -165,9 +165,9 @@ public class OrdersInfoActivity extends MVPBaseActivity {
 
         }
     };
+    public String url;
 
     public void setValue() {
-
 
         if (list.size() > 0) {
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(OrdersInfoActivity.this).writeDebugLogs().build();
@@ -180,12 +180,12 @@ public class OrdersInfoActivity extends MVPBaseActivity {
                 View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_find_order_detial_img, null);
 
                 ImageView imageView = view.findViewById(R.id.photoView);
-                //imageView.setBackground(getResources().getDrawable(R.color.colorPrimary));
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
                 ImageLoader imageLoader = ImageLoader.getInstance();
+                url = list.get(i);
                 imageLoader.displayImage(list.get(i), imageView);
+                view.setOnClickListener(this);
                 imgLayout.addView(view);
-
             }
 
 
@@ -202,5 +202,18 @@ public class OrdersInfoActivity extends MVPBaseActivity {
     @Override
     protected BasePresenter createPresenter() {
         return null;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        for (int i = 0; i < imgLayout.getChildCount(); i++) {
+            LinearLayout imageView = (LinearLayout) imgLayout.getChildAt(i);
+            if (view == imageView) {
+                Intent intent = new Intent(OrdersInfoActivity.this, ShowImageActivity.class);
+                intent.putExtra("url", list.get(i));
+                startActivity(intent);
+            }
+        }
     }
 }

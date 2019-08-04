@@ -22,6 +22,8 @@ import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.MainActivity;
+import com.find_carhelper.ui.activity.BaoQuanActivity;
+import com.find_carhelper.ui.activity.FindCarOrdersActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.adapter.FaultRepairPagerAdapter;
@@ -271,10 +273,10 @@ public class MainPageFragment extends MVPBaseFragment implements View.OnClickLis
 
                 break;
             case R.id.find_car_layout:
-                mainActivity.changePage(2);
+                startActivity(new Intent(getActivity(), FindCarOrdersActivity.class));
                 break;
             case R.id.baoquan_layout:
-                mainActivity.changePage(1);
+                startActivity(new Intent(getContext(), BaoQuanActivity.class));
                 break;
 
         }

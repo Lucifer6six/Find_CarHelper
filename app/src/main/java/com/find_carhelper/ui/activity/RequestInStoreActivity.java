@@ -371,7 +371,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
 
         //4.构建请求
         Request request = new Request.Builder()
-                .url("http://39.100.119.162:9090/onstage/upload/vehicle/retrieve/garage/apply")
+                .url(Constants.SERVICE_NAME+"/onstage/upload/vehicle/retrieve/garage/apply")
                 .post(requestBody)
                 .build();
 

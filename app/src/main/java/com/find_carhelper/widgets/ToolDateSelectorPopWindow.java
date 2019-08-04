@@ -32,16 +32,12 @@ import razerdp.basepopup.BasePopupWindow;
  * 报修工单筛选POP
  */
 
-public class ToolDateSelectorPopWindow extends BasePopupWindow implements View.OnClickListener,MarkerOrderPopWindow.getdata {
-private MarkerOrderPopWindow.getdata mGetdata;
-private TextView orderStatus;
-private TextView timeStart,timeEnd;
-private SimpleDateFormat mSimpleDateFormat;
-private OptionsPickerView mOptionsPickerView;
-    private OptionsPickerView pvOptions;
+public class ToolDateSelectorPopWindow extends BasePopupWindow implements View.OnClickListener, MarkerOrderPopWindow.getdata {
+    private MarkerOrderPopWindow.getdata mGetdata;
+
     public ToolDateSelectorPopWindow(Context context, MarkerOrderPopWindow.getdata getdata) {
         super(context);
-        setPopupGravity(Gravity.CENTER|Gravity.CENTER);
+        setPopupGravity(Gravity.CENTER);
         bindEvent();
         this.mGetdata = getdata;
     }

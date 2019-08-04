@@ -9,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +32,7 @@ import com.find_carhelper.ui.adapter.LoadMoreWrapper;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.ui.listener.EndlessRecyclerOnScrollListener;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.utils.ToastUtil;
 import com.find_carhelper.widgets.OnItemClickListeners;
 import com.wega.library.loadingDialog.LoadingDialog;
 
@@ -49,11 +52,14 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
     public FindCarListBean carBeans;
     public FindCarListBean carListBean;
     public RelativeLayout no_auth_layout;
-    public RelativeLayout takePhoto, scanPhoto,ImgPhoto;
+    public RelativeLayout takePhoto, scanPhoto, ImgPhoto;
     LoadMoreWrapper loadMoreWrapper;
     public ImageView find_car;
     public boolean loadMoreFlag = true;
     public int pageNum = 1;
+    public TextView order_no;
+    public EditText searchView;
+    public RelativeLayout iconSearch;
 
     public static Fragment newInstance() {
         FindCarFragment fragment = new FindCarFragment();
@@ -105,6 +111,9 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         scanPhoto = mRootView.findViewById(R.id.scan);
         ImgPhoto = mRootView.findViewById(R.id.image);
         find_car = mRootView.findViewById(R.id.find_car);
+        order_no = mRootView.findViewById(R.id.order_no);
+        searchView = mRootView.findViewById(R.id.search_edit);
+        iconSearch = mRootView.findViewById(R.id.search_icon);
         find_car.setOnClickListener(view -> {
 
             startActivity(new Intent(getActivity(), FindCarOrdersActivity.class));
@@ -115,6 +124,16 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         ImgPhoto.setOnClickListener(this);
         mRootView.findViewById(R.id.auth_action).setOnClickListener(view -> {
             startActivity(new Intent(getContext(), AuthActivity.class));
+        });
+        iconSearch.setOnClickListener(view -> {
+
+            if (searchView.getText().length() > 6) {
+                getSearchCarData(searchView.getText().toString());
+            } else {
+                ToastUtil.makeShortText("车牌输入不合法", getContext());
+
+            }
+
         });
         initLoading();
     }
@@ -166,6 +185,57 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     }
 
+    public void getSearchCarData(String lpn) {
+        String url = Constants.SERVICE_NAME + Constants.FIND_CAR;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
+        params.put("pageNum", "" + pageNum);
+        params.put("pageSize", "10");
+        params.put("searchMethod", "SEARCH");
+        params.put("lpn", lpn);
+        // ...
+        NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("TAG + 个体Car == " + pageNum, result.toString());
+                no_auth_layout.setVisibility(View.INVISIBLE);
+                if (!result.equals("401")) {
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject = JSON.parseObject(result);
+                        if (jsonObject.getString("status") != null)
+                            if (jsonObject.getString("status").equals("500") && jsonObject.getString("message").equals("W02000")) {
+                                Toast.makeText(getContext(), "服务器错误", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        if (jsonObject.getString("success").equals("true")) {
+                            Message msg = new Message();
+                            carBeans = JSON.parseObject(jsonObject.toJSONString(), FindCarListBean.class);
+                            msg.what = 3;
+                            mHandler.sendMessage(msg);
+                        } else {
+                            String msg = jsonObject.getString("message");
+                            if (msg.contains("认证")) {
+                                no_auth_layout.setVisibility(View.INVISIBLE);
+                            }
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    Toast.makeText(getContext(), "服务器错误", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                Log.e("TAG", request.toString() + e.getMessage());
+            }
+        });
+    }
+
     public void getCarData() {
         String url = Constants.SERVICE_NAME + Constants.FIND_CAR_LIST;
         HashMap<String, String> params = new HashMap<>();
@@ -179,7 +249,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             @Override
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
-                Log.e("TAG + page == " + pageNum, result.toString());
+                Log.e("TAG + 个体Car == " + pageNum, result.toString());
                 no_auth_layout.setVisibility(View.INVISIBLE);
                 if (!result.equals("401")) {
                     if (!TextUtils.isEmpty(result)) {
@@ -237,21 +307,29 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                     if (carBeans != null) {
                         carListBean = carBeans;
                         initAdapter(carListBean.getData().getList());
+                        order_no.setText(carBeans.getData().getTotal());
                     }
                     break;
                 case 1:
                     if (carBeans != null) {
-                        if (carBeans.getData().getList().size() > 0 && loadMoreFlag){
+                        if (carBeans.getData().getList().size() > 0 && loadMoreFlag) {
                             for (int i = 0; i < carBeans.getData().getList().size(); i++) {
                                 carListBean.getData().getList().add(carBeans.getData().getList().get(i));
                             }
                             loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-                            if (carBeans.getData().isLastPage.equals("true")){
+                            if (carBeans.getData().isLastPage.equals("true")) {
                                 loadMoreFlag = false;
                             }
-                        }else
+                        } else
                             loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
                     }
+                    break;
+                case 3:
+                    if (carBeans != null)
+                        if (mListOrderAcceptAdapter != null) {
+                            mListOrderAcceptAdapter.notifyDataSetChanged();
+                        }
+
                     break;
             }
         }

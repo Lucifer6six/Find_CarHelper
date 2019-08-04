@@ -60,7 +60,8 @@ public class MainActivity extends MVPBaseActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         mViewPager.setCurrentItem(1);
-                        setTitleBar("保全车辆");
+                        //setTitleBar("保全车辆");
+                        hideTitleBar();
                         return true;
                     case R.id.navigation_work:
                         mViewPager.setCurrentItem(3);
@@ -157,18 +158,18 @@ public class MainActivity extends MVPBaseActivity {
         return null;
     }
 
-    public void changePage(int index) {
-
-        switch (index) {
-
-            case 1:
-                bottomNavigationView.findViewById(R.id.navigation_home).performClick();
-                break;
-            case 2:
-                bottomNavigationView.findViewById(R.id.navigation_find).performClick();
-                break;
-
-        }
-
-    }
+//    public void changePage(int index) {
+//
+//        switch (index) {
+//
+//            case 1:
+//                bottomNavigationView.findViewById(R.id.navigation_home).performClick();
+//                break;
+//            case 2:
+//                bottomNavigationView.findViewById(R.id.navigation_find).performClick();
+//                break;
+//
+//        }
+//
+//    }
 }

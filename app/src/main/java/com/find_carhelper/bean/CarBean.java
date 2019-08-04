@@ -1,9 +1,10 @@
 package com.find_carhelper.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
-public class CarBean implements Parcelable {
+import java.io.Serializable;
+
+public class CarBean implements Serializable {
+
     public int id;
     public String countdown;
     public String hasKey;
@@ -185,66 +186,66 @@ public class CarBean implements Parcelable {
         this.canOrder = canOrder;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
 
-    public static final Creator<CarBean> CREATOR = new Creator<CarBean>() {
-        @Override
-        public CarBean createFromParcel(Parcel parcel) {
+//    public static final Creator<CarBean> CREATOR = new Creator<CarBean>() {
+//        @Override
+//        public CarBean createFromParcel(Parcel parcel) {
+//
+//            CarBean carBean = new CarBean();
+//            carBean.setCountdown(parcel.readString());
+//            carBean.setHasKey(parcel.readString());
+//            carBean.setLpn(parcel.readString());
+//            carBean.setPartya(parcel.readString());
+//            carBean.setPositioningMethod(parcel.readString());
+//            carBean.setRegion(parcel.readString());
+//            carBean.setRewardAmount(parcel.readString());
+//            carBean.setStatus(parcel.readString());
+//            carBean.setVehicleModel(parcel.readString());
+//            carBean.setVin(parcel.readString());
+//            carBean.setAssignTask(parcel.readString());
+//            carBean.setOrderStatusName(parcel.readString());
+//            carBean.setOrderCode(parcel.readString());
+//            carBean.setOrderStatus(parcel.readString());
+//            carBean.setCanOrder(parcel.readString());
+//            carBean.setRemark(parcel.readString());
+//            carBean.setPositioningName(parcel.readString());
+//            carBean.setPositioningPin(parcel.readString());
+//            carBean.setLesseeInfo(parcel.readString());
+//            return carBean;
+//        }
+//
+//        @Override
+//        public CarBean[] newArray(int i) {
+//            return new CarBean[0];
+//        }
+//    };
 
-            CarBean carBean = new CarBean();
-            carBean.setCountdown(parcel.readString());
-            carBean.setHasKey(parcel.readString());
-            carBean.setLpn(parcel.readString());
-            carBean.setPartya(parcel.readString());
-            carBean.setPositioningMethod(parcel.readString());
-            carBean.setRegion(parcel.readString());
-            carBean.setRewardAmount(parcel.readString());
-            carBean.setStatus(parcel.readString());
-            carBean.setVehicleModel(parcel.readString());
-            carBean.setVin(parcel.readString());
-            carBean.setAssignTask(parcel.readString());
-            carBean.setOrderStatusName(parcel.readString());
-            carBean.setOrderCode(parcel.readString());
-            carBean.setOrderStatus(parcel.readString());
-            carBean.setCanOrder(parcel.readString());
-            carBean.setRemark(parcel.readString());
-            carBean.setPositioningName(parcel.readString());
-            carBean.setPositioningPin(parcel.readString());
-            carBean.setLesseeInfo(parcel.readString());
-            return carBean;
-        }
-
-        @Override
-        public CarBean[] newArray(int i) {
-            return new CarBean[0];
-        }
-    };
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(countdown);
-        parcel.writeString(hasKey);
-        parcel.writeString(lpn);
-        parcel.writeString(partya);
-        parcel.writeString(positioningMethod);
-        parcel.writeString(region);
-        parcel.writeString(rewardAmount);
-        parcel.writeString(status);
-        parcel.writeString(vehicleModel);
-        parcel.writeString(vin);
-        parcel.writeString(assignTask);
-        parcel.writeString(orderStatusName);
-        parcel.writeString(orderCode);
-        parcel.writeString(orderStatus);
-        parcel.writeString(canOrder);
-        parcel.writeString(orderCode);
-        parcel.writeString(positioningName);
-        parcel.writeString(positioningPin);
-        parcel.writeString(lesseeInfo);
-        parcel.writeString(remark);
-
-    }
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//        parcel.writeString(countdown);
+//        parcel.writeString(hasKey);
+//        parcel.writeString(lpn);
+//        parcel.writeString(partya);
+//        parcel.writeString(positioningMethod);
+//        parcel.writeString(region);
+//        parcel.writeString(rewardAmount);
+//        parcel.writeString(status);
+//        parcel.writeString(vehicleModel);
+//        parcel.writeString(vin);
+//        parcel.writeString(assignTask);
+//        parcel.writeString(orderStatusName);
+//        parcel.writeString(orderCode);
+//        parcel.writeString(orderStatus);
+//        parcel.writeString(canOrder);
+//        parcel.writeString(orderCode);
+//        parcel.writeString(positioningName);
+//        parcel.writeString(positioningPin);
+//        parcel.writeString(lesseeInfo);
+//        parcel.writeString(remark);
+//
+//    }
 }

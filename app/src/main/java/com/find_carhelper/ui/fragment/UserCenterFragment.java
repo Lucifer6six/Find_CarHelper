@@ -30,6 +30,7 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.MainActivity;
 import com.find_carhelper.ui.activity.AuthActivity;
+import com.find_carhelper.ui.activity.AuthFailActivity;
 import com.find_carhelper.ui.activity.BaoQuanActivity;
 import com.find_carhelper.ui.activity.EditPswActivity;
 import com.find_carhelper.ui.activity.FindCarOrdersActivity;
@@ -54,7 +55,7 @@ import okhttp3.Request;
 
 public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener, LocationSource {
     private AMapLocationClient mLocationClient;
-    private RelativeLayout pswLayout, newsLayout, myTeamLayout, protocalLayout, acountLayout, updateLayout, quite,baoquanLayout,findCarLayout;
+    private RelativeLayout pswLayout, newsLayout, myTeamLayout, protocalLayout, acountLayout, updateLayout, quite, baoquanLayout, findCarLayout;
     private AMapLocationClientOption mLocationOption;
     private String TAG = "UserCenterFragment";
     private TextView name, nickName, status;
@@ -168,6 +169,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         quite.setOnClickListener(this);
         baoquanLayout.setOnClickListener(this);
         findCarLayout.setOnClickListener(this);
+        auth_fail.setOnClickListener(this);
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
             //开启定位权限,200是标识码
@@ -210,12 +212,13 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     public void initDatas() {
         if (userBean != null) {
             Constants.isLogin = true;
+            auth_fail.setVisibility(View.INVISIBLE);
             name.setText(userBean.getCompanyName());
             nickName.setText(userBean.getNickname());
             if (userBean.getStatus().equals("AUTH_SUCCESS")) {
                 auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz2));
             } else if (userBean.getStatus().equals("AUTH_FAILURE")) {
-                auth_fail.setVisibility(View.INVISIBLE);
+                auth_fail.setVisibility(View.VISIBLE);
                 auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
             } else if (userBean.getStatus().equals("IN_AUTH")) {
                 auth_stutes.setImageDrawable(getResources().getDrawable(R.mipmap.mine_btn_rz3));
@@ -358,6 +361,14 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                     break;
                 case R.id.xunche_layout:
                     startActivity(new Intent(getActivity(), FindCarOrdersActivity.class));
+                    break;
+                case R.id.auth_fail_:
+                    Intent intent = new Intent(getContext(), AuthFailActivity.class);
+                    if (userBean.getRole().equals(" COMPANY")) {
+                        intent.putExtra("type", "company");
+                    } else
+                        intent.putExtra("type", "personal");
+                    startActivity(intent);
                     break;
             }
         else

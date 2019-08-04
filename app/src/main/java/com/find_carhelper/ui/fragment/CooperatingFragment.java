@@ -133,9 +133,9 @@ public class CooperatingFragment extends MVPBaseFragment implements OnItemClickL
                 }
                 if (viewName == MyCooperationOrderAdapter.ViewName.ITEM){
                     Intent intent2 = new Intent(getContext(), OrderDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("obj", list.get(position));
-                    intent2.putExtras(bundle);
+                    intent2.putExtra("obj",list.get(position));
+//                    bundle.putParcelable("obj", list.get(position));
+//                    intent2.putExtras(bundle);
                     startActivity(intent2);
                 }
             }

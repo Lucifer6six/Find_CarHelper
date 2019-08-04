@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -14,15 +16,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.find_carhelper.R;
+import com.find_carhelper.bean.AuthBean;
+import com.find_carhelper.bean.GroupAuthBean;
+import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.activity.AuthActivity;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.google.gson.Gson;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TResult;
@@ -44,25 +51,99 @@ import okhttp3.Response;
 public class GroupAuthFailFragment extends TakePhotoFragment {
     private ImageView mImageView;
     private CustomHelper customHelper;
-    private View commenView,contentView;
+    private View commenView, contentView;
     private Button takePhoto;
-    private EditText name,jcname,faren,sfz,tydm,address;
+    private EditText name, jcname, faren, sfz, tydm, address;
     private Button commitAction;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
     private final OkHttpClient client = new OkHttpClient();
     private String imgName;
     private boolean upload = false;
     public String businessName = "";
+    public String reason;
+    public GroupAuthBean userBean;
+    public TextView auth_fail_tips1;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       contentView =  LayoutInflater.from(getActivity()).inflate(R.layout.fragment_group_auth_fail, null);
+        contentView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_group_auth_fail, null);
 
-       initView();
-       return contentView;
+        initView();
+        return contentView;
     }
-    public void initView(){
-        commenView = LayoutInflater.from(getContext()).inflate(R.layout.common_layout,null);
+
+
+    public void getData() {
+        String url = Constants.SERVICE_NAME + Constants.AUTH_FAILED;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));//MobileInfoUtil.getIMEI(getContext())
+
+        // ...
+        NetRequest.getFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("TAG", result.toString());
+                if (!TextUtils.isEmpty(result)) {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String status = "";
+                    if (jsonObject.has("status")) {
+                        status = jsonObject.getString("status");
+                    }
+                    if (status.equals("200") || jsonObject.getString("code").equals("I00000")) {
+                        if (jsonObject.getString("success").equals("true")) {
+                            // Toast.makeText(getContext(), "查询成功", Toast.LENGTH_SHORT).show();
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                            Gson gson = new Gson();
+                            reason = jsonObject1.getString("reason");
+                            userBean = gson.fromJson(jsonObject1.getJSONObject("member").toString(), GroupAuthBean.class);
+                            handler.sendEmptyMessage(0);
+                        } else {
+                            //startIntent();
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if (status.equals("401") || status.equals("500")) {
+                            Toast.makeText(getContext(), "请重新登录", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "系统错误", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                Log.e("TAG", request.toString() + e.getMessage());
+            }
+        });
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            initDatas();
+        }
+    };
+
+    public void initDatas() {
+        name.setText(userBean.getCompanyName());
+        jcname.setText(userBean.getCompanyShortName());
+        address.setText(userBean.getCompanyAddress());
+        faren.setText(userBean.getLegalRepresentative());
+        sfz.setText(userBean.getIdCardNo());
+        tydm.setText(userBean.getUscc());
+        auth_fail_tips1.setText(reason);
+    }
+
+    public void initView() {
+        commenView = LayoutInflater.from(getContext()).inflate(R.layout.common_layout, null);
         customHelper = CustomHelper.of(commenView);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         mImageView = contentView.findViewById(R.id.img1);
@@ -72,37 +153,42 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         sfz = contentView.findViewById(R.id.faren_id);
         tydm = contentView.findViewById(R.id.tydm);
         address = contentView.findViewById(R.id.address);
+        auth_fail_tips1 = contentView.findViewById(R.id.auth_fail_tips1);
         commitAction = contentView.findViewById(R.id.commit);
         commitAction.setOnClickListener(v -> {
-            Log.e("TAG","commitAction");
+            Log.e("TAG", "commitAction");
             commitAction();
         });
         mImageView.setOnClickListener(v -> {
             takePhoto();
         });
+        getData();
     }
-    public void takePhoto(){
-        customHelper.onClick(takePhoto,getTakePhoto());
+
+    public void takePhoto() {
+        customHelper.onClick(takePhoto, getTakePhoto());
     }
+
     public GroupAuthFailFragment() {
         super();
     }
-    public void commitAction(){
+
+    public void commitAction() {
         String groupName = name.getText().toString();
         String groupJc = jcname.getText().toString();
         String groupFr = faren.getText().toString();
         String frsfz = sfz.getText().toString();
         String groupDm = tydm.getText().toString();
         String companyAddress = address.getText().toString();
-        if (!TextUtils.isEmpty(groupName)&&!TextUtils.isEmpty(groupJc)&&
-                !TextUtils.isEmpty(groupFr)&&!TextUtils.isEmpty(frsfz)&&!TextUtils.isEmpty(groupDm)&&upload){
+        if (!TextUtils.isEmpty(groupName) && !TextUtils.isEmpty(groupJc) &&
+                !TextUtils.isEmpty(groupFr) && !TextUtils.isEmpty(frsfz) && !TextUtils.isEmpty(groupDm) && upload) {
 
 
-            String url = Constants.SERVICE_NAME+Constants.REGISTER_GROUP;
+            String url = Constants.SERVICE_NAME + Constants.RE_AUTH_COMPANY;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
             params.put("deviceId", Constants.ID);
-            params.put("accessToken", SharedPreferencesUtil.getString(getContext(),"token"));
+            params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
             params.put("companyName", groupName);
             params.put("companyShortName", groupJc);
             params.put("uscc", groupDm);
@@ -110,42 +196,43 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
             params.put("idCardNo", frsfz);
             params.put("businessLicenseImgUrl", businessName);
             params.put("companyAddress", companyAddress);
+            params.put("memberCode", userBean.getMemberCode());
             // ...
             NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
                 @Override
                 public void requestSuccess(String result) throws Exception {
                     // 请求成功的回调
-                    Log.e("TAG",result.toString());
-                    if (!TextUtils.isEmpty(result)){
+                    Log.e("TAG", result.toString());
+                    if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject = new JSONObject(result);
-                        if (jsonObject.getString("success").equals("true")){
-                            Toast.makeText(getContext(),"提交成功",Toast.LENGTH_SHORT).show();
+                        if (jsonObject.getString("success").equals("true")) {
+                            Toast.makeText(getContext(), "提交成功", Toast.LENGTH_SHORT).show();
                             lockStatus();
-                        }else{
-                            Toast.makeText(getContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
-                            ;
+                        ;
                     }
                 }
 
                 @Override
                 public void requestFailure(Request request, IOException e) {
                     // 请求失败的回调
-                    Log.e("TAG",request.toString()+e.getMessage());
+                    Log.e("TAG", request.toString() + e.getMessage());
                 }
             });
-            Log.e("TAG","commitAction");
-        }else {
-            if (!upload){
-                Toast.makeText(getContext(),"请上传营业执照以及填写完整信息",Toast.LENGTH_SHORT).show();
-            }else
-                Toast.makeText(getContext(),"请填写完整信息",Toast.LENGTH_SHORT).show();
+            Log.e("TAG", "commitAction");
+        } else {
+            if (!upload) {
+                Toast.makeText(getContext(), "请上传营业执照以及填写完整信息", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(getContext(), "请填写完整信息", Toast.LENGTH_SHORT).show();
         }
 
 
     }
 
-    public void lockStatus(){
+    public void lockStatus() {
 
         name.setEnabled(false);
         jcname.setEnabled(false);
@@ -156,8 +243,8 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         commitAction.setBackgroundColor(getResources().getColor(R.color.back_ground_gray));
         AuthActivity.GroupAuth = true;
         //if (AuthActivity.GroupAuth&&AuthActivity.IdentityAuth){
-            getActivity().finish();
-       // }
+        getActivity().finish();
+        // }
     }
 
     @Override
@@ -176,26 +263,26 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
     }
 
     @Override
-    public void takeSuccess(TResult result){
+    public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         Bitmap bitmap = BitmapFactory.decodeFile(result.getImage().getCompressPath());
         imgName = result.getImage().getOriginalPath();
         mImageView.setImageBitmap(bitmap);
 
-            new Thread(){
-                @Override
-                public void run() {
-                    super.run();
-                    try{
-                       String response = uploadImage(Constants.ID,new File(result.getImage().getCompressPath()));
-                        JSONObject  myJson = new JSONObject(response);
-                        JSONObject jsonObject = myJson.getJSONObject("data");
-                        businessName = jsonObject.getString("name");
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    String response = uploadImage(Constants.ID, new File(result.getImage().getCompressPath()));
+                    JSONObject myJson = new JSONObject(response);
+                    JSONObject jsonObject = myJson.getJSONObject("data");
+                    businessName = jsonObject.getString("name");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }.start();
+            }
+        }.start();
 
 
     }
@@ -209,7 +296,8 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
     public void takeCancel() {
         super.takeCancel();
     }
-    public String  uploadImage(String userName, File file) throws Exception{
+
+    public String uploadImage(String userName, File file) throws Exception {
 
         //2.创建RequestBody
         RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
@@ -219,12 +307,12 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", "testImage.png", fileBody)
                 .addFormDataPart("deviceId", Constants.ID)
-                .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getContext(),"token"))
+                .addFormDataPart("accessToken", SharedPreferencesUtil.getString(getContext(), "token"))
                 .build();
 
         //4.构建请求
         Request request = new Request.Builder()
-                .url("http://39.100.119.162:9090/onstage/upload/company/businessLicense")
+                .url(Constants.SERVICE_NAME + "/upload/company/businessLicense")
                 .post(requestBody)
                 .build();
 
@@ -232,16 +320,16 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         Response response = client.newCall(request).execute();
         String re = response.body().string();
         String header = response.header("accessToken");
-        if (!TextUtils.isEmpty(header)){
-            SharedPreferencesUtil.putString(Application.getContext(),"token",header);
+        if (!TextUtils.isEmpty(header)) {
+            SharedPreferencesUtil.putString(Application.getContext(), "token", header);
         }
-        if (response.code() == 200){
+        if (response.code() == 200) {
             upload = true;
         }
         if (response.code() == 200) {
             return re;
         }
-       return "";
+        return "";
     }
 
 }

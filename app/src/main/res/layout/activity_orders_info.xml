@@ -68,9 +68,9 @@
                         android:id="@+id/car_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_margin="@dimen/margin_15"
                         android:text="2018款CT6-铂金版"
-                        android:layout_centerVertical="true"
                         android:textSize="@dimen/text_size_18"
                         android:textStyle="bold" />
 
@@ -78,10 +78,10 @@
                         android:id="@+id/car_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:layout_marginTop="@dimen/margin_15"
                         android:layout_marginBottom="@dimen/margin_15"
-                        android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/car_type"
                         android:background="@mipmap/dd_cp1_bg"
                         android:text="苏A3ZOKJ"
@@ -95,8 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:layout_marginBottom="@dimen/margin_10"
-                    >
+                    android:layout_marginBottom="@dimen/margin_10">
 
                     <TextView
                         android:id="@+id/car_no"
@@ -134,16 +133,15 @@
                 android:layout_below="@+id/edit_psw"
                 android:layout_marginTop="@dimen/margin_15"
                 android:background="@drawable/round_square"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_15"
                     android:text="车辆及承租人信息"
                     android:textSize="@dimen/text_size_15"
-                    android:layout_margin="@dimen/margin_15"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -151,8 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/margin_10"
-                    >
+                    android:padding="@dimen/margin_10">
 
                 </LinearLayout>
 
@@ -165,8 +162,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -255,9 +251,10 @@
                         android:text="承租人姓名"
                         android:textColor="@color/text_color_gray" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_50"/>
+                    android:layout_height="@dimen/dp_50" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -61,6 +61,7 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
                         + "/" + list.get(position).getPartya()
                 );
                 holder.money.setText(list.get(position).getRewardAmount());
+                holder.accept_orders.setText(list.get(position).getOrderMemberCount());
                // String text = list.get(position).getOrderStatusName();
             }
 
@@ -95,6 +96,7 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
         TextView carNo;
         TextView address_tips;
         TextView money;
+        TextView accept_orders;
         Button acept_order;
 
         public RepairViewHolder(View itemView) {
@@ -105,6 +107,7 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
             address_tips = itemView.findViewById(R.id.address_tips);
             money = itemView.findViewById(R.id.money);
             acept_order = itemView.findViewById(R.id.acept_order);
+            accept_orders = itemView.findViewById(R.id.accept_orders);
             acept_order.setOnClickListener(FindCarListAdapter.this);
         }
     }

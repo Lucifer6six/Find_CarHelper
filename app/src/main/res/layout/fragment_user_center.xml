@@ -6,7 +6,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="190dp"
         android:background="@color/colorPrimary" />
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_65"
+        android:layout_marginTop="@dimen/margin_50"
         android:text="您尚未登录"
         android:textColor="@color/back_ground_white"
         android:textSize="@dimen/text_size_20" />
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/little_nick_name"
         android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_15"
         android:layout_toRightOf="@+id/auth_stutes"
         android:background="@mipmap/mine_btn_rz1_bg"
         android:gravity="center"
@@ -59,7 +59,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginTop="@dimen/margin_40"
         android:layout_marginRight="@dimen/margin_15"
         android:src="@mipmap/mine_icon_user1" />
 
@@ -67,12 +67,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/auth_stutes"
-        >
+        android:layout_marginTop="@dimen/margin_15">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_40"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -80,10 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
-
                 android:layout_marginRight="@dimen/margin_15"
                 android:background="@drawable/round_square"
-                android:padding="@dimen/margin_15">
+                android:padding="@dimen/margin_10">
 
                 <ImageView
                     android:id="@+id/icon_psw"
@@ -111,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_psw"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_15"
                 android:background="@drawable/round_square"
                 android:orientation="vertical">
@@ -120,7 +118,7 @@
                     android:id="@+id/acount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_15">
+                    android:padding="@dimen/margin_10">
 
                     <ImageView
                         android:id="@+id/icon_acount"
@@ -153,7 +151,7 @@
                     android:id="@+id/team"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_15">
+                    android:padding="@dimen/margin_10">
 
                     <ImageView
                         android:id="@+id/icon_team"
@@ -176,95 +174,105 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/baoquan_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/about_me"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginTop="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_15"
-                android:background="@drawable/round_square"
-                android:padding="@dimen/margin_15">
-
-                <ImageView
-                    android:id="@+id/icon_baoquan"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/mine_menu_icon70" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_20"
-                    android:layout_toRightOf="@+id/icon_baoquan"
-                    android:text="保全订单" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="22dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/mine_icon_arrow1" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/xunche_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/about_me"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_15"
-                android:background="@drawable/round_square"
-                android:padding="@dimen/margin_15">
-
-                <ImageView
-                    android:id="@+id/icon_xunche"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/mine_menu_icon80" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_20"
-                    android:layout_toRightOf="@+id/icon_xunche"
-                    android:text="寻车订单" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="22dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/mine_icon_arrow1" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/news_center"
+            <LinearLayout
+                android:id="@+id/order_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_15"
                 android:background="@drawable/round_square"
-                android:padding="@dimen/margin_15">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/icon_news"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/mine_menu_icon4" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/baoquan_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_20"
-                    android:layout_toRightOf="@+id/icon_news"
-                    android:text="消息中心" />
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:padding="@dimen/margin_10">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="22dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/mine_icon_arrow1" />
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/icon_baoquan"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@mipmap/mine_menu_icon70" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_20"
+                        android:layout_toRightOf="@+id/icon_baoquan"
+                        android:text="保全订单" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/mine_icon_arrow1" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@color/back_ground_gray" />
+                <RelativeLayout
+                    android:id="@+id/xunche_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_10">
+
+                    <ImageView
+                        android:id="@+id/icon_xunche"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@mipmap/mine_menu_icon80" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_20"
+                        android:layout_toRightOf="@+id/icon_xunche"
+                        android:text="寻车订单" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/mine_icon_arrow1" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@color/back_ground_gray" />
+                <RelativeLayout
+                    android:id="@+id/news_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_10">
+
+                    <ImageView
+                        android:id="@+id/icon_news"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@mipmap/mine_menu_icon4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_20"
+                        android:layout_toRightOf="@+id/icon_news"
+                        android:text="消息中心" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/mine_icon_arrow1" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/other"
@@ -272,7 +280,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/news_center"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_15"
                 android:background="@drawable/round_square"
                 android:orientation="vertical">
@@ -281,7 +289,7 @@
                     android:id="@+id/protocal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_15">
+                    android:padding="@dimen/margin_10">
 
                     <ImageView
                         android:id="@+id/icon_protocal"
@@ -314,7 +322,7 @@
                     android:id="@+id/update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_15">
+                    android:padding="@dimen/margin_10">
 
                     <ImageView
                         android:id="@+id/icon_update"
@@ -352,10 +360,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/other"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_15"
                 android:background="@drawable/round_square"
-                android:padding="@dimen/margin_15">
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:layout_width="wrap_content"

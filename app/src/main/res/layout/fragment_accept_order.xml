@@ -5,12 +5,50 @@
     android:background="@color/back_ground_gray"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_30"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:text="保全车辆"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20" />
+
+        <ImageView
+            android:id="@+id/imageOrders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_10"
+            android:padding="@dimen/margin_10"
+            android:src="@mipmap/icon_order2" />
+
+        <TextView
+            android:id="@+id/order_no"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_10"
+            android:background="@drawable/round_circle_for_jiaobiao"
+            android:gravity="center"
+            android:text="10"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/margin_10"
-        >
+        android:padding="@dimen/margin_10">
 
         <RelativeLayout
             android:id="@+id/area_layout"
@@ -22,13 +60,12 @@
                 android:id="@+id/areaTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="全部区域"
-                android:textSize="@dimen/text_size_16"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_10"
-                android:drawablePadding="@dimen/padding_10"
                 android:drawableRight="@mipmap/jd_icon_arrow1"
-                />
+                android:drawablePadding="@dimen/padding_10"
+                android:text="全部区域"
+                android:textSize="@dimen/text_size_16" />
 
         </RelativeLayout>
 
@@ -42,21 +79,20 @@
                 android:id="@+id/timeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="全部赏金"
-                android:textSize="@dimen/text_size_16"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_10"
-                android:drawablePadding="@dimen/padding_10"
                 android:drawableRight="@mipmap/jd_icon_arrow1"
-                />
+                android:drawablePadding="@dimen/padding_10"
+                android:text="全部赏金"
+                android:textSize="@dimen/text_size_16" />
 
         </RelativeLayout>
 
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_10"
-        />
+        android:layout_margin="@dimen/margin_10" />
 </LinearLayout>

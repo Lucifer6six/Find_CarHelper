@@ -19,6 +19,8 @@ import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.base.MVPBaseActivity;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.utils.ToastUtil;
+import com.find_carhelper.widgets.MarkerOrderPopWindow;
+import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -66,7 +68,7 @@ public class CarDetailActivity extends MVPBaseActivity implements View.OnClickLi
 
     @Override
     protected void initData() {
-        carBean = getIntent().getParcelableExtra("obj");
+        carBean = (CarBean) getIntent().getSerializableExtra("obj");
         if (carBean != null) {
             setValue();
         }
@@ -122,7 +124,7 @@ public class CarDetailActivity extends MVPBaseActivity implements View.OnClickLi
                 .setCountDownEndListener(new CountDownView.CountDownEndListener() {
                     @Override
                     public void onCountDownEnd() {
-                        Toast.makeText(mContext, "倒计时结束", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext, "倒计时结束", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -142,10 +144,17 @@ public class CarDetailActivity extends MVPBaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         //startActivity(new Intent(CarDetailActivity.this, RequestInStoreActivity.class));
-        if (!carBean.getStatus().equals("已被抢"))
-            acceptOrderAction();
-        else
-            ToastUtil.makeShortText("该订单已被抢",getApplicationContext());
+        if (!carBean.getStatus().equals("已被抢")) {
+            new ToolDateSelectorPopWindow(CarDetailActivity.this, new MarkerOrderPopWindow.getdata() {
+                @Override
+                public void getdatas(String str) {
+                    if (str.equals("1")) {
+                        acceptOrderAction();
+                    }
+                }
+            }).showPopupWindow();
+        } else
+            ToastUtil.makeShortText("该订单已被抢", CarDetailActivity.this);
     }
 
     public void acceptOrderAction() {

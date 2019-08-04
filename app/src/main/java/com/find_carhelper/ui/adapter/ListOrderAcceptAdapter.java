@@ -94,7 +94,7 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
                 .setCountDownEndListener(new CountDownView.CountDownEndListener() {
                     @Override
                     public void onCountDownEnd() {
-                        Toast.makeText(mContext, "倒计时结束", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext, "倒计时结束", Toast.LENGTH_SHORT).show();
                     }
                 });
 

@@ -2,6 +2,7 @@ package com.find_carhelper.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.chendong.gank.library.SuperBadgeHelper;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
 import com.find_carhelper.bean.CardBean;
@@ -30,6 +33,7 @@ import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
 import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.presenter.BasePresenter;
+import com.find_carhelper.ui.activity.BaoQuanActivity;
 import com.find_carhelper.ui.activity.CarDetailActivity;
 import com.find_carhelper.ui.activity.LoginActivity;
 import com.find_carhelper.ui.adapter.ListOrderAcceptAdapter;
@@ -61,7 +65,7 @@ import okhttp3.Request;
 public class AcceptOrderFragment extends MVPBaseFragment {
 
     private RelativeLayout areaSelectedLayout, timeSelectedLayout;
-    private TextView areaSelectedTv, timeSelectedTv;
+    private TextView areaSelectedTv, timeSelectedTv, order_no;
 
     private List<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<CityBean>> options2Items = new ArrayList<>();
@@ -87,6 +91,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     public boolean loadMoreFlag = true;
     public int pageNum = 1;
     public String isLasePage;
+    public ImageView imageOrders;
+    public String orderNum;
+    public boolean alreadyInit = false;
 
     public static Fragment newInstance() {
         AcceptOrderFragment fragment = new AcceptOrderFragment();
@@ -122,6 +129,14 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
     @Override
     protected void onUserVisible() {
+        Log.e("tag", "onUserVisible");
+        minMoney = "";
+        maxMoney = "";
+        queryCode = "";
+        queryCode1 = "";
+        areaSelectedTv.setText("全部区域");
+        timeSelectedTv.setText("全部赏金");
+        loadingDialog.loading();
         getProvinceData();
         getCarData();
     }
@@ -140,8 +155,8 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         recycleListView = mRootView.findViewById(R.id.list_orders);
         areaSelectedTv = mRootView.findViewById(R.id.areaTv);
         timeSelectedTv = mRootView.findViewById(R.id.timeTv);
-
-
+        imageOrders = mRootView.findViewById(R.id.imageOrders);
+        order_no = mRootView.findViewById(R.id.order_no);
         areaSelectedLayout.setOnClickListener(view -> {
             if (isLoaded) {
                 showAreaPickView();
@@ -153,6 +168,11 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         });
         timeSelectedLayout.setOnClickListener(view -> {
             showTimePickView();
+
+        });
+        imageOrders.setOnClickListener(view -> {
+
+            startActivity(new Intent(getContext(), BaoQuanActivity.class));
 
         });
         // initAdapter();
@@ -211,9 +231,10 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
                     if (Constants.canOrder) {
                         Intent intent = new Intent(getContext(), CarDetailActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("obj", list.get(position));
-                        intent.putExtras(bundle);
+                        intent.putExtra("obj", list.get(position));
+//                        Bundle bundle = new Bundle();
+//                        bundle.("obj", list.get(position));
+//                        intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 }
@@ -288,6 +309,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                         options3Items.get(options1).get(options2).get(options3).getName() : "";
 
                 String tx = opt1tx + "-" + opt2tx;
+                if (opt1tx.equals("全部") && opt2tx.equals("全部")) {
+                    tx = "全部区域";
+                }
                 if (!opt2tx.equals("全部")) {
                     if (!TextUtils.isEmpty(opt2tx)) {
                         queryCode = options2Items.get(options1).get(options2).getCode();
@@ -342,7 +366,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
 
                 String tx = opt1tx + " ~ " + opt2tx;
-                //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
+                if (opt1tx.equals("全部赏金")) {
+                    tx = "全部赏金";
+                }
                 timeSelectedTv.setText(tx);
                 minMoney = opt1tx;
                 maxMoney = opt2tx;
@@ -376,7 +402,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        Log.e("tag", "onResume");
         String token = SharedPreferencesUtil.getString(getContext(), "token");
         if (!TextUtils.isEmpty(token)) {
             loadingDialog.loading();
@@ -485,6 +511,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                         } else {
                             Constants.canOrder = false;
                         }
+                        orderNum = jsonObject1.getString("orderCount");
                         Message msg = new Message();
                         msg.obj = jsonObject1.getJSONArray("provinceList").toString();
                         msg.what = 4;
@@ -612,6 +639,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 case 4:
                     String result = (String) msg.obj;
                     initJsonData(result);
+                    if (!TextUtils.isEmpty(orderNum)) {
+                        initCountView();//初始化角标
+                    }
                     break;
                 case 5:
                     loadingDialog.cancel();
@@ -639,6 +669,13 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             }
         }
     };
+
+    /*初始化角标*/
+    public void initCountView() {
+        Log.e("TAG", "count = " + orderNum);
+        //SuperBadgeHelper.init(getActivity(), imageOrders, "R.id.imageOrders", Integer.parseInt(orderNum), SuperBadgeHelper.STYLE_DEFAULT);
+        order_no.setText(orderNum);
+    }
 
     public ArrayList<JsonBean> parseData(String result) {//Gson 解析
         ArrayList<JsonBean> detail = new ArrayList<>();

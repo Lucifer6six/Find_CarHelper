@@ -329,7 +329,7 @@ public class ReUploadImageActivity extends TakePhotoActivity {
 
         //4.构建请求
         Request request = new Request.Builder()
-                .url("http://39.100.119.162:9090/onstage/upload/vehicle/retrieve/garage/apply/reject")
+                .url(Constants.SERVICE_NAME+"/upload/vehicle/retrieve/garage/apply/reject")
                 .post(requestBody)
                 .build();
 

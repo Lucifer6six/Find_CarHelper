@@ -46,7 +46,7 @@ public class OrderDetailActivity extends MVPBaseActivity implements View.OnClick
 
     @Override
     protected void initData() {
-        carBean = getIntent().getParcelableExtra("obj");
+        carBean = (CarBean) getIntent().getSerializableExtra("obj");
         if (carBean != null) {
             setValue();
         }

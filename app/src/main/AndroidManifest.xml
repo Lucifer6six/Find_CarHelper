@@ -23,11 +23,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.BaoQuanActivity"></activity>
-        <activity android:name=".ui.activity.RequestCompleteFailActivity"></activity>
-        <activity android:name=".ui.activity.OrderDetailActivity"></activity>
-        <activity android:name=".ui.activity.CarDetailActivity"></activity>
-        <activity android:name=".ui.activity.AuthFailActivity"></activity>
+        <activity android:name=".ui.activity.ShowImageActivity"></activity>
+        <activity android:name=".ui.activity.BaoQuanActivity" />
+        <activity android:name=".ui.activity.RequestCompleteFailActivity" />
+        <activity android:name=".ui.activity.OrderDetailActivity" />
+        <activity android:name=".ui.activity.CarDetailActivity" />
+        <activity android:name=".ui.activity.AuthFailActivity" />
         <activity android:name=".ui.activity.RequesCompleteActivity" />
         <activity android:name=".ui.activity.OrdersInfoActivity" />
         <activity android:name=".ui.activity.FindCarOrderActivity" />
