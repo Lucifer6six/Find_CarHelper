@@ -27,12 +27,9 @@ import com.find_carhelper.ui.adapter.MyImageUploadAdapter;
 import com.find_carhelper.ui.adapter.MyImageUploadAdapter2;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.SharedPreferencesUtil;
-import com.find_carhelper.widgets.MarkerOrderPopWindow;
 import com.find_carhelper.widgets.MyDialog;
 import com.find_carhelper.widgets.OnItemClickListeners;
-import com.find_carhelper.widgets.TakePhotoSelectPopWindow;
 import com.jph.takephoto.app.TakePhotoActivity;
-import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
@@ -247,7 +244,7 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
     }
     public void showSelectDialog(){
         MyDialog dialogHistory = new MyDialog(RequestInStoreActivity.this, R.style.dialog_theme_pick);
-        dialogHistory.setTextTitle("确定清除历史搜索缓存");
+        dialogHistory.setTextTitle("请选择照片来源");
         dialogHistory.setOnDialogClickListener(new MyDialog.onDialogListener() {
 
             @Override
@@ -370,14 +367,14 @@ public class RequestInStoreActivity extends TakePhotoActivity implements OnItemC
                 .build();
 
         //4.构建请求
+        String url = Constants.SERVICE_NAME+"/upload/vehicle/retrieve/garage/apply";
         Request request = new Request.Builder()
-                .url(Constants.SERVICE_NAME+"/onstage/upload/vehicle/retrieve/garage/apply")
+                .url(url)
                 .post(requestBody)
                 .build();
 
         //5.发送请求
         Response response = client.newCall(request).execute();
-        String re = response.toString();
         String header = response.header("accessToken");
         if (!TextUtils.isEmpty(header)){
             SharedPreferencesUtil.putString(Application.getContext(),"token",header);

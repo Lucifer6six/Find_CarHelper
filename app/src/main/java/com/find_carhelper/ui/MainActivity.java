@@ -9,15 +9,22 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.find_carhelper.R;
 import com.find_carhelper.entity.EventCenter;
+import com.find_carhelper.http.Constants;
 import com.find_carhelper.presenter.BasePresenter;
 import com.find_carhelper.ui.activity.BaoQuanActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
@@ -38,7 +45,43 @@ import java.util.Locale;
 public class MainActivity extends MVPBaseActivity {
     private NoCacheViewPager mViewPager;
     BottomNavigationView bottomNavigationView;
-
+    private AMapLocationClient mLocationClient;
+    private AMapLocationClientOption mLocationOption;
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    //定位成功回调信息，设置相关消息
+                    Log.i(TAG, "当前定位结果来源-----" + amapLocation.getLocationType());//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    Log.i(TAG, "纬度 ----------------" + amapLocation.getLatitude());//获取纬度
+                    Log.i(TAG, "经度-----------------" + amapLocation.getLongitude());//获取经度
+                    Constants.Latitude = ""+amapLocation.getLatitude();
+                    Constants.Longitude = ""+amapLocation.getLongitude();
+                    Log.i(TAG, "精度信息-------------" + amapLocation.getAccuracy());//获取精度信息
+                    Log.i(TAG, "地址-----------------" + amapLocation.getAddress());//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    Log.i(TAG, "国家信息-------------" + amapLocation.getCountry());//国家信息
+                    Log.i(TAG, "省信息---------------" + amapLocation.getProvince());//省信息
+                    Constants.Province = ""+amapLocation.getProvince();
+                    Toast.makeText(MainActivity.this, amapLocation.getProvince() + amapLocation.getCity(), Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "城市信息-------------" + amapLocation.getCity());//城市信息
+                    Constants.City = ""+amapLocation.getCity();
+                    Log.i(TAG, "城区信息-------------" + amapLocation.getDistrict());//城区信息
+                    Constants.District = ""+amapLocation.getDistrict();
+                    Log.i(TAG, "街道信息-------------" + amapLocation.getStreet());//街道信息
+                    Log.i(TAG, "街道门牌号信息-------" + amapLocation.getStreetNum());//街道门牌号信息
+                    Log.i(TAG, "城市编码-------------" + amapLocation.getCityCode());//城市编码
+                    Log.i(TAG, "地区编码-------------" + amapLocation.getAdCode());//地区编码
+                    Log.i(TAG, "当前定位点的信息-----" + amapLocation.getAoiName());//获取当前定位点的AOI信息
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
     @Override
     protected boolean isBindEventBusHere() {
         return false;
@@ -108,8 +151,35 @@ public class MainActivity extends MVPBaseActivity {
             }
         });
         bottomNavigationView.findViewById(R.id.navigation_main).performClick();
-    }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+            //开启定位权限,200是标识码
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        } else {
+            startLocaion();//开始定位
+        }
 
+    }
+    public void startLocaion() {
+        Log.e(TAG, "开始定位");
+        mLocationClient = new AMapLocationClient(MainActivity.this);
+        mLocationClient.setLocationListener(mLocationListener);
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //获取一次定位结果：
+        //该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
     /**
      * 初始化fragment
      */

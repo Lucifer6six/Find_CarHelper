@@ -36,6 +36,7 @@ import com.jph.takephoto.model.TResult;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.json.JSONObject;
 
@@ -73,7 +74,7 @@ public class IdentityAuthFailFragment extends TakePhotoFragment implements View.
     public AuthBean userBean;
     public TextView auth_fail_tips1;
     public Context context;
-
+    public CommonTitleBar mTitleBar;
     public IdentityAuthFailFragment() {
         super();
     }
@@ -120,7 +121,7 @@ public class IdentityAuthFailFragment extends TakePhotoFragment implements View.
                 .build();
         //4.构建请求
         Request request = new Request.Builder()
-                .url(Constants.SERVICE_NAME + "/onstage/upload/person/idcard")
+                .url(Constants.SERVICE_NAME + "/upload/person/idcard")
                 .post(requestBody)
                 .build();
         //5.发送请求
@@ -166,11 +167,19 @@ public class IdentityAuthFailFragment extends TakePhotoFragment implements View.
         name = contentView.findViewById(R.id.name);
         id = contentView.findViewById(R.id.id);
         auth_fail_tips1 = contentView.findViewById(R.id.auth_fail_tips1);
+        mTitleBar = contentView.findViewById(R.id.title_bar);
         mImageView1 = contentView.findViewById(R.id.img1);
         mImageView2 = contentView.findViewById(R.id.img2);
         mImageView3 = contentView.findViewById(R.id.img3);
         commitAction = contentView.findViewById(R.id.commit);
-
+        mTitleBar.setListener(new CommonTitleBar.OnTitleBarListener() {
+            @Override
+            public void onClicked(View v, int action, String extra) {
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
+                    getActivity().finish();
+                }
+            }
+        });
         mImageView1.setOnClickListener(this);
         mImageView2.setOnClickListener(this);
         mImageView3.setOnClickListener(this);
@@ -237,7 +246,7 @@ public class IdentityAuthFailFragment extends TakePhotoFragment implements View.
     };
 
     public void initDatas() {
-        auth_fail_tips1.setText("1." + reason);
+        auth_fail_tips1.setText(reason);
         name.setText(userBean.getRealName());
         id.setText(userBean.getIdCardNo());
         if (userBean.getIdCardObverseImgUrl() != null) {
@@ -372,7 +381,6 @@ public class IdentityAuthFailFragment extends TakePhotoFragment implements View.
                             imageName3 = imageName;
                             break;
                     }
-
                 } else
                     Toast.makeText(getContext(), "上传失败", Toast.LENGTH_LONG).show();
             } catch (Exception e) {

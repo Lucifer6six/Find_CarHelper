@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class OrdersInfoActivity extends MVPBaseActivity implements View.OnClickL
     public LinearLayout imgLayout;
     public List<String> list;
     DisplayImageOptions mOptions;
+    RelativeLayout noDataLayout;
     FindCarInfo findCarInfo;
     public TextView accept_orders_time, car_type, car_id, car_no, address_tips, money;
 
@@ -65,7 +67,7 @@ public class OrdersInfoActivity extends MVPBaseActivity implements View.OnClickL
         car_no = findViewById(R.id.car_no);
         address_tips = findViewById(R.id.address_tips);
         money = findViewById(R.id.money);
-
+        noDataLayout = findViewById(R.id.no_data_layout);
 
         request_complete = findViewById(R.id.request_complete);
         request_complete.setOnClickListener(view -> {
@@ -187,8 +189,8 @@ public class OrdersInfoActivity extends MVPBaseActivity implements View.OnClickL
                 view.setOnClickListener(this);
                 imgLayout.addView(view);
             }
-
-
+        }else{
+            noDataLayout.setVisibility(View.VISIBLE);
         }
 
 

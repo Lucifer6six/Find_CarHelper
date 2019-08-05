@@ -1,5 +1,6 @@
 package com.find_carhelper.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,10 +30,15 @@ import com.find_carhelper.http.NetRequest;
 import com.find_carhelper.ui.activity.AuthActivity;
 import com.find_carhelper.utils.CustomHelper;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoFragment;
 import com.jph.takephoto.model.TResult;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 import org.json.JSONObject;
 
@@ -63,12 +69,13 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
     public String reason;
     public GroupAuthBean userBean;
     public TextView auth_fail_tips1;
-
+    public Context context;
+    public CommonTitleBar title_bar;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         contentView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_group_auth_fail, null);
-
+        context = getContext();
         initView();
         return contentView;
     }
@@ -140,6 +147,16 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         sfz.setText(userBean.getIdCardNo());
         tydm.setText(userBean.getUscc());
         auth_fail_tips1.setText(reason);
+        if (userBean.getBusinessLicenseImgUrl() != null) {
+            ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context).writeDebugLogs().build();
+            ImageLoader.getInstance().init(configuration);
+            DisplayImageOptions mOptions = new DisplayImageOptions.Builder()
+                    .cacheInMemory(false).cacheOnDisc(false)
+                    .bitmapConfig(Bitmap.Config.RGB_565).build();
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            imageLoader.displayImage(userBean.getBusinessLicenseImgUrl(), mImageView);
+
+        }
     }
 
     public void initView() {
@@ -147,6 +164,7 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         customHelper = CustomHelper.of(commenView);
         takePhoto = commenView.findViewById(R.id.btnPickByTake);
         mImageView = contentView.findViewById(R.id.img1);
+        title_bar = contentView.findViewById(R.id.title_bar);
         name = contentView.findViewById(R.id.name);
         jcname = contentView.findViewById(R.id.id);
         faren = contentView.findViewById(R.id.faren);
@@ -155,6 +173,14 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         address = contentView.findViewById(R.id.address);
         auth_fail_tips1 = contentView.findViewById(R.id.auth_fail_tips1);
         commitAction = contentView.findViewById(R.id.commit);
+        title_bar.setListener(new CommonTitleBar.OnTitleBarListener() {
+            @Override
+            public void onClicked(View v, int action, String extra) {
+                if (action == CommonTitleBar.ACTION_LEFT_BUTTON) {
+                    getActivity().finish();
+                }
+            }
+        });
         commitAction.setOnClickListener(v -> {
             Log.e("TAG", "commitAction");
             commitAction();
@@ -182,8 +208,6 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         String companyAddress = address.getText().toString();
         if (!TextUtils.isEmpty(groupName) && !TextUtils.isEmpty(groupJc) &&
                 !TextUtils.isEmpty(groupFr) && !TextUtils.isEmpty(frsfz) && !TextUtils.isEmpty(groupDm) && upload) {
-
-
             String url = Constants.SERVICE_NAME + Constants.RE_AUTH_COMPANY;
             HashMap<String, String> params = new HashMap<>();
             // 添加请求参数
@@ -211,10 +235,8 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
                         } else {
                             Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
-                        ;
                     }
                 }
-
                 @Override
                 public void requestFailure(Request request, IOException e) {
                     // 请求失败的回调
@@ -228,12 +250,9 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
             } else
                 Toast.makeText(getContext(), "请填写完整信息", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     public void lockStatus() {
-
         name.setEnabled(false);
         jcname.setEnabled(false);
         faren.setEnabled(false);
@@ -325,11 +344,11 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         }
         if (response.code() == 200) {
             upload = true;
+            ToastUtil.makeLongText("上传成功",context);
         }
         if (response.code() == 200) {
             return re;
         }
         return "";
     }
-
 }

@@ -76,7 +76,6 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="-10dp"
-                    android:layout_marginTop="@dimen/margin_5"
                     android:layout_toRightOf="@+id/find_car"
                     android:background="@drawable/round_circle_for_jiaobiao"
                     android:gravity="center"

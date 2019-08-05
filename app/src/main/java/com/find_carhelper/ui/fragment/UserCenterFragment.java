@@ -170,14 +170,13 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         baoquanLayout.setOnClickListener(this);
         findCarLayout.setOnClickListener(this);
         auth_fail.setOnClickListener(this);
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
-            //开启定位权限,200是标识码
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
-        } else {
-            startLocaion();//开始定位
-            // Toast.makeText(getContext(),"已开启定位权限",Toast.LENGTH_LONG).show();
-        }
+//        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+//            //开启定位权限,200是标识码
+//            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+//        } else {
+//            startLocaion();//开始定位
+//        }
         auth_stutes.setOnClickListener(this);
         initLoading();
     }
@@ -364,7 +363,7 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                     break;
                 case R.id.auth_fail_:
                     Intent intent = new Intent(getContext(), AuthFailActivity.class);
-                    if (userBean.getRole().equals(" COMPANY")) {
+                    if (userBean.getRole().equals("COMPANY")) {
                         intent.putExtra("type", "company");
                     } else
                         intent.putExtra("type", "personal");

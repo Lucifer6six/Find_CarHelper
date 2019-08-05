@@ -2,8 +2,6 @@ package com.find_carhelper.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.nfc.Tag;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -12,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,13 +18,11 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.chendong.gank.library.SuperBadgeHelper;
 import com.find_carhelper.R;
 import com.find_carhelper.bean.CarBean;
 import com.find_carhelper.bean.CardBean;
 import com.find_carhelper.bean.CityBean;
 import com.find_carhelper.bean.JsonBean;
-import com.find_carhelper.bean.UserBean;
 import com.find_carhelper.entity.EventCenter;
 import com.find_carhelper.http.Application;
 import com.find_carhelper.http.Constants;
@@ -41,11 +36,9 @@ import com.find_carhelper.ui.adapter.LoadMoreWrapper;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.ui.listener.EndlessRecyclerOnScrollListener;
 import com.find_carhelper.utils.GetJsonDataUtil;
-import com.find_carhelper.utils.MobileInfoUtil;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.utils.ToastUtil;
 import com.find_carhelper.widgets.MarkerOrderPopWindow;
-import com.find_carhelper.widgets.OnItemClickListeners;
 import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
 import com.google.gson.Gson;
 import com.wega.library.loadingDialog.LoadingDialog;
@@ -267,8 +260,11 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                         JSONObject jsonObject = JSON.parseObject(result);
                         if (jsonObject.getString("success").equals("true")) {
                             String countDown = jsonObject.getString("data");
-                            carBeans.get(position).setCountdown(countDown);
-                            mListOrderAcceptAdapter.notifyItemChanged(position);
+                           // carBeans.get(position).setCountdown(countDown);
+                            //mListOrderAcceptAdapter.notifyItemChanged(position);
+                            getCarData();
+                            orderNum =""+(Integer.parseInt(orderNum) + 1);
+                            order_no.setText(orderNum);
                             loadingDialog.cancel();
                         } else {
                             loadingDialog.cancel();
@@ -673,7 +669,6 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     /*初始化角标*/
     public void initCountView() {
         Log.e("TAG", "count = " + orderNum);
-        //SuperBadgeHelper.init(getActivity(), imageOrders, "R.id.imageOrders", Integer.parseInt(orderNum), SuperBadgeHelper.STYLE_DEFAULT);
         order_no.setText(orderNum);
     }
 

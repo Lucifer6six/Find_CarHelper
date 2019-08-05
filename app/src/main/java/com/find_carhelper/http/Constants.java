@@ -14,6 +14,11 @@ public class Constants {
     public static boolean canOrder = false;
     public static boolean DEBUG = true;
     public static String SERVICE_NAME = "";
+    public static String Latitude = "";//纬度
+    public static String Longitude = "";//精度
+    public static String City = "";
+    public static String Province = "";
+    public static String District = "";
     public static String DEBUG_SERVICE_NAME = "http://39.100.119.162:9099/onstage";
     public static String REAL_SERVICE_NAME = "http://39.100.119.162:9090/onstage";
     public static String TOKEN = "mk/H4cBORHLuGLk+9OVdIfC+/qFuz/HKjc9oYxfrvJTfHCcvr+XziB6QGbwRsKZIOS6y2qUkYuc5ligSOdsK+N5reeXUiUHQa/d3Y0iydlOKzgg3sQHR0ZC/6kYlzXITab28kmFEDYRS7yUt9OlGwJwCd9WQ1+BGI6E9AYViwJW5djKLgvUWPAkytsuO+w1Os0Ye0iJxxPtnbz13inDGdr0o/pzYM7g+PjlgVHmOQ1cEdmOo+6d2qggLew/tktbMTrwRndNpFU9u3hz1Qzrzs8IEOIw+Sj3SZWyRZbA1Wo8Kz+WlxSd+mqnpvNS9mbP+";
@@ -53,5 +58,5 @@ public class Constants {
     public static String AUTH_FAILED = "/user/my/auth/failure";
     public static String RE_AUTH_IDENTITY = "/user/my/auth/person";
     public static String RE_AUTH_COMPANY = "/user/my/auth/company";
-
+    public static String FIND_CAR_ACCEPT_ORDER = "/vehicle/find/order";
 }

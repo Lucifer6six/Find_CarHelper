@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_25"
             android:layout_marginRight="@dimen/margin_10"
             android:padding="@dimen/margin_10"
             android:src="@mipmap/icon_order2" />
@@ -36,7 +36,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_25"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/round_circle_for_jiaobiao"
             android:gravity="center"

@@ -104,7 +104,7 @@ public class IdentityAuthFragment extends TakePhotoFragment implements View.OnCl
                 .build();
         //4.构建请求
         Request request = new Request.Builder()
-                .url(Constants.SERVICE_NAME+"/onstage/upload/person/idcard")
+                .url(Constants.SERVICE_NAME+"/upload/person/idcard")
                 .post(requestBody)
                 .build();
         //5.发送请求

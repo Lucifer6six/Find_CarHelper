@@ -234,8 +234,8 @@ public class MainPageFragment extends MVPBaseFragment implements View.OnClickLis
         MainPageFragment.timeList = mainPageDataBean.getTimeList();
         MainPageFragment.verListt = mainPageDataBean.getRetrieveList();
         titles = getResources().getStringArray(R.array.list_tab);
-        Fragment cooperatingFragment = PaiHangBangFragment.newInstance(1);
-        Fragment alreadyCompleteFragment = PaiHangBangFragment.newInstance(2);
+        Fragment cooperatingFragment = PaiHangBangFragment.newInstance(2);
+        Fragment alreadyCompleteFragment = PaiHangBangFragment.newInstance(1);
         Fragment paiHangBangFragment = PaiHangBangFragment.newInstance(3);
         fragments = new ArrayList<>();
         fragments.add(cooperatingFragment);

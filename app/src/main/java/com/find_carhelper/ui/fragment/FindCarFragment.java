@@ -33,7 +33,9 @@ import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.ui.listener.EndlessRecyclerOnScrollListener;
 import com.find_carhelper.utils.SharedPreferencesUtil;
 import com.find_carhelper.utils.ToastUtil;
+import com.find_carhelper.widgets.MarkerOrderPopWindow;
 import com.find_carhelper.widgets.OnItemClickListeners;
+import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
 import com.wega.library.loadingDialog.LoadingDialog;
 
 import java.io.IOException;
@@ -60,22 +62,19 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
     public TextView order_no;
     public EditText searchView;
     public RelativeLayout iconSearch;
-
+    public String orderNum;
     public static Fragment newInstance() {
         FindCarFragment fragment = new FindCarFragment();
         return fragment;
     }
-
 
     @Override
     protected BasePresenter createPresenter() {
         return null;
     }
 
-
     @Override
     protected void onEventComing(EventCenter eventCenter) {
-
     }
 
     @Override
@@ -95,11 +94,11 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     protected void onUserVisible() {
+        getCarData();
     }
 
     @Override
     protected void onUserInvisible() {
-
     }
 
     @Override
@@ -115,9 +114,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         searchView = mRootView.findViewById(R.id.search_edit);
         iconSearch = mRootView.findViewById(R.id.search_icon);
         find_car.setOnClickListener(view -> {
-
             startActivity(new Intent(getActivity(), FindCarOrdersActivity.class));
-
         });
         takePhoto.setOnClickListener(this);
         scanPhoto.setOnClickListener(this);
@@ -126,12 +123,10 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             startActivity(new Intent(getContext(), AuthActivity.class));
         });
         iconSearch.setOnClickListener(view -> {
-
             if (searchView.getText().length() > 6) {
                 getSearchCarData(searchView.getText().toString());
             } else {
                 ToastUtil.makeShortText("车牌输入不合法", getContext());
-
             }
 
         });
@@ -145,8 +140,6 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                 .setFail_text("加载失败")
                 .setSuccess_text("加载成功");
         //设置延时5000ms才消失,可以不设置默认1000ms
-        //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
-
     }
 
     private void initAdapter(List<FindCarListBean.data.carInfo> list) {
@@ -166,11 +159,18 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         mListOrderAcceptAdapter.setOnItemClickListener(new FindCarListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, FindCarListAdapter.ViewName viewName, int position) {
-
-//                Intent intent = new Intent(getContext(), ReUploadImageActivity.class);
-//                intent.putExtra("vin", list.get(position).getVin());
-//                intent.putExtra("no", list.get(position).getOrderCode());
-//                startActivity(intent);
+                if (viewName.equals(FindCarListAdapter.ViewName.PRACTISE))
+                new ToolDateSelectorPopWindow(getContext(), new MarkerOrderPopWindow.getdata() {
+                    @Override
+                    public void getdatas(String str) {
+                        if (str.equals("1")) {
+                            if (!list.get(position).getStatus().equals("已被抢"))
+                                acceptOrderAction(position);
+                            else
+                                ToastUtil.makeShortText("该订单已被抢", getContext());
+                        }
+                    }
+                }).showPopupWindow();
             }
 
             @Override
@@ -179,7 +179,42 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             }
         });
     }
+    public void acceptOrderAction(int position) {
+        Log.e("失败的", "position == " + position);
+        String url = Constants.SERVICE_NAME + Constants.FIND_CAR_ACCEPT_ORDER;
+        HashMap<String, String> params = new HashMap<>();
+        // 添加请求参数
+        params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
+        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
+        params.put("vin", carBeans.getData().getList().get(position).getVin());
+        // ...
+        NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                // 请求成功的回调
+                Log.e("acceptOrderAction", result.toString());
+                if (!result.equals("401")) {
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject = JSON.parseObject(result);
+                        if (jsonObject.getString("success").equals("true")) {
+                            ToastUtil.makeLongText("接单成功",mContext);
+                            getCarData();
+                            orderNum =""+(Integer.parseInt(orderNum) + 1);
+                            order_no.setText(orderNum);
+                        } else {
+                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
 
+            @Override
+            public void requestFailure(Request request, IOException e) {
+                // 请求失败的回调
+                Log.e("TAG", request.toString() + e.getMessage());
+            }
+        });
+    }
     @Override
     protected void initData() {
 
@@ -195,6 +230,9 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         params.put("pageSize", "10");
         params.put("searchMethod", "SEARCH");
         params.put("lpn", lpn);
+        params.put("locale",Constants.Province+Constants.City+Constants.District);
+        params.put("longitude",Constants.Longitude);
+        params.put("latitude",Constants.Latitude);
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -307,7 +345,8 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                     if (carBeans != null) {
                         carListBean = carBeans;
                         initAdapter(carListBean.getData().getList());
-                        order_no.setText(carBeans.getData().getTotal());
+                        orderNum = carBeans.getData().getTotal();
+                        order_no.setText(orderNum);
                     }
                     break;
                 case 1:

@@ -188,6 +188,15 @@ public class FindCarListBean {
             public String rewardAmount; //寻车赏金
             public String vehicleModel; //车型
             public String vin; //车架号
+            public String status;//定单状态
+
+            public String getStatus() {
+                return status;
+            }
+
+            public void setStatus(String status) {
+                this.status = status;
+            }
 
             public String getLpn() {
                 return lpn;

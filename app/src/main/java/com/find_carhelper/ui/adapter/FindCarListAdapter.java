@@ -62,7 +62,11 @@ public class FindCarListAdapter extends RecyclerView.Adapter<FindCarListAdapter.
                 );
                 holder.money.setText(list.get(position).getRewardAmount());
                 holder.accept_orders.setText(list.get(position).getOrderMemberCount());
-               // String text = list.get(position).getOrderStatusName();
+                if (list.get(position).getStatus().equals("1")){
+                    holder.acept_order.setBackgroundResource(R.mipmap.jd_btn_pre_bg);
+                }else{
+                    holder.acept_order.setBackgroundResource(R.mipmap.jd_btn_n_bg);
+                }
             }
 
         }

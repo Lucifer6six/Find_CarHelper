@@ -150,15 +150,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="@dimen/margin_10">
+                    <RelativeLayout
+                        android:id="@+id/no_data_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/margin_10"
+                        android:background="@drawable/round_square"
+                        android:visibility="gone">
 
+                        <ImageView
+                            android:id="@+id/no_data_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@mipmap/dd_icon8" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/no_data_img"
+                            android:layout_centerHorizontal="true"
+                            android:text="暂无数据"
+                            android:textSize="@dimen/text_size_16" />
+                    </RelativeLayout>
                 </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_1"
-                    android:background="@color/back_ground_gray" />
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

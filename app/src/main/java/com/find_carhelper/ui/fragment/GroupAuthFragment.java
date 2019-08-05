@@ -227,7 +227,7 @@ public class GroupAuthFragment extends TakePhotoFragment {
 
         //4.构建请求
         Request request = new Request.Builder()
-                .url(Constants.SERVICE_NAME+"/onstage/upload/company/businessLicense")
+                .url(Constants.SERVICE_NAME+"/upload/company/businessLicense")
                 .post(requestBody)
                 .build();
 
