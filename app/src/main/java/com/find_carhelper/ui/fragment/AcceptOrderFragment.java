@@ -131,6 +131,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         timeSelectedTv.setText("全部赏金");
         loadingDialog.loading();
         getProvinceData();
+        pageNum = 1;
         getCarData();
     }
 
@@ -262,6 +263,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                             String countDown = jsonObject.getString("data");
                            // carBeans.get(position).setCountdown(countDown);
                             //mListOrderAcceptAdapter.notifyItemChanged(position);
+                            pageNum = 1;
                             getCarData();
                             orderNum =""+(Integer.parseInt(orderNum) + 1);
                             order_no.setText(orderNum);
@@ -316,6 +318,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     queryCode1 = options1Items.get(options1).getCode();
                 }
                 //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
+                pageNum = 1;
                 getCarData();
                 areaSelectedTv.setText(tx);
             }
@@ -373,6 +376,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     maxMoney = "";
 
                 }
+                pageNum = 1;
                 getCarData();
             }
         })

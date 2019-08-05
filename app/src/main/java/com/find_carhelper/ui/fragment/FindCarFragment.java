@@ -1,5 +1,6 @@
 package com.find_carhelper.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -63,6 +64,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
     public EditText searchView;
     public RelativeLayout iconSearch;
     public String orderNum;
+    private Context context;
     public static Fragment newInstance() {
         FindCarFragment fragment = new FindCarFragment();
         return fragment;
@@ -94,6 +96,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     protected void onUserVisible() {
+        pageNum = 1;
         getCarData();
     }
 
@@ -103,6 +106,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
 
     @Override
     protected void initViews() {
+        context =getContext();
         carListBean = new FindCarListBean();
         recycleListView = mRootView.findViewById(R.id.list_orders);
         no_auth_layout = mRootView.findViewById(R.id.no_auth_layout);
@@ -165,7 +169,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                     public void getdatas(String str) {
                         if (str.equals("1")) {
                             if (!list.get(position).getStatus().equals("已被抢"))
-                                acceptOrderAction(position);
+                                acceptOrderAction(list.get(position).getVin());
                             else
                                 ToastUtil.makeShortText("该订单已被抢", getContext());
                         }
@@ -179,14 +183,14 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
             }
         });
     }
-    public void acceptOrderAction(int position) {
-        Log.e("失败的", "position == " + position);
+    public void acceptOrderAction(String vin) {
+        Log.e("失败的", "position == " + vin);
         String url = Constants.SERVICE_NAME + Constants.FIND_CAR_ACCEPT_ORDER;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
-        params.put("vin", carBeans.getData().getList().get(position).getVin());
+        params.put("vin", vin);
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -198,6 +202,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                         JSONObject jsonObject = JSON.parseObject(result);
                         if (jsonObject.getString("success").equals("true")) {
                             ToastUtil.makeLongText("接单成功",mContext);
+                            pageNum = 1;
                             getCarData();
                             orderNum =""+(Integer.parseInt(orderNum) + 1);
                             order_no.setText(orderNum);
@@ -279,7 +284,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
-        params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
+        params.put("accessToken", SharedPreferencesUtil.getString(context, "token"));
         params.put("pageNum", "" + pageNum);
         params.put("pageSize", "10");
         // ...

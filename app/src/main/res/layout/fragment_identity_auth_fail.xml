@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:text="1.身份证照片不清晰。。。。。。。"
+            android:layout_marginTop="@dimen/margin_10"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_12" />
 
