@@ -43,12 +43,8 @@ public class ListOrderAcceptAdapter extends RecyclerView.Adapter<ListOrderAccept
         this.list = list;
         mCountdownVHList = new SparseArray<>();
         startTime = System.currentTimeMillis();
-        //startRefreshTime();
     }
 
-//    public void setOnItemClickListeners(OnItemClickListeners onItemClickListeners) {
-//        this.onItemClickListeners = onItemClickListeners;
-//    }
     @NonNull
     @Override
     public ListOrderAcceptAdapter.RepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

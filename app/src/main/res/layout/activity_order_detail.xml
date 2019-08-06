@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:titlebar="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/back_ground_gray"
-    android:orientation="vertical">
-
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:titlebar="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/back_ground_gray"
+                android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/colorPrimary"/>
     <com.wuhenzhizao.titlebar.widget.CommonTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:centerTextColor="@color/white"
-        app:rightImageResource="@mipmap/jd_icon_mes"
         app:rightType="imageButton"
         app:titleBarColor="@color/colorPrimary"
         titlebar:centerText="保全订单详情"
@@ -23,19 +25,15 @@
         titlebar:showBottomLine="false"
         titlebar:statusBarColor="@color/colorPrimary" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/colorPrimary" />
-
     <TextView
         android:id="@+id/accept_orders_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_bar"
+        android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_30"
         android:text="接单时间:"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"/>
 
     <RelativeLayout
         android:id="@+id/auth_fail_layout"
@@ -49,12 +47,13 @@
         android:paddingBottom="@dimen/margin_15">
 
         <TextView
+            android:id="@+id/car_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_15"
             android:text="雪佛兰 科沃兹"
             android:textSize="@dimen/text_size_18"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/money"
@@ -65,7 +64,7 @@
             android:text="￥1000"
             android:textColor="@color/text_money_orange"
             android:textSize="@dimen/text_size_20"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="车牌:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/car_id_"
@@ -94,7 +93,7 @@
                     android:layout_toRightOf="@+id/car_id"
                     android:background="@mipmap/dd_cp1_bg"
                     android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -107,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="车架:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/car_no_"
@@ -116,7 +115,7 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/car_no"
                     android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_color_gray"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -129,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="地区:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/area_"
@@ -137,8 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/area"
-                    android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_color_gray"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -151,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="钥匙:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/key_"
@@ -159,8 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/key"
-                    android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_color_gray"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -173,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="甲方:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/master_"
@@ -181,8 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/master"
-                    android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_color_gray"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -195,7 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="定位方法:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/location_method_"
@@ -203,8 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/location_method"
-                    android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_color_gray"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -217,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="定位名称:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/location_name_"
@@ -225,8 +220,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/location_name"
-                    android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_color_gray"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -239,7 +233,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="承租人:"
-                    android:textColor="@color/text_color_gray" />
+                    android:textColor="@color/text_color_gray"/>
 
                 <TextView
                     android:id="@+id/car_name_"
@@ -247,10 +241,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/car_name"
-                    android:text="苏A3ZOKJ"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_color_gray"/>
             </RelativeLayout>
         </LinearLayout>
+
+        <cc.ibooker.zcountdownviewlib.CountDownView
+            android:id="@+id/countdownView"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_10"
+            android:layout_marginTop="200dp"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@mipmap/jd_btn_time_bg"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -268,7 +272,7 @@
             android:layout_margin="@dimen/margin_15"
             android:text="车辆备注信息"
             android:textSize="@dimen/text_size_16"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/memo"
@@ -277,7 +281,7 @@
             android:layout_below="@+id/memo_"
             android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_15"
-            android:text="车辆过往保全信息,是否只能谈判手车;车辆过往保全信息,是否只能谈判手车;" />
+            android:text="车辆过往保全信息,是否只能谈判手车;车辆过往保全信息,是否只能谈判手车;"/>
     </RelativeLayout>
 
     <Button
@@ -287,5 +291,5 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:text="申请入库"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"/>
 </RelativeLayout>

@@ -60,9 +60,12 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
         if (onItemClickListeners != null) {
             holder.itemView.setOnClickListener(v -> onItemClickListeners.onItemClick(holder, null, position));
         }
+        holder.time_layout.setTag(position);
+        holder.shenqingBtn.setTag(position);
+        holder.itemView.setTag(position);
+        holder.itemView.setOnClickListener(MyCooperationOrderAdapter.this);
         if (list!=null){
             if (list.size()>0){
-
                     holder.carType.setText(list.get(position).getVehicleModel());
                     holder.status.setText(list.get(position).getAssignTask());
                     holder.carId.setText(list.get(position).getLpn());
@@ -95,8 +98,6 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
                         holder.time_layout.setVisibility(View.INVISIBLE);
                         holder.countdownView.setVisibility(View.INVISIBLE);
                     }
-                    holder.time_layout.setTag(position);
-                    holder.shenqingBtn.setTag(position);
             }
         }
     }
@@ -183,14 +184,15 @@ public class MyCooperationOrderAdapter extends RecyclerView.Adapter<MyCooperatio
         int position = (int) view.getTag(); //getTag()获取数据
         if (mOnItemClickListener != null)
         switch (view.getId()){
-
             case R.id.time_layout:
-                mOnItemClickListener.onItemClick(view, MyCooperationOrderAdapter.ViewName.PRACTISE, position);
+                mOnItemClickListener.onItemClick(view, ViewName.PRACTISE, position);
                 break;
             case R.id.request_save:
-                mOnItemClickListener.onItemClick(view, MyCooperationOrderAdapter.ViewName.PRACTISE, position);
+                mOnItemClickListener.onItemClick(view, ViewName.PRACTISE, position);
                 break;
-
+            default:
+                mOnItemClickListener.onItemClick(view, ViewName.ITEM, position);
+                break;
         }
 
     }

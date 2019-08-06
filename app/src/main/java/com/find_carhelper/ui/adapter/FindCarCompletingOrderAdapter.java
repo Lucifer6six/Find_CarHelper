@@ -51,7 +51,6 @@ public class FindCarCompletingOrderAdapter extends RecyclerView.Adapter<FindCarC
         holder.acept_order.setTag(position);
         holder.itemView.setTag(position);
         if (list != null) {
-
             if (list.size() > 0) {
 
                 holder.carType.setText(list.get(position).getVehicleModel());
@@ -62,7 +61,6 @@ public class FindCarCompletingOrderAdapter extends RecyclerView.Adapter<FindCarC
                 );
                 holder.money.setText(list.get(position).getRewardAmount());
                 holder.accept_orders.setText(list.get(position).getOrderMemberCount());
-               // String text = list.get(position).getOrderStatusName();
             }
 
         }

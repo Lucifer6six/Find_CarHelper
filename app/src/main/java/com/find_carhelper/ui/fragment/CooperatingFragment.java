@@ -116,9 +116,13 @@ public class CooperatingFragment extends MVPBaseFragment implements OnItemClickL
             @Override
             public void onItemClick(View v, MyCooperationOrderAdapter.ViewName viewName, int position) {
                 Intent intent;
+                if (viewName == MyCooperationOrderAdapter.ViewName.ITEM){
+                    Intent intent2 = new Intent(getContext(), OrderDetailActivity.class);
+                    intent2.putExtra("obj",list.get(position));
+                    startActivity(intent2);
+                }
                 switch (v.getId()) {
                     case R.id.time_layout:
-                        // Toast.makeText(getContext(),"申请延时",Toast.LENGTH_SHORT).show();
                         intent = new Intent(mContext, RequestLaterActivity.class);
                         intent.putExtra("no", list.get(position).getOrderCode());
                         intent.putExtra("vin", list.get(position).getVin());
@@ -131,13 +135,7 @@ public class CooperatingFragment extends MVPBaseFragment implements OnItemClickL
                         mContext.startActivity(intent);
                         break;
                 }
-                if (viewName == MyCooperationOrderAdapter.ViewName.ITEM){
-                    Intent intent2 = new Intent(getContext(), OrderDetailActivity.class);
-                    intent2.putExtra("obj",list.get(position));
-//                    bundle.putParcelable("obj", list.get(position));
-//                    intent2.putExtras(bundle);
-                    startActivity(intent2);
-                }
+
             }
 
             @Override

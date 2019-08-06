@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img2"
                     android:layout_centerHorizontal="true"
-                    android:text="拍照识别"
+                    android:text="扫描识别"
                     android:textColor="@color/white" />
             </RelativeLayout>
 
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img3"
                     android:layout_centerHorizontal="true"
-                    android:text="拍照识别"
+                    android:text="照片识别"
                     android:textColor="@color/white" />
             </RelativeLayout>
 

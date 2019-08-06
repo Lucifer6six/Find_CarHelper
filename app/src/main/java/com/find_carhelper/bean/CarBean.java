@@ -25,6 +25,15 @@ public class CarBean implements Serializable {
     public String positioningName;
     public String positioningPin;
     public String lesseeInfo;
+    public String orderTime;
+
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
+    }
 
     public String getRemark() {
         return remark;
