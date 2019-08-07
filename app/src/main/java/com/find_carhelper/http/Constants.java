@@ -12,7 +12,7 @@ public class Constants {
     public static String phoneNo = "";
     public static boolean isLogin = false;
     public static boolean canOrder = false;
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static String SERVICE_NAME = "";
     public static String Latitude = "";//纬度
     public static String Longitude = "";//精度
