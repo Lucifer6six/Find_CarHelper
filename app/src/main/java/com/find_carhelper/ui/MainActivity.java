@@ -63,7 +63,7 @@ public class MainActivity extends MVPBaseActivity {
                     Log.i(TAG, "国家信息-------------" + amapLocation.getCountry());//国家信息
                     Log.i(TAG, "省信息---------------" + amapLocation.getProvince());//省信息
                     Constants.Province = ""+amapLocation.getProvince();
-                    Toast.makeText(MainActivity.this, amapLocation.getProvince() + amapLocation.getCity(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, amapLocation.getProvince() + amapLocation.getCity(), Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "城市信息-------------" + amapLocation.getCity());//城市信息
                     Constants.City = ""+amapLocation.getCity();
                     Log.i(TAG, "城区信息-------------" + amapLocation.getDistrict());//城区信息

@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -40,9 +42,13 @@ import com.find_carhelper.ui.activity.MyTeamActivity;
 import com.find_carhelper.ui.activity.NewsActvity;
 import com.find_carhelper.ui.base.MVPBaseFragment;
 import com.find_carhelper.utils.SharedPreferencesUtil;
+import com.find_carhelper.utils.ToastUtil;
+import com.find_carhelper.utils.Utils;
 import com.find_carhelper.widgets.MarkerOrderPopWindow;
+import com.find_carhelper.widgets.MyDialog;
 import com.find_carhelper.widgets.SelectPopWindow;
 import com.find_carhelper.widgets.ToolDateSelectorPopWindow;
+import com.find_carhelper.widgets.UpdatePopWindow;
 import com.google.gson.Gson;
 import com.wega.library.loadingDialog.LoadingDialog;
 
@@ -54,9 +60,7 @@ import java.util.HashMap;
 import okhttp3.Request;
 
 public class UserCenterFragment extends MVPBaseFragment implements View.OnClickListener, LocationSource {
-    private AMapLocationClient mLocationClient;
     private RelativeLayout pswLayout, newsLayout, myTeamLayout, protocalLayout, acountLayout, updateLayout, quite, baoquanLayout, findCarLayout;
-    private AMapLocationClientOption mLocationOption;
     private String TAG = "UserCenterFragment";
     private TextView name, nickName, status;
     private ImageView auth_stutes;
@@ -64,38 +68,8 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
     private TextView auth_fail;
     private LinearLayout countLayout;
     boolean fistLoad = false;
-    //声明定位回调监听器
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation amapLocation) {
-            if (amapLocation != null) {
-                if (amapLocation.getErrorCode() == 0) {
-                    //定位成功回调信息，设置相关消息
-                    Log.i(TAG, "当前定位结果来源-----" + amapLocation.getLocationType());//获取当前定位结果来源，如网络定位结果，详见定位类型表
-                    Log.i(TAG, "纬度 ----------------" + amapLocation.getLatitude());//获取纬度
-                    Log.i(TAG, "经度-----------------" + amapLocation.getLongitude());//获取经度
-                    Log.i(TAG, "精度信息-------------" + amapLocation.getAccuracy());//获取精度信息
-                    Log.i(TAG, "地址-----------------" + amapLocation.getAddress());//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                    Log.i(TAG, "国家信息-------------" + amapLocation.getCountry());//国家信息
-                    Log.i(TAG, "省信息---------------" + amapLocation.getProvince());//省信息
-                    Toast.makeText(getContext(), amapLocation.getProvince() + amapLocation.getCity(), Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "城市信息-------------" + amapLocation.getCity());//城市信息
-                    Log.i(TAG, "城区信息-------------" + amapLocation.getDistrict());//城区信息
-                    Log.i(TAG, "街道信息-------------" + amapLocation.getStreet());//街道信息
-                    Log.i(TAG, "街道门牌号信息-------" + amapLocation.getStreetNum());//街道门牌号信息
-                    Log.i(TAG, "城市编码-------------" + amapLocation.getCityCode());//城市编码
-                    Log.i(TAG, "地区编码-------------" + amapLocation.getAdCode());//地区编码
-                    Log.i(TAG, "当前定位点的信息-----" + amapLocation.getAoiName());//获取当前定位点的AOI信息
-                } else {
-                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                    Log.e("AmapError", "location Error, ErrCode:"
-                            + amapLocation.getErrorCode() + ", errInfo:"
-                            + amapLocation.getErrorInfo());
-                }
-            }
-        }
-    };
-
+    public String versionCode;
+    public String downloadUrl;
 
     public static Fragment newInstance() {
         UserCenterFragment fragment = new UserCenterFragment();
@@ -271,6 +245,8 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             Gson gson = new Gson();
                             userBean = gson.fromJson(jsonObject1.getJSONObject("user").toString(), UserBean.class);
+                            versionCode = jsonObject1.getString("version");
+                            downloadUrl = jsonObject1.getString("downloadUrl");
                             handler.sendEmptyMessage(0);
                         } else {
                             //startIntent();
@@ -330,7 +306,10 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
                     startActivity(new Intent(getContext(), MyCountActivity.class));
                     break;
                 case R.id.update:
-                    // startActivity(new Intent(getContext(), RequestInStoreActivity.class));
+                    if (Integer.parseInt(Utils.getVersionCode(getContext())) > Integer.parseInt(versionCode)) {
+                        ToastUtil.makeLongText("已是最新版本",getContext());
+                    } else
+                        showUpdateDailog();
                     break;
                 case R.id.auth_stutes:
 
@@ -374,6 +353,19 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
             startIntent();
     }
 
+    public void showUpdateDailog() {
+
+                    AllenVersionChecker
+                            .getInstance()
+                            .downloadOnly(
+                                    UIData.create().setDownloadUrl(downloadUrl)
+                                            .setContent("是否确定下载")
+                                            .setTitle("检测到新版本")
+
+                            )
+                            .executeMission(getContext());
+    }
+
     /**
      * 退出
      */
@@ -382,27 +374,6 @@ public class UserCenterFragment extends MVPBaseFragment implements View.OnClickL
         SharedPreferencesUtil.putString(getContext(), "token", "");
 
         startActivity(new Intent(getContext(), LoginActivity.class));
-    }
-
-    public void startLocaion() {
-        Log.e(TAG, "开始定位");
-        mLocationClient = new AMapLocationClient(getContext());
-        mLocationClient.setLocationListener(mLocationListener);
-        mLocationOption = new AMapLocationClientOption();
-        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //设置是否返回地址信息（默认返回地址信息）
-        mLocationOption.setNeedAddress(true);
-        //获取一次定位结果：
-        //该方法默认为false。
-        mLocationOption.setOnceLocation(true);
-        //设置是否允许模拟位置,默认为false，不允许模拟位置
-        mLocationOption.setMockEnable(false);
-
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
-        //启动定位
-        mLocationClient.startLocation();
     }
 
     @Override

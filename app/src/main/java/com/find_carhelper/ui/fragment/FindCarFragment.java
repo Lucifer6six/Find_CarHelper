@@ -258,7 +258,8 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                             carBeans = JSON.parseObject(jsonObject.toJSONString(), FindCarListBean.class);
                             msg.what = 3;
                             mHandler.sendMessage(msg);
-                            orderNum = ""+Integer.parseInt(orderNum)+1;
+                            int num = Integer.parseInt(orderNum)+1;
+                            orderNum = ""+num;
                             order_no.setText(orderNum);
                         } else {
                             String msg = jsonObject.getString("message");

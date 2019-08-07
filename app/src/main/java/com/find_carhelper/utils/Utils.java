@@ -3,6 +3,8 @@ package com.find_carhelper.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -178,5 +180,16 @@ public class Utils {
     public static String addComma(String str) {
         DecimalFormat decimalFormat = new DecimalFormat(",##0.00");
         return decimalFormat.format(Double.parseDouble(str));
+    }
+    public static String getVersionCode(Context context){
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            String version = ""+info.versionCode;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "无法获取到版本号";
+        }
     }
 }

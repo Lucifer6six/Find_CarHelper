@@ -76,6 +76,7 @@
                 android:background="@drawable/round_square_gray"
                 android:paddingTop="@dimen/padding_5"
                 android:paddingBottom="@dimen/padding_5"
+                android:paddingLeft="@dimen/padding_10"
                 android:text="驳回原因:" />
         </LinearLayout>
     </RelativeLayout>
