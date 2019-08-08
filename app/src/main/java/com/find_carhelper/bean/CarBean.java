@@ -26,6 +26,15 @@ public class CarBean implements Serializable {
     public String positioningPin;
     public String lesseeInfo;
     public String orderTime;
+    public String loadFlag;
+
+    public String getLoadFlag() {
+        return loadFlag;
+    }
+
+    public void setLoadFlag(String loadFlag) {
+        this.loadFlag = loadFlag;
+    }
 
     public String getOrderTime() {
         return orderTime;

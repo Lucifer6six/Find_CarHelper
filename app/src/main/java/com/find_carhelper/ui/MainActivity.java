@@ -209,8 +209,7 @@ public class MainActivity extends MVPBaseActivity {
             mBackTime = time;
             return;
         }
-
-        super.onBackPressed();
+        System.exit(0);
     }
 
     @Override

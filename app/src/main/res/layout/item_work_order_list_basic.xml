@@ -28,8 +28,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_18"
                     android:text="2018款CT6-铂金版"
-                    android:textStyle="bold"
-                    android:singleLine="true"
+                    android:maxEms="11"
                     android:ellipsize="end"
                     android:layout_margin="@dimen/margin_15"
                     />

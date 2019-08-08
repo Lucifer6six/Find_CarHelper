@@ -156,7 +156,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
         recycleListView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadMore() {
-                pageNum++;
+
                 getCarData();
             }
         });
@@ -312,7 +312,7 @@ public class FindCarFragment extends MVPBaseFragment implements OnItemClickListe
                                 msg.what = 1;
                             } else
                                 msg.what = 0;
-
+                            pageNum++;
                             mHandler.sendMessage(msg);
                         } else {
                             String msg = jsonObject.getString("message");

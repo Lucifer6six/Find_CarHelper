@@ -1,9 +1,11 @@
 package com.find_carhelper.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -82,12 +84,12 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     public List<CarBean> carBeanList;
     LoadMoreWrapper loadMoreWrapper;
     public boolean loadMoreFlag = true;
+    public boolean loadFlag = true;
     public int pageNum = 1;
-    public String isLasePage;
     public ImageView imageOrders;
     public String orderNum;
-    public boolean alreadyInit = false;
-
+    public boolean firstFlag = true;
+    public Context context;
     public static Fragment newInstance() {
         AcceptOrderFragment fragment = new AcceptOrderFragment();
         return fragment;
@@ -132,16 +134,34 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         loadingDialog.loading();
         getProvinceData();
         pageNum = 1;
+        loadMoreFlag = true;
         getCarData();
     }
-
+    public void initSelectArea(){
+        queryCode = "";
+        queryCode1 = "";
+        areaSelectedTv.setText("全部区域");
+        loadingDialog.loading();
+        pageNum = 1;
+        loadMoreFlag = true;
+        loadMoreWrapper.notifyDataSetChanged();
+    }
+    public void initSelectMoney(){
+        minMoney = "";
+        maxMoney = "";
+        timeSelectedTv.setText("全部赏金");
+        loadingDialog.loading();
+        pageNum = 1;
+        loadMoreFlag = true;
+        loadMoreWrapper.notifyDataSetChanged();
+    }
     @Override
     protected void onUserInvisible() {
-
     }
 
     @Override
     protected void initViews() {
+        context = getContext();
         carBeanList = new ArrayList<CarBean>();
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
         areaSelectedLayout = mRootView.findViewById(R.id.area_layout);
@@ -158,11 +178,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 Toast.makeText(getContext(), "Please waiting until the data is parsed", Toast.LENGTH_SHORT).show();
             }
 
-
         });
         timeSelectedLayout.setOnClickListener(view -> {
             showTimePickView();
-
         });
         imageOrders.setOnClickListener(view -> {
 
@@ -181,11 +199,9 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 .setSuccess_text("加载成功");
         //设置延时5000ms才消失,可以不设置默认1000ms
         //设置默认延时消失事件, 可以不设置默认不调用延时消失事件
-
         loadingDialog = builder.create();
-
     }
-
+    private boolean isLoading = false;
     private void initAdapter(List<CarBean> list) {
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setId(i);
@@ -198,8 +214,10 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         recycleListView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadMore() {
-                pageNum++;
-                getCarData();
+                if (!isLoading) {
+                    getCarData();
+                    isLoading = true;
+                }
             }
         });
         mListOrderAcceptAdapter.setOnItemClickListener(new ListOrderAcceptAdapter.OnItemClickListener() {
@@ -309,6 +327,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 String tx = opt1tx + "-" + opt2tx;
                 if (opt1tx.equals("全部") && opt2tx.equals("全部")) {
                     tx = "全部区域";
+                    initSelectArea();
                 }
                 if (!opt2tx.equals("全部")) {
                     if (!TextUtils.isEmpty(opt2tx)) {
@@ -317,8 +336,8 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 } else {
                     queryCode1 = options1Items.get(options1).getCode();
                 }
-                //Toast.makeText(getContext(), tx, Toast.LENGTH_SHORT).show();
                 pageNum = 1;
+                loadMoreFlag = true;
                 getCarData();
                 areaSelectedTv.setText(tx);
             }
@@ -351,7 +370,6 @@ public class AcceptOrderFragment extends MVPBaseFragment {
 
     private void showTimePickView() {
 
-
         OptionsPickerView pvOptions = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -367,6 +385,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                 String tx = opt1tx + " ~ " + opt2tx;
                 if (opt1tx.equals("全部赏金")) {
                     tx = "全部赏金";
+                    initSelectMoney();
                 }
                 timeSelectedTv.setText(tx);
                 minMoney = opt1tx;
@@ -402,20 +421,23 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("tag", "onResume");
         String token = SharedPreferencesUtil.getString(getContext(), "token");
-        if (!TextUtils.isEmpty(token)) {
+        if (!TextUtils.isEmpty(token)&&firstFlag) {
+            Log.e("tag", "onResume");
             loadingDialog.loading();
             getProvinceData();
             getCarData();
+            firstFlag = false;
         } else {
+            if (TextUtils.isEmpty(token)){
             Toast.makeText(getContext(), "请重新登录", Toast.LENGTH_SHORT).show();
-            startIntent();
+            startIntent();}
         }
 
     }
 
     public void getCarData() {
+        Log.e("loadMore","pageNim =="+pageNum);
         String url = Constants.SERVICE_NAME + Constants.GET_CARS;
         HashMap<String, String> params = new HashMap<>();
         // 添加请求参数
@@ -433,7 +455,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
             public void requestSuccess(String result) throws Exception {
                 // 请求成功的回调
                 loadingDialog.cancel();
-                Log.e("getCarData", result.toString());
+                Log.e("getCarData = param = "+queryCode+"||"+pageNum, result.toString());
                 if (!result.equals("401")) {
                     if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject = JSON.parseObject(result);
@@ -448,13 +470,14 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                             carBeans = JSON.parseArray(jsonObject1.getJSONArray("list").toJSONString(), CarBean.class);
 
                             if (jsonObject1.getString("isLastPage").equals("true")) {
-                                loadMoreFlag = false;
+                                    msg.obj = "t";
                             }
 
                             if (pageNum > 1) {
                                 msg.what = 6;
                             } else
                                 msg.what = 5;
+                            pageNum++;
                             mHandler.sendMessage(msg);
                         } else {
                             Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -533,7 +556,6 @@ public class AcceptOrderFragment extends MVPBaseFragment {
     }
 
     private void initJsonData(String result) {//解析数据
-
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
@@ -655,16 +677,21 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     }
                     break;
                 case 6:
+                    String t =(String) msg.obj;
                     if (carBeans != null) {
                         if (carBeans.size() > 0 && loadMoreFlag) {
                             for (int i = 0; i < carBeans.size(); i++) {
                                 carBeanList.add(carBeans.get(i));
                             }
+                            if (!TextUtils.isEmpty(t))
+                                if (t.equals("t")){
+                                    loadMoreFlag = false;
+                                }
                             loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-
                         } else
                             loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
                     }
+                    isLoading = false;
                     break;
             }
         }

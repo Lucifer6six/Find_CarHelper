@@ -135,7 +135,18 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            initDatas();
+            switch (msg.what){
+                case 0:
+                    initDatas();
+                    break;
+                case 1:
+                    ToastUtil.makeLongText("上传成功",context);
+                    break;
+                case 2:
+                    ToastUtil.makeLongText("上传失败",context);
+                    break;
+            }
+
         }
     };
 
@@ -182,7 +193,6 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
             }
         });
         commitAction.setOnClickListener(v -> {
-            Log.e("TAG", "commitAction");
             commitAction();
         });
         mImageView.setOnClickListener(v -> {
@@ -344,7 +354,9 @@ public class GroupAuthFailFragment extends TakePhotoFragment {
         }
         if (response.code() == 200) {
             upload = true;
-            ToastUtil.makeLongText("上传成功",context);
+            handler.sendEmptyMessage(1);
+        }else {
+            handler.sendEmptyMessage(2);
         }
         if (response.code() == 200) {
             return re;
