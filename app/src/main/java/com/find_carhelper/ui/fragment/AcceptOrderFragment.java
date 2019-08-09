@@ -267,7 +267,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
         // 添加请求参数
         params.put("deviceId", Constants.ID);//MobileInfoUtil.getIMEI(getContext())
         params.put("accessToken", SharedPreferencesUtil.getString(getContext(), "token"));
-        params.put("vin", carBeans.get(position).getVin());
+        params.put("vin", carBeanList.get(position).getVin());
         // ...
         NetRequest.postFormRequest(url, params, new NetRequest.DataCallBack() {
             @Override
@@ -282,6 +282,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                            // carBeans.get(position).setCountdown(countDown);
                             //mListOrderAcceptAdapter.notifyItemChanged(position);
                             pageNum = 1;
+                            loadMoreFlag = true;
                             getCarData();
                             orderNum =""+(Integer.parseInt(orderNum) + 1);
                             order_no.setText(orderNum);
@@ -667,6 +668,7 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                     break;
                 case 5:
                     loadingDialog.cancel();
+                    String flag =(String) msg.obj;
                     Log.e("!@#", "size = " + carBeans.size());
                     if (carBeans.size() == 0) {
                         Toast.makeText(getContext(), "没有查询到该条件下的车辆", Toast.LENGTH_SHORT).show();
@@ -675,6 +677,10 @@ public class AcceptOrderFragment extends MVPBaseFragment {
                         carBeanList = carBeans;
                         initAdapter(carBeanList);
                     }
+                    if (!TextUtils.isEmpty(flag))
+                        if (flag.equals("t")){
+                            loadMoreFlag = false;
+                        }
                     break;
                 case 6:
                     String t =(String) msg.obj;
